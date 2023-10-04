@@ -1,0 +1,1407 @@
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Tabla General"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <p-table
+    #dt
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+    [(selection)]="aSelected1"
+    [loading]="bMostrarLoading"
+    [value]="oValores"
+    [rowHover]="true"
+    [paginator]="oValores.length >= 10"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [showCurrentPageReport]="true"
+    [resizableColumns]="true"
+    [autoLayout]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="sigla">
+          Código <p-sortIcon field="sigla"></p-sortIcon>
+        </th>
+        <th pSortableColumn="descripcion">
+          Descripción <p-sortIcon field="descripcion"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nombre">
+          Nombre <p-sortIcon field="nombre"></p-sortIcon>
+        </th>
+        <th pSortableColumn="valor1">
+          Valor 1 <p-sortIcon field="valor1"></p-sortIcon>
+        </th>
+        <th pSortableColumn="valor2">
+          Valor 2 <p-sortIcon field="valor2"></p-sortIcon>
+        </th>
+      </tr>
+      <tr>
+        <th class="filtrosTableMHCP"></th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($any($event.target).value, 'sigla', 'contains')"
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter($any($event.target).value, 'descripcion', 'contains')
+            "
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($any($event.target).value, 'nombre', 'contains')"
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($any($event.target).value, 'valor1', 'contains')"
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($any($event.target).value, 'valor2', 'contains')"
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th></tr
+    ></ng-template>
+
+    <ng-template pTemplate="body" let-valor let-ri="rowIndex">
+      <tr
+        (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-tlsel')"
+        (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-tlsel')"
+        [pSelectableRow]="valor"
+      >
+        <td>
+          <p-tableCheckbox [value]="valor"></p-tableCheckbox>
+        </td>
+        <td>{{ valor.sigla }}</td>
+        <td>
+          {{ fnCortarTexto(valor.descripcion, ri) }}
+          <a
+            id="overlay_{{ ri }}"
+            (click)="fnCargarOverlay($event, op1)"
+            style="display: none"
+          >
+            ...</a
+          >
+          <p-overlayPanel #op1 [style]="{ width: '450px' }">
+            <div>{{ valor.descripcion }}</div>
+          </p-overlayPanel>
+        </td>
+        <td>{{ valor.nombre }}</td>
+        <td class="cifraTableMHCP">
+          {{ valor.valor1 | convertirCifras }}
+        </td>
+        <td class="cifraTableMHCP">
+          {{ valor.valor2 | convertirCifras }}
+        </td>
+
+        <div id="button-{{ ri }}-tb-tlsel" class="no-mostrar">
+          <button
+            pButton
+            pRipple
+            pTooltip="Editar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-pencil"
+            class="botonTableMHCP p-button-success colorVerdeMHCP"
+          ></button>
+          <button
+            pButton
+            pRipple
+            pTooltip="Eliminar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-trash"
+            class="botonTableMHCP colorRojoMHCP"
+          ></button>
+        </div>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Tabla Freeze"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <p-table
+    #dt
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+    [(selection)]="aSelected2"
+    [loading]="bMostrarLoading"
+    [value]="oValores"
+    [rowHover]="true"
+    [paginator]="oValores.length >= 10"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [showCurrentPageReport]="true"
+    [resizableColumns]="true"
+    [autoLayout]="true"
+    [scrollable]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem" pFrozenColumn>
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="sigla" [ngStyle]="{ width: 'auto' }" pFrozenColumn>
+          Código <p-sortIcon field="sigla"></p-sortIcon>
+        </th>
+        <th pSortableColumn="descripcion">
+          Descripción <p-sortIcon field="descripcion"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nombre" style="min-width: 44rem">
+          Nombre <p-sortIcon field="nombre"></p-sortIcon>
+        </th>
+        <th pSortableColumn="valor1" style="min-width: 14rem">
+          Valor 1 <p-sortIcon field="valor1"></p-sortIcon>
+        </th>
+        <th pSortableColumn="valor2" style="min-width: 14rem">
+          Valor 2 <p-sortIcon field="valor2"></p-sortIcon>
+        </th>
+      </tr>
+      <tr>
+        <th class="filtrosTableMHCP" pFrozenColumn></th>
+        <th class="filtrosTableMHCP" pFrozenColumn>
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($any($event.target).value, 'sigla', 'contains')"
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter($any($event.target).value, 'descripcion', 'contains')
+            "
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($any($event.target).value, 'nombre', 'contains')"
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($any($event.target).value, 'valor1', 'contains')"
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($any($event.target).value, 'valor2', 'contains')"
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th></tr
+    ></ng-template>
+
+    <ng-template pTemplate="body" let-valor let-ri="rowIndex">
+      <tr
+        (mouseenter)="fnMostrarOcultarBotones2($event, ri, true)"
+        (mouseleave)="fnMostrarOcultarBotones2($event, ri, false)"
+        [pSelectableRow]="valor"
+      >
+        <td pFrozenColumn>
+          <p-tableCheckbox [value]="valor"></p-tableCheckbox>
+        </td>
+        <td pFrozenColumn>{{ valor.sigla }}</td>
+        <td>
+          {{ fnCortarTexto(valor.descripcion, ri) }}
+          <a
+            id="overlay_{{ ri }}"
+            (click)="fnCargarOverlay($event, op1)"
+            style="display: none"
+          >
+            ...</a
+          >
+          <p-overlayPanel #op1 [style]="{ width: '450px' }">
+            <div>{{ valor.descripcion }}</div>
+          </p-overlayPanel>
+        </td>
+        <td>{{ valor.nombre }}</td>
+        <td class="cifraTableMHCP">
+          {{ valor.valor1 | convertirCifras }}
+        </td>
+        <td class="cifraTableMHCP">
+          {{ valor.valor2 | convertirCifras }}
+        </td>
+
+        <div #actions id="button2-{{ ri }}" style="display: none">
+          <button
+            pButton
+            pRipple
+            pTooltip="Eliminar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-trash"
+            class="botonTableMHCP colorRojoMHCP"
+          ></button>
+          <button
+            pButton
+            pRipple
+            pTooltip="Editar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-pencil"
+            class="botonTableMHCP p-button-success colorVerdeMHCP"
+          ></button>
+        </div>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Tabla sin Paginador"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <p-table
+    #dt
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+    selectionMode="single"
+    [loading]="bMostrarLoading"
+    [value]="oValores"
+    [scrollable]="false"
+    [rowHover]="true"
+    [paginator]="false"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="sigla">
+          Código <p-sortIcon field="sigla"></p-sortIcon>
+        </th>
+        <th pSortableColumn="descripcion">
+          Descripción <p-sortIcon field="descripcion"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nombre">
+          Nombre <p-sortIcon field="nombre"></p-sortIcon>
+        </th>
+        <th pSortableColumn="valor1">
+          Valor 1 <p-sortIcon field="valor1"></p-sortIcon>
+        </th>
+        <th pSortableColumn="valor2">
+          Valor 2 <p-sortIcon field="valor2"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-valor let-ri="rowIndex">
+      <tr
+        (mouseenter)="fnMostrarOcultarBotones($event, ri, true)"
+        (mouseleave)="fnMostrarOcultarBotones($event, ri, false)"
+        [pSelectableRow]="valor"
+      >
+        <td>{{ valor.sigla }}</td>
+        <td>{{ valor.descripcion }}</td>
+        <td>{{ valor.nombre }}</td>
+        <td>{{ valor.valor1 }}</td>
+        <td>{{ valor.valor2 }}</td>
+        <td id="button-{{ ri }}" style="display: none">
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-text p-mr-2"
+          ></button>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-text"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5" class="text-center">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Tabla con Paginador back"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <h6><i class="pi pi-exclamation-triangle"></i> En contrucción...</h6>
+
+  <p-divider></p-divider>
+
+  <!-- <p-table
+    #dt
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+    [loading]="bMostrarLoading"
+    [value]="oValores"
+    [scrollable]="false"
+    [rowHover]="true"
+    [paginator]="false"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="sigla">
+          Código <p-sortIcon field="sigla"></p-sortIcon>
+        </th>
+        <th pSortableColumn="descripcion">
+          Descripción <p-sortIcon field="descripcion"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nombre">
+          Nombre <p-sortIcon field="nombre"></p-sortIcon>
+        </th>
+        <th pSortableColumn="valor1">
+          Valor 1 <p-sortIcon field="valor1"></p-sortIcon>
+        </th>
+        <th pSortableColumn="valor2">
+          Valor 2 <p-sortIcon field="valor2"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-valor let-ri="rowIndex">
+      <tr
+        (mouseenter)="fnMostrarOcultarBotones($event, ri, true)"
+        (mouseleave)="fnMostrarOcultarBotones($event, ri, false)"
+      >
+        <td>{{ valor.sigla }}</td>
+        <td>{{ valor.descripcion }}</td>
+        <td>{{ valor.nombre }}</td>
+        <td>{{ valor.valor1 }}</td>
+        <td>{{ valor.valor2 }}</td>
+        <td
+          id="button-{{ ri }}"
+          alignFrozen="right"
+          pFrozenColumn
+          style="display: none"
+        >
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-text p-mr-2"
+          ></button>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-text"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5" class="text-center">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table> -->
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Tabla Scrollable"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <p-table
+    #dt3
+    styleClass="p-datatable-gridlines p-datatable-striped adjust-table"
+    currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+    selectionMode="single"
+    [loading]="bMostrarLoading"
+    [value]="oValores"
+    [scrollable]="true"
+    [rowHover]="true"
+    [paginator]="oValores.length > 10"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="codigo" style="min-width: 14rem">
+          Código
+          <p-sortIcon field="codigo"></p-sortIcon>
+        </th>
+        <th pSortableColumn="descripcion" style="min-width: 14rem">
+          Valor 1
+          <p-sortIcon field="descripcion"></p-sortIcon>
+        </th>
+        <th pSortableColumn="codigo" style="min-width: 14rem">
+          Código
+          <p-sortIcon field="codigo"></p-sortIcon>
+        </th>
+        <th pSortableColumn="descripcion" style="min-width: 14rem">
+          Valor 2
+          <p-sortIcon field="descripcion"></p-sortIcon>
+        </th>
+        <th pSortableColumn="codigo" style="min-width: 14rem">
+          Código
+          <p-sortIcon field="codigo"></p-sortIcon>
+        </th>
+        <th pSortableColumn="descripcion" style="min-width: 14rem">
+          Valor 3
+          <p-sortIcon field="descripcion"></p-sortIcon>
+        </th>
+        <th pSortableColumn="codigo" style="min-width: 14rem">
+          Código
+          <p-sortIcon field="codigo"></p-sortIcon>
+        </th>
+        <th pSortableColumn="descripcion" style="min-width: 14rem">
+          Valor 4
+          <p-sortIcon field="descripcion"></p-sortIcon>
+        </th>
+      </tr>
+      <tr>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt3.filter($any($event.target).value, 'lista1', 'contains')
+            "
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt3.filter($any($event.target).value, 'descripcion', 'contains')
+            "
+            placeholder="Filtrar por valor (1)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt3.filter($any($event.target).value, 'lista2', 'contains')
+            "
+            placeholder="Filtrar por código (2)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt3.filter($any($event.target).value, 'descripcion2', 'contains')
+            "
+            placeholder="Filtrar por valor (2)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt3.filter($any($event.target).value, 'lista3', 'contains')
+            "
+            placeholder="Filtrar por código (3)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt3.filter($any($event.target).value, 'descripcion3', 'contains')
+            "
+            placeholder="Filtrar por valor (3)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt3.filter($any($event.target).value, 'lista4', 'contains')
+            "
+            placeholder="Filtrar por código (4)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt3.filter($any($event.target).value, 'descripcion4', 'contains')
+            "
+            placeholder="Filtrar por valor (4)"
+            class="w-full"
+          />
+        </th></tr
+    ></ng-template>
+
+    <ng-template pTemplate="body" let-valoresRelacionados let-ri="rowIndex">
+      <tr
+        (mouseenter)="fnMostrarOcultarBotones3($event, ri, true)"
+        (mouseleave)="fnMostrarOcultarBotones3($event, ri, false)"
+        [pSelectableRow]="valoresRelacionados"
+      >
+        <td>{{ valoresRelacionados.lista1 }}</td>
+        <td>{{ valoresRelacionados.descripcion }}</td>
+        <td>{{ valoresRelacionados.lista2 }}</td>
+        <td>{{ valoresRelacionados.descripcion2 }}</td>
+        <td>{{ valoresRelacionados.lista3 }}</td>
+        <td>{{ valoresRelacionados.descripcion3 }}</td>
+        <td>{{ valoresRelacionados.lista4 }}</td>
+        <td>{{ valoresRelacionados.descripcion4 }}</td>
+        <td id="button3-{{ ri }}" style="display: none">
+          <div #actions>
+            <button
+              pButton
+              pRipple
+              pTooltip="Eliminar"
+              tooltipPosition="top"
+              type="button"
+              icon="pi pi-trash"
+              class="botonTableMHCP colorRojoMHCP"
+            ></button>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="9" class="text-center">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Tabla Sidebar"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <p-table
+    #dt
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+    [(selection)]="aSelected3"
+    [loading]="bMostrarLoading"
+    [value]="oValores"
+    [rowHover]="true"
+    [paginator]="oValores.length >= 10"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [showCurrentPageReport]="true"
+    [resizableColumns]="true"
+    [autoLayout]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="sigla">
+          Código <p-sortIcon field="sigla"></p-sortIcon>
+        </th>
+        <th pSortableColumn="descripcion">
+          Descripción <p-sortIcon field="descripcion"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nombre">
+          Nombre <p-sortIcon field="nombre"></p-sortIcon>
+        </th>
+        <th pSortableColumn="valor1">
+          Valor 1 <p-sortIcon field="valor1"></p-sortIcon>
+        </th>
+        <th pSortableColumn="valor2">
+          Valor 2 <p-sortIcon field="valor2"></p-sortIcon>
+        </th>
+      </tr>
+      <tr>
+        <th class="filtrosTableMHCP"></th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($any($event.target).value, 'sigla', 'contains')"
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter($any($event.target).value, 'descripcion', 'contains')
+            "
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($any($event.target).value, 'nombre', 'contains')"
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($any($event.target).value, 'valor1', 'contains')"
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="dt.filter($any($event.target).value, 'valor2', 'contains')"
+            placeholder="Filtrar por código (1)"
+            class="w-full"
+          />
+        </th></tr
+    ></ng-template>
+
+    <ng-template pTemplate="body" let-valor let-ri="rowIndex">
+      <tr
+        (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-tlsel2')"
+        (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-tlsel2')"
+        [pSelectableRow]="valor"
+      >
+        <td>
+          <p-tableCheckbox [value]="valor"></p-tableCheckbox>
+        </td>
+        <td>{{ valor.sigla }}</td>
+        <td>
+          {{ fnCortarTexto(valor.descripcion, ri) }}
+          <a
+            id="overlay_{{ ri }}"
+            (click)="fnCargarOverlay($event, op1)"
+            style="display: none"
+          >
+            ...</a
+          >
+          <p-overlayPanel #op1 [style]="{ width: '450px' }">
+            <div>{{ valor.descripcion }}</div>
+          </p-overlayPanel>
+        </td>
+        <td>{{ valor.nombre }}</td>
+        <td class="cifraTableMHCP">
+          {{ valor.valor1 | convertirCifras }}
+        </td>
+        <td class="cifraTableMHCP">
+          {{ valor.valor2 | convertirCifras }}
+        </td>
+
+        <div id="button-{{ ri }}-tb-tlsel2" class="no-mostrar">
+          <button
+            pButton
+            pRipple
+            pTooltip="Editar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-pencil"
+            class="botonTableMHCP p-button-success colorVerdeMHCP"
+            (click)="fnEditarSidebar()"
+          ></button>
+          <button
+            pButton
+            pRipple
+            pTooltip="Eliminar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-trash"
+            class="botonTableMHCP colorRojoMHCP"
+          ></button>
+        </div>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-sidebar [(visible)]="sidebarVisible2" position="right">
+    <form
+      id="frm5"
+      class="col-12 p-0"
+      autocomplete="off"
+      [formGroup]="frmGenerarReporte"
+    >
+      <div class="formgrid grid">
+        <div class="field col-12 md:col-12">
+          <label htmlfor="tipoTransaccion" class="frm-titulo"
+            >Tipo de transacción</label
+          >
+          <p-dropdown
+            filterBy="tipo"
+            placeholder="Seleccione..."
+            formControlName="tipoTransaccion"
+            optionValue="tipo"
+            optionLabel="tipo"
+            class="mt-1"
+            [options]="[]"
+            [filter]="false"
+            [showClear]="false"
+            [disabled]="true"
+          >
+          </p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-12">
+          <label htmlfor="funcionNegocio" class="frm-titulo"
+            >Función de negocio</label
+          >
+
+          <p-dropdown
+            placeholder="Seleccione..."
+            formControlName="funcionNegocio"
+            optionValue="funcion"
+            optionLabel="funcion"
+            class="mt-1"
+            [options]="[]"
+            [filter]="false"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-12">
+          <label htmlfor="categoria" class="frm-titulo"
+            >Categoría de transacción</label
+          >
+
+          <p-dropdown
+            filterBy="categoria"
+            placeholder="Seleccione..."
+            formControlName="categoriaTransaccion"
+            optionValue="categoria"
+            optionLabel="categoria"
+            class="mt-1"
+            [options]="[]"
+            [filter]="true"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+
+        <div class="field col-12 md:col-12">
+          <label htmlfor="atributoLog" class="frm-titulo"
+            >Atributo de generar log de auditoría</label
+          >
+
+          <input
+            pInputText
+            id="descripcion"
+            type="text"
+            placeholder="Descripción del valor"
+            class="p-inputtext"
+            formControlName="atributoLog"
+          />
+        </div>
+
+        <div class="field col-12 md:col-12">
+          <label htmlfor="fecha" class="frm-titulo">Fecha</label>
+
+          <p-calendar
+            placeholder="AAAA-MM-DD"
+            dateFormat="yy-mm-dd"
+            [readonlyInput]="true"
+            [showIcon]="true"
+            class="mt2 mb-5"
+            formControlName="fecha"
+          ></p-calendar>
+        </div>
+
+        <div class="field col-12 md:col-12">
+          <label htmlfor="hora" class="frm-titulo">Hora</label>
+
+          <p-calendar
+            placeholder="HH:MM"
+            icon="pi pi-clock"
+            [showIcon]="true"
+            [showTime]="true"
+            [readonlyInput]="true"
+            [hourFormat]="'12'"
+            [timeOnly]="true"
+            class="mt2 mb-5"
+            formControlName="hora"
+          ></p-calendar>
+        </div>
+
+        <div class="field col-12 md:col-12">
+          <label htmlfor="atributoAlto" class="frm-titulo"
+            >Atributo de alto requerimiento de seguridad</label
+          >
+
+          <input
+            pInputText
+            id="descripcion"
+            type="text"
+            placeholder="Descripción del valor"
+            class="p-inputtext"
+            formControlName="atributoAlto"
+          />
+        </div>
+
+        <div class="col-12 flex mt-4 gap-2 justify-content-center">
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-times"
+            label="Cancelar"
+            class="colorRojoMHCP"
+          ></button>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-save"
+            label="Ver Modal"
+            class="p-button-success colorVerdeMHCP"
+            [disabled]="true"
+          ></button>
+        </div>
+      </div>
+    </form>
+  </p-sidebar>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Tabla Desplegable"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <p-table
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    [value]="oValores"
+    dataKey="sigla"
+    [(selection)]="aSelected4"
+    rowExpandMode="single"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+
+        <th pSortableColumn="sigla">
+          Código <p-sortIcon field="sigla"></p-sortIcon>
+        </th>
+        <th pSortableColumn="descripcion">
+          Descripción <p-sortIcon field="descripcion"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nombre">
+          Nombre <p-sortIcon field="nombre"></p-sortIcon>
+        </th>
+        <th pSortableColumn="valor1">
+          Valor 1 <p-sortIcon field="valor1"></p-sortIcon>
+        </th>
+        <th pSortableColumn="valor2">
+          Valor 2 <p-sortIcon field="valor2"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template
+      pTemplate="body"
+      let-valor
+      let-ri="rowIndex"
+      let-expanded="expanded"
+    >
+      <tr
+        (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-tlsel3')"
+        (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-tlsel3')"
+        [pSelectableRow]="valor"
+      >
+        <td>
+          <p-tableCheckbox [value]="valor"></p-tableCheckbox>
+        </td>
+        <td>
+          <div class="alinear-centerMHCP">
+            <button
+              type="button"
+              pButton
+              pRipple
+              [pRowToggler]="valor"
+              class="p-button-text p-button-rounded p-button-plain"
+              [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+            ></button>
+            <span>{{ valor.sigla }}</span>
+          </div>
+        </td>
+        <td>
+          {{ fnCortarTexto(valor.descripcion, ri) }}
+          <a
+            id="overlay_{{ ri }}"
+            (click)="fnCargarOverlay($event, op1)"
+            style="display: none"
+          >
+            ...</a
+          >
+          <p-overlayPanel #op1 [style]="{ width: '450px' }">
+            <div>{{ valor.descripcion }}</div>
+          </p-overlayPanel>
+        </td>
+        <td>{{ valor.nombre }}</td>
+        <td class="cifraTableMHCP">
+          {{ valor.valor1 | convertirCifras }}
+        </td>
+        <td class="cifraTableMHCP">
+          {{ valor.valor2 | convertirCifras }}
+        </td>
+
+        <div id="button-{{ ri }}-tb-tlsel3" class="no-mostrar">
+          <button
+            pButton
+            pRipple
+            pTooltip="Editar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-pencil"
+            class="botonTableMHCP p-button-success colorVerdeMHCP"
+            (click)="fnEditarSidebar()"
+          ></button>
+          <button
+            pButton
+            pRipple
+            pTooltip="Eliminar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-trash"
+            class="botonTableMHCP colorRojoMHCP"
+          ></button>
+        </div>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="rowexpansion" let-otraData>
+      <tr>
+        <td colspan="7">
+          <div class="grid p-3 expandedMHCP">
+            <div class="col-3">
+              <span>Nivel normativo</span>
+              <p>Decreto de liquidación</p>
+            </div>
+            <div class="col-3">
+              <span>Nivel normativo</span>
+              <p>Decreto de liquidación</p>
+            </div>
+            <div class="col-3">
+              <span>Nivel normativo</span>
+              <p>Decreto de liquidación</p>
+            </div>
+            <div class="col-3">
+              <span>Nivel normativo</span>
+              <p>Decreto de liquidación</p>
+            </div>
+            <div class="col-3">
+              <span>Nivel normativo</span>
+              <p>Decreto de liquidación</p>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Tabla Desplegable"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Tabla Desplegable"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <div class="grid">
+    <div class="col-3 border-round" style="background-color: #dee2e6">
+      <div
+        class="w-full border-round p-2"
+        style="
+          background-color: #ffffff;
+          scroll-behavior: smooth;
+          overflow-y: scroll;
+          height: '80vh';
+        "
+      >
+        <div class="col-12">
+          <span class="p-input-icon-right">
+            <input
+              type="text"
+              pInputText
+              [(ngModel)]="sValorBuscar"
+              placeholder="Buscar ítem"
+              style="width: 100%"
+            />
+            <i class="pi pi-search"></i>
+          </span>
+        </div>
+        <div
+          class="filtroGenericoMHCP-resultado col-12 p-0 shadow-2"
+          style="width: 95%; margin: 0 auto"
+        >
+          <div
+            class="filtroGenericoMHCP-resultado-header py-1 px-2"
+            style="width: 90%"
+          >
+            <div class="flex align-items-center">
+              <p-radioButton
+                name="test"
+                [value]="[]"
+                [inputId]="'test'"
+                [(ngModel)]="aDatoSelected"
+              ></p-radioButton>
+              <label [for]="'test'" class="ml-2">
+                {{ "Test" | titlecase }}</label
+              >
+            </div>
+          </div>
+          <div class="resultados-body px-3 py-3" style="font-size: 12px">
+            <div class="grid col-12">
+              <div class="col-12 p-0">
+                <span><strong>ID:</strong></span>
+                <p>123456</p>
+              </div>
+              <div class="col-12 p-0">
+                <span><strong>Tipo de Doc.:</strong></span>
+                <p>C.C</p>
+              </div>
+              <div class="col-12 p-0">
+                <span><strong>No. de documento:</strong></span>
+                <p>10986788546</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="filtroGenericoMHCP-resultado col-12 p-0 shadow-2 mt-3"
+          style="width: 95%; margin: 0 auto"
+        >
+          <div
+            class="filtroGenericoMHCP-resultado-header py-1 px-2"
+            style="width: 90%"
+          >
+            <div class="flex align-items-center">
+              <p-radioButton
+                name="test"
+                [value]="[]"
+                [inputId]="'test'"
+                [(ngModel)]="aDatoSelected"
+              ></p-radioButton>
+              <label [for]="'test'" class="ml-2">
+                {{ "Test" | titlecase }}</label
+              >
+            </div>
+          </div>
+          <div class="resultados-body px-3 py-3" style="font-size: 12px">
+            <div class="grid col-12">
+              <div class="col-12 p-0">
+                <span><strong>ID:</strong></span>
+                <p>123456</p>
+              </div>
+              <div class="col-12 p-0">
+                <span><strong>Tipo de Doc.:</strong></span>
+                <p>C.C</p>
+              </div>
+              <div class="col-12 p-0">
+                <span><strong>No. de documento:</strong></span>
+                <p>10986788546</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p-paginator
+          (onPageChange)="onPageChange($event)"
+          [first]="first"
+          [rows]="rows"
+          [totalRecords]="120"
+          [rowsPerPageOptions]="[10, 20, 30]"
+        ></p-paginator>
+      </div>
+    </div>
+    <div class="col-9 border-round" style="background-color: #dee2e6">
+      <div
+        class="w-full border-round p-2"
+        style="background-color: #ffffff; height: '80vh'"
+      >
+        <div class="col-12 flex justify-content-end gap-2">
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-pencil"
+            class="p-button-success colorVerdeMHCP"
+          ></button>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-trash"
+            class="colorRojoMHCP"
+          ></button>
+        </div>
+
+        <form
+          id="frm5"
+          class="col-12 p-2 mt-3"
+          autocomplete="off"
+          [formGroup]="frmGrillaMultiple"
+        >
+          <div class="formgrid grid">
+            <div class="field col-12 md:col-4">
+              <label htmlfor="nombre" class="frm-titulo">Nombre</label>
+              <input
+                id="nombre"
+                type="text"
+                pInputText
+                placeholder="Buscar ítem"
+                formControlName="nombre"
+              />
+            </div>
+
+            <div class="field col-12 md:col-4">
+              <label htmlfor="descripcion" class="frm-titulo"
+                >Descripción</label
+              >
+              <input
+                id="descripcion"
+                type="text"
+                pInputText
+                placeholder="Buscar ítem"
+                formControlName="descripcion"
+              />
+            </div>
+
+            <div class="field col-12 md:col-4">
+              <label htmlfor="cargo" class="frm-titulo">Cargo</label>
+              <input
+                id="cargo"
+                type="text"
+                pInputText
+                placeholder="Buscar ítem"
+                formControlName="cargo"
+              />
+            </div>
+
+            <div class="field col-12 md:col-4">
+              <label htmlfor="numCuenta" class="frm-titulo"
+                >No. de cuenta</label
+              >
+              <input
+                id="numCuenta"
+                type="text"
+                pInputText
+                placeholder="Buscar ítem"
+                formControlName="numCuenta"
+              />
+            </div>
+
+            <div class="field col-12 md:col-4">
+              <label htmlfor="dato5" class="frm-titulo">Dato 5</label>
+
+              <input
+                id="dato5"
+                type="text"
+                pInputText
+                placeholder="Buscar ítem"
+                formControlName="dato5"
+              />
+            </div>
+
+            <div class="field col-12 md:col-4">
+              <label htmlfor="dato6" class="frm-titulo">Dato 6</label>
+
+              <input
+                id="dato6"
+                type="text"
+                pInputText
+                placeholder="Buscar ítem"
+                formControlName="dato6"
+              />
+            </div>
+
+            <div class="field col-12 md:col-4">
+              <label htmlfor="otroDatoA" class="frm-titulo">Otro dato A</label>
+
+              <input
+                id="otroDatoA"
+                type="text"
+                pInputText
+                placeholder="Buscar ítem"
+                formControlName="otroDatoA"
+              />
+            </div>
+
+            <div class="field col-12 md:col-4">
+              <label htmlfor="fecha1" class="frm-titulo">Fecha 1</label>
+
+              <p-calendar
+                id="fecha1"
+                placeholder="AAAA-MM-DD"
+                dateFormat="yy-mm-dd"
+                [readonlyInput]="true"
+                [showIcon]="true"
+                class="mt2 mb-5"
+                formControlName="fecha1"
+              ></p-calendar>
+            </div>
+
+            <div class="field col-12 md:col-4">
+              <label htmlfor="fecha2" class="frm-titulo">Fecha 2</label>
+
+              <div class="col-12 p-0">
+                <p-calendar
+                  id="fecha2"
+                  placeholder="AAAA-MM-DD"
+                  dateFormat="yy-mm-dd"
+                  [readonlyInput]="true"
+                  [showIcon]="true"
+                  class="mt2 mb-5"
+                  formControlName="fecha2"
+                ></p-calendar>
+              </div>
+            </div>
+
+            <div class="field col-12 md:col-8">
+              <label htmlfor="otroDatoD" class="frm-titulo">Otro dato D</label>
+
+              <textarea
+                id="otroDatoD"
+                rows="5"
+                cols="30"
+                pInputTextarea
+                formControlName="otroDatoD"
+              ></textarea>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <p-divider></p-divider>
+</div>

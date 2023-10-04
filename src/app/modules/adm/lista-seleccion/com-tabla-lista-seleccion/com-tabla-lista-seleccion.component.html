@@ -1,0 +1,154 @@
+<!-- Código Base -->
+
+<app-lbl-subtitulo
+  subtitulo="Registradas en el sistema"
+  [bEsSubtituloPrincipal]="false"
+></app-lbl-subtitulo>
+
+<p-table
+  #dt
+  styleClass="p-datatable-gridlines p-datatable-striped"
+  currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+  selectionMode="single"
+  [loading]="bMostrarLoading"
+  [value]="oListasSeleccion"
+  [scrollable]="false"
+  [rowHover]="true"
+  [paginator]="oListasSeleccion.length > 10 ? true : false"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [showCurrentPageReport]="true"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="dominio1">
+        Nombre de lista <p-sortIcon field="dominio1"></p-sortIcon>
+      </th>
+      <th pSortableColumn="mostrarCodigo">
+        Mostrar código <p-sortIcon field="mostrarCodigo"></p-sortIcon>
+      </th>
+      <th pSortableColumn="administrable">
+        Administrable <p-sortIcon field="administrable"></p-sortIcon>
+      </th>
+      <th pSortableColumn="universal">
+        Universal <p-sortIcon field="universal"></p-sortIcon>
+      </th>
+    </tr>
+    <tr>
+      <th class="filtrosTableMHCP nr-border">
+        <input
+          pInputText
+          type="text"
+          (input)="fnApplyFilter($event, 'dominio1', 'contains')"
+          placeholder="Filtrar por nombre de lista"
+          class="w-full"
+        />
+      </th>
+      <th class="filtrosTableMHCP">
+        <p-columnFilter
+          field="mostrarCodigo"
+          matchMode="equals"
+          [showMenu]="false"
+          [showMatchModes]="false"
+          [showOperator]="false"
+          [showAddButton]="false"
+          [showClearButton]="false"
+        >
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown
+              [ngModel]="value"
+              [options]="aEstadoGeneral"
+              (onChange)="filter($event.value)"
+              placeholder="Seleccione..."
+              [showClear]="true"
+              optionValue="valor"
+              optionLabel="id"
+            >
+            </p-dropdown>
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th class="filtrosTableMHCP">
+        <p-columnFilter
+          field="administrable"
+          matchMode="equals"
+          [showMenu]="false"
+          [showMatchModes]="false"
+          [showOperator]="false"
+          [showAddButton]="false"
+          [showClearButton]="false"
+        >
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown
+              [ngModel]="value"
+              [options]="aEstadoGeneral"
+              (onChange)="filter($event.value)"
+              placeholder="Seleccione..."
+              [showClear]="true"
+              optionValue="valor"
+              optionLabel="id"
+            >
+            </p-dropdown>
+          </ng-template>
+        </p-columnFilter>
+      </th>
+      <th class="filtrosTableMHCP">
+        <p-columnFilter
+          field="universal"
+          matchMode="equals"
+          [showMenu]="false"
+          [showMatchModes]="false"
+          [showOperator]="false"
+          [showAddButton]="false"
+          [showClearButton]="false"
+        >
+          <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+            <p-dropdown
+              [ngModel]="value"
+              [options]="aEstadoGeneral"
+              (onChange)="filter($event.value)"
+              placeholder="Seleccione..."
+              [showClear]="true"
+              optionValue="valor"
+              optionLabel="id"
+            >
+            </p-dropdown>
+          </ng-template>
+        </p-columnFilter>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-listaSeleccion let-ri="rowIndex">
+    <tr
+      (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-tlsel')"
+      (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-tlsel')"
+      [pSelectableRow]="listaSeleccion"
+    >
+      <td>{{ listaSeleccion.dominio1 }}</td>
+      <td>{{ listaSeleccion.mostrarCodigo | convertirBoolean : "sn" }}</td>
+      <td>{{ listaSeleccion.administrable | convertirBoolean : "sn" }}</td>
+      <td>
+        {{ listaSeleccion.universal | convertirBoolean : "sn" }}
+      </td>
+
+      <div id="button-{{ ri }}-tb-tlsel" class="no-mostrar">
+        <button
+          pButton
+          pRipple
+          pTooltip="Editar"
+          tooltipPosition="top"
+          type="button"
+          icon="pi pi-pencil"
+          class="botonTableMHCP p-button-success colorVerdeMHCP"
+          (click)="fnEditarListaSeleccion('editar', listaSeleccion)"
+        ></button>
+      </div>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5" class="text-center">No se han encontrado registrados.</td>
+    </tr>
+  </ng-template>
+</p-table>

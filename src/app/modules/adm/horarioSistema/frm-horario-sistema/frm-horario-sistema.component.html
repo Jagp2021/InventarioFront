@@ -1,0 +1,71 @@
+<form class="col-12 p-0" [formGroup]="frmHorariosSistema" autocomplete="off">
+  <div class="formgrid grid">
+    <div class="field col-12 md:col-6">
+      <label htmlfor="name1" class="frm-titulo"
+        >Hora Inicio <span class="required">*</span></label
+      >
+
+      <p-calendar
+        formControlName="horaInicial"
+        icon="pi pi-clock"
+        [showIcon]="true"
+        [showTime]="true"
+        [showSeconds]="false"
+        [hourFormat]="'12'"
+        [timeOnly]="true"
+        placeholder="HH:MM"
+        appendTo="body"
+      ></p-calendar>
+
+      <small
+        class="form-text text-red-600"
+        *ngIf="campoNoValido('horaInicial')"
+      >
+        {{ listaErroresMensaje("horaInicial") }}
+      </small>
+    </div>
+    <div class="field col-12 md:col-6">
+      <label htmlfor="name1" class="frm-titulo"
+        >Hora Final <span class="required">*</span></label
+      >
+
+      <p-calendar
+        formControlName="horaFinal"
+        icon="pi pi-clock"
+        [showIcon]="true"
+        [showTime]="true"
+        [showSeconds]="false"
+        [hourFormat]="'12'"
+        [timeOnly]="true"
+        placeholder="HH:MM"
+        appendTo="body"
+      ></p-calendar>
+
+      <small
+        class="form-text text-red-600"
+        *ngIf="campoNoValido('horaInicial')"
+      >
+        {{ listaErroresMensaje("horaInicial") }}
+      </small>
+    </div>
+  </div>
+</form>
+<div class="col-12 md:col-12 lg:col-12 gap-2 paginaMHCP-footer">
+  <button
+    pButton
+    pRipple
+    label="CANCELAR"
+    class="p-button-danger"
+    icon="pi pi-times"
+    (click)="cancelar()"
+  ></button>
+  <button
+    pButton
+    pRipple
+    label="ACEPTAR"
+    class="p-button-success"
+    icon="pi pi-check"
+    (click)="crearHorarioSistema()"
+    [disabled]="frmHorariosSistema.invalid"
+  ></button>
+</div>

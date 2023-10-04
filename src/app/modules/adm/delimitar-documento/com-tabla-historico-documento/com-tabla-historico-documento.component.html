@@ -1,0 +1,38 @@
+<p-table
+  #dt
+  styleClass="p-datatable-gridlines p-datatable-striped"
+  currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+  [loading]="bMostrarLoading"
+  [value]="oHMovimientosDocumentos"
+  [scrollable]="false"
+  [rowHover]="true"
+  [paginator]="true"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  [showCurrentPageReport]="true"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="movimiento">
+        Movimientos de documentos de soporte realizados
+        <p-sortIcon field="movimiento"></p-sortIcon>
+      </th>
+      <th pSortableColumn="fechaMovimiento">
+        Fecha de movimiento
+        <p-sortIcon field="fechaMovimiento"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-valorDominio let-ri="rowIndex">
+    <tr>
+      <td>{{ valorDominio.movimiento }}</td>
+      <td>{{ valorDominio.fechaMovimiento }}</td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="2" class="text-center">No se han encontrado registrados.</td>
+    </tr>
+  </ng-template>
+</p-table>

@@ -1,0 +1,28 @@
+.p-speeddial-action#t {
+  background-color: red;
+}
+.p-speeddial-action#f {
+  background-color: green;
+}
+.p-speeddial-button.p-button.p-button-icon-only {
+  width: 1.257rem !important;
+  height: 1.257rem !important;
+  top: -8px;
+  left: -8px;
+}
+.p-speeddial-button.p-button.p-button-icon-only .p-button-icon {
+  font-size: 0.8rem;
+}
+.p-speeddial-action {
+  width: 1.257rem !important;
+  height: 1.257rem !important;
+}
+.p-speeddial-direction-right .p-speeddial-list {
+  flex-direction: row;
+  position: absolute;
+  top: -9px;
+  left: 8px;
+}
+.p-speeddial-action-icon {
+  font-size: 0.6rem;
+}

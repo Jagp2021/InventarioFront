@@ -1,0 +1,39 @@
+<p-confirmDialog
+  [style]="{ width: '55vw' }"
+  [baseZIndex]="10000"
+  [header]="'Cancelar operación'"
+></p-confirmDialog>
+<p-toast></p-toast>
+<div class="grid">
+  <div class="col-12 md:col-12 lg:col-12">
+    <div class="w-full surface-card border-round espacio-cardMHCP">
+      <div class="paginaMHCP">
+        <div class="flex col-12 md:col-12 lg:col-12 paginaMHCP-header">
+          <div class="col-8 md:col-8 lg:col-8 p-0 paginaMHCP-header-titulo">
+            <app-lbl-titulo
+              titulo="Horario de Disponibilidad del sistema"
+              descripcion="La funcionalidad para creación de catálogos debe permitir asignar una descripción y una estructura jerárquica de niveles de catálogo."
+            ></app-lbl-titulo>
+          </div>
+
+          <div class="col-4 md:col-4 lg:col-4 p-0 paginaMHCP-accionPrincipal">
+            <button
+              pButton
+              pRipple
+              label="crear"
+              icon="pi pi-plus"
+              class="p-button-success"
+              (click)="crearEditarHorarioSistemaModal('', 'crear')"
+            ></button>
+          </div>
+        </div>
+
+        <div class="paginaMHCP-contenedor">
+          <div class="col-12 md:col-12 lg:col-12 p-0">
+            <app-com-tabla-horario-sistema></app-com-tabla-horario-sistema>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

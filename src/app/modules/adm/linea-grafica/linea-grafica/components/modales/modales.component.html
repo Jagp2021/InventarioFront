@@ -1,0 +1,150 @@
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Modales"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <p-dialog
+    [header]="'Modal de información'"
+    [(visible)]="bAbrirModal"
+    [modal]="true"
+    [style]="{ width: '50vw' }"
+    [baseZIndex]="10000"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <form class="field col-12" autocomplete="off">
+      <div class="formgrid grid">
+        <div class="field col-4 md:col-4">
+          <label htmlfor="codigo" class="frm-titulo"
+            >Campo 1 <span class="required">*</span></label
+          >
+
+          <div class="col-12 p-0">
+            <input
+              pInputText
+              id="codigo"
+              type="text"
+              placeholder="Agregar código"
+              class="p-inputtext"
+              autofocus
+            />
+          </div>
+        </div>
+
+        <div class="field col-4 md:col-4">
+          <label htmlfor="descripcion" class="frm-titulo"
+            >Campo 2 <span class="required">*</span></label
+          >
+
+          <div class="col-12 p-0">
+            <input
+              pInputText
+              id="descripcion"
+              type="text"
+              placeholder="Descripción del valor"
+              class="p-inputtext"
+            />
+          </div>
+        </div>
+
+        <div class="field col-4 md:col-4">
+          <label htmlfor="pci" class="frm-titulo">Campo 3</label>
+
+          <div class="col-12 p-0">
+            <input pInputText id="pci" type="text" class="p-inputtext" />
+          </div>
+        </div>
+
+        <div class="field col-4 md:col-4">
+          <label htmlfor="nombrePerfil" class="frm-titulo">Campo 4</label>
+
+          <div class="col-12 p-0">
+            <input
+              pInputText
+              id="nombrePerfil"
+              type="text"
+              class="p-inputtext"
+            />
+          </div>
+        </div>
+
+        <div class="field col-4 md:col-4">
+          <label htmlfor="estado" class="frm-titulo"
+            >Campo 5 <span class="required">*</span></label
+          >
+
+          <div class="col-12 p-0">
+            <p-dropdown
+              id="estado"
+              [options]="[]"
+              [filter]="false"
+              placeholder="Selecionar estado"
+              optionValue="valor"
+              optionLabel="id"
+            >
+            </p-dropdown>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 flex justify-content-end mt-5 gap-3">
+        <button
+          pButton
+          pRipple
+          icon="pi pi-times"
+          (click)="fnCerrarModal()"
+          label="Cancelar"
+          class="colorRojoMHCP"
+        ></button>
+        <button
+          pButton
+          pRipple
+          icon="pi pi-save"
+          label="Guardar"
+          class="p-button-success colorVerdeMHCP"
+          type="submit"
+          [disabled]="true"
+          (click)="fnCerrarModal()"
+        ></button>
+      </div>
+    </form>
+  </p-dialog>
+
+  <div class="flex flex-row flex-wrap card-container blue-container">
+    <div
+      class="flex align-items-center justify-content-center w-10rem h-4rem font-bold text-white border-round m-2"
+      style="background-color: gray; cursor: pointer"
+      (click)="fnAbrilModal()"
+    >
+      Abrir Modal
+    </div>
+  </div>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Modales"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <p-confirmDialog
+    [style]="{ width: '35vw' }"
+    [header]="'CANCELAR OPERACIÓN'"
+    [baseZIndex]="10000"
+  ></p-confirmDialog>
+
+  <div class="flex flex-row flex-wrap card-container blue-container">
+    <div
+      class="flex align-items-center justify-content-center w-15rem h-4rem font-bold text-white border-round m-2"
+      style="background-color: gray; cursor: pointer"
+      (click)="fnAbrilConfirmacion()"
+    >
+      Abrir Confirmación
+    </div>
+  </div>
+
+  <p-divider></p-divider>
+</div>

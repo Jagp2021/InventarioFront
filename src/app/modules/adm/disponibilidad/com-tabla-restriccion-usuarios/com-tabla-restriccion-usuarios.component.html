@@ -1,0 +1,432 @@
+<!-- Filtros Genéricos -->
+<app-filtro-usuarios
+  [sTituloHeader]="'Buscar Usuario PGN'"
+  [oInformacionFiltro]="aTransaccionesUsuarioPgn"
+  [oCamposFormulario]="oCamposFormularioUsuarioPgn"
+  [bEsMultiple]="true"
+  [bDevolverSoloID]="false"
+  [bAbrirFiltro]="bAbrirFiltroUsuarioPgn"
+  [bGuardarLocalStorage]="true"
+  [nIndex]="0"
+  (bCerrarFiltro)="fnObtenerCierreFiltroUsuarioPgn($event)"
+  (aUsuariosEmitados)="fnObtenerDataFiltroUsuarioPgn($event)"
+></app-filtro-usuarios>
+
+<app-filtro-usuarios
+  [sTituloHeader]="'Buscar Usuario NO PGN'"
+  [oInformacionFiltro]="aTransaccionesUsuarioNoPgn"
+  [oCamposFormulario]="oCamposFormularioUsuarioNoPgn"
+  [bEsMultiple]="true"
+  [bDevolverSoloID]="false"
+  [bAbrirFiltro]="bAbrirFiltroUsuarioNoPgn"
+  [bGuardarLocalStorage]="true"
+  [nIndex]="0"
+  (bCerrarFiltro)="fnObtenerCierreFiltroUsuarioNoPgn($event)"
+  (aUsuariosEmitados)="fnObtenerDataFiltroUsuarioNoPgn($event)"
+></app-filtro-usuarios>
+
+<!-- Código Base -->
+
+<app-lbl-subtitulo
+  subtitulo="Usuarios Cátalogo Institucional PGN"
+  [bEsSubtituloPrincipal]="false"
+></app-lbl-subtitulo>
+<div class="field col-12 flex justify-content-end flex-wrap mb-0">
+  <button
+    pButton
+    pRipple
+    icon="pi pi-search"
+    label="Buscar Usuarios"
+    class="p-button-success colorVerdeMHCP"
+    type="submit"
+    (click)="fnAbrirFiltroUsuarioPgn()"
+  ></button>
+</div>
+
+<div
+  class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP"
+  *ngIf="aTransaccionesUsuarioPgn.length > 0"
+>
+  <app-lbl-subtitulo
+    subtitulo="Usuarios PGN Agregar"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <div class="field col-12 p-0">
+    <p-table
+      #dt
+      styleClass="p-datatable-gridlines p-datatable-striped"
+      selectionMode="single"
+      [loading]="false"
+      [value]="aTransaccionesUsuarioPgn"
+      [scrollable]="false"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowHover]="true"
+      [paginator]="aTransaccionesUsuarioPgn.length > 10"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+      [showCurrentPageReport]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="codigo">
+            Usuario <p-sortIcon field="codigo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="nombre">
+            Tipo Documento <p-sortIcon field="nombre"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Número Documento <p-sortIcon field="activo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Primer Nombre<p-sortIcon field="activo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Segundo Nombre<p-sortIcon field="activo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Primer Apellido<p-sortIcon field="activo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Segundo Apellido<p-sortIcon field="activo"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template
+        pTemplate="body"
+        let-aTransaccionesUsuarioPgn
+        let-ri="rowIndex"
+      >
+        <tr
+          (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-tupgn')"
+          (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-tupgn')"
+          [pSelectableRow]="aTransaccionesUsuarioPgn"
+        >
+          <td>{{ aTransaccionesUsuarioPgn.usuario1 }}</td>
+          <td>{{ aTransaccionesUsuarioPgn.tipoDocumento }}</td>
+          <td>{{ aTransaccionesUsuarioPgn.numeroDocumento }}</td>
+          <td>{{ aTransaccionesUsuarioPgn.primerNombre }}</td>
+          <td>{{ aTransaccionesUsuarioPgn.segundoNombre }}</td>
+          <td>{{ aTransaccionesUsuarioPgn.primerApellido }}</td>
+          <td>
+            {{ aTransaccionesUsuarioPgn.segundoApellido }}
+          </td>
+
+          <div #actions id="button-{{ ri }}-tb-tupgn" class="no-mostrar">
+            <button
+              pButton
+              pRipple
+              pTooltip="Eliminar"
+              tooltipPosition="top"
+              type="button"
+              icon="pi pi-trash"
+              class="botonTableMHCP colorRojoMHCP"
+              (click)="eliminarRestriccionUsuarioPgnFiltro(ri)"
+            ></button>
+          </div>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7" class="text-center">
+            No se han encontrado registrados.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Usuarios PGN Existentes"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <div class="field col-12 p-0">
+    <p-table
+      #dt
+      styleClass="p-datatable-gridlines p-datatable-striped"
+      [loading]="false"
+      [value]="oListaUsuarioPgn"
+      [scrollable]="false"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowHover]="true"
+      [paginator]="oListaUsuarioPgn.length > 10"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+      [showCurrentPageReport]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="codigo">
+            Usuario <p-sortIcon field="codigo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="nombre">
+            Tipo Documento <p-sortIcon field="nombre"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Número Documento <p-sortIcon field="activo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Primer Nombre<p-sortIcon field="activo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Segundo Nombre<p-sortIcon field="activo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Primer Apellido<p-sortIcon field="activo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Segundo Apellido<p-sortIcon field="activo"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-oListaUsuarioPgn let-ri="rowIndex">
+        <tr
+          (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-tunopgn')"
+          (mouseleave)="
+            fnMostrarOcultarBotones($event, ri, false, 'tb-tunopgn')
+          "
+          [pSelectableRow]="oListaUsuarioPgn"
+        >
+          <td>{{ oListaUsuarioPgn.valorUsuario.usuario1 }}</td>
+          <td>{{ oListaUsuarioPgn.valorUsuario.tipoDocumento }}</td>
+          <td>{{ oListaUsuarioPgn.valorUsuario.numeroDocumento }}</td>
+          <td>{{ oListaUsuarioPgn.valorUsuario.primerNombre }}</td>
+          <td>{{ oListaUsuarioPgn.valorUsuario.segundoNombre }}</td>
+          <td>{{ oListaUsuarioPgn.valorUsuario.primerApellido }}</td>
+          <td>
+            {{ oListaUsuarioPgn.valorUsuario.segundoApellido }}
+          </td>
+
+          <div #actions id="button-{{ ri }}-tb-tunopgn" class="no-mostrar">
+            <button
+              pButton
+              pRipple
+              pTooltip="Eliminar"
+              tooltipPosition="top"
+              type="button"
+              icon="pi pi-trash"
+              class="botonTableMHCP colorRojoMHCP"
+              (click)="eliminarRestriccionUsuarioPgn(ri)"
+            ></button>
+          </div>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7" class="text-center">
+            No se han encontrado registrados.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+  <hr />
+</div>
+
+<app-lbl-subtitulo
+  subtitulo="Usuarios Cátalogo Institucional NO PGN"
+  [bEsSubtituloPrincipal]="false"
+></app-lbl-subtitulo>
+<div class="field col-12 flex justify-content-end flex-wrap mb-0">
+  <button
+    pButton
+    pRipple
+    icon="pi pi-search"
+    label="Buscar Usuarios"
+    class="p-button-success colorVerdeMHCP"
+    type="submit"
+    (click)="fnAbrirFiltroUsuarioNoPgn()"
+  ></button>
+</div>
+
+<div
+  class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP"
+  *ngIf="aTransaccionesUsuarioNoPgn.length > 0"
+>
+  <app-lbl-subtitulo
+    subtitulo="Usuarios NO PGN Agregar"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <div class="field col-12 p-0">
+    <p-table
+      #dt
+      styleClass="p-datatable-gridlines p-datatable-striped"
+      selectionMode="single"
+      [loading]="false"
+      [value]="aTransaccionesUsuarioNoPgn"
+      [scrollable]="false"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowHover]="true"
+      [paginator]="aTransaccionesUsuarioNoPgn.length > 10"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+      [showCurrentPageReport]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="codigo">
+            Usuario <p-sortIcon field="codigo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="nombre">
+            Tipo Documento <p-sortIcon field="nombre"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Número Documento <p-sortIcon field="activo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Primer Nombre<p-sortIcon field="activo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Segundo Nombre<p-sortIcon field="activo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Primer Apellido<p-sortIcon field="activo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Segundo Apellido<p-sortIcon field="activo"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template
+        pTemplate="body"
+        let-aTransaccionesUsuarioNoPgn
+        let-ri="rowIndex"
+      >
+        <tr
+          (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-trreus')"
+          (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-trreus')"
+          [pSelectableRow]="aTransaccionesUsuarioNoPgn"
+        >
+          <td>{{ aTransaccionesUsuarioNoPgn.usuario1 }}</td>
+          <td>{{ aTransaccionesUsuarioNoPgn.tipoDocumento }}</td>
+          <td>{{ aTransaccionesUsuarioNoPgn.numeroDocumento }}</td>
+          <td>{{ aTransaccionesUsuarioNoPgn.primerNombre }}</td>
+          <td>{{ aTransaccionesUsuarioNoPgn.segundoNombre }}</td>
+          <td>{{ aTransaccionesUsuarioNoPgn.primerApellido }}</td>
+          <td>
+            {{ aTransaccionesUsuarioNoPgn.segundoApellido }}
+          </td>
+
+          <div id="button-{{ ri }}-tb-trreus" class="no-mostrar">
+            <button
+              pButton
+              pRipple
+              pTooltip="Eliminar"
+              tooltipPosition="top"
+              type="button"
+              icon="pi pi-trash"
+              class="botonTableMHCP colorRojoMHCP"
+              (click)="eliminarRestriccionUsuarioNoPgnFiltro(ri)"
+            ></button>
+          </div>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="7" class="text-center">
+            No se han encontrado registrados.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<app-lbl-subtitulo
+  subtitulo="Usuarios NO PGN Existentes"
+  [bEsSubtituloPrincipal]="false"
+></app-lbl-subtitulo>
+<div class="field col-12 p-0">
+  <p-table
+    #dt
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    selectionMode="single"
+    [loading]="false"
+    [value]="oListaUsuarioNoPgn"
+    [scrollable]="false"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowHover]="true"
+    [paginator]="oListaUsuarioNoPgn.length > 10"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="codigo">
+          Usuario <p-sortIcon field="codigo"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nombre">
+          Tipo Documento <p-sortIcon field="nombre"></p-sortIcon>
+        </th>
+        <th pSortableColumn="activo">
+          Número Documento <p-sortIcon field="activo"></p-sortIcon>
+        </th>
+        <th pSortableColumn="activo">
+          Primer Nombre<p-sortIcon field="activo"></p-sortIcon>
+        </th>
+        <th pSortableColumn="activo">
+          Segundo Nombre<p-sortIcon field="activo"></p-sortIcon>
+        </th>
+        <th pSortableColumn="activo">
+          Primer Apellido<p-sortIcon field="activo"></p-sortIcon>
+        </th>
+        <th pSortableColumn="activo">
+          Segundo Apellido<p-sortIcon field="activo"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-oListaUsuarioNoPgn let-ri="rowIndex">
+      <tr
+        (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-noreus')"
+        (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-noreus')"
+        [pSelectableRow]="oListaUsuarioNoPgn"
+      >
+        <td>{{ oListaUsuarioNoPgn.valorUsuario.usuario1 }}</td>
+        <td>{{ oListaUsuarioNoPgn.valorUsuario.tipoDocumento }}</td>
+        <td>{{ oListaUsuarioNoPgn.valorUsuario.numeroDocumento }}</td>
+        <td>{{ oListaUsuarioNoPgn.valorUsuario.primerNombre }}</td>
+        <td>{{ oListaUsuarioNoPgn.valorUsuario.segundoNombre }}</td>
+        <td>{{ oListaUsuarioNoPgn.valorUsuario.primerApellido }}</td>
+        <td>
+          {{ oListaUsuarioNoPgn.valorUsuario.segundoApellido }}
+        </td>
+
+        <div #actions id="button-{{ ri }}-tb-noreus" class="no-mostrar">
+          <button
+            pButton
+            pRipple
+            pTooltip="Eliminar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-trash"
+            class="botonTableMHCP colorRojoMHCP"
+            (click)="eliminarRestriccionUsuarioNoPgn(ri)"
+          ></button>
+        </div>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="7" class="text-center">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

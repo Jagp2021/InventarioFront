@@ -1,0 +1,37 @@
+@import "_mixins";
+@import "_functions";
+@import "_variables";
+
+/** 
+* 1. Espacio de los td en el datepicker
+* 2. Ancho del calendar
+* 3. Color de fondo botones bloqueado del datepicker
+*/
+
+/** 1. Espacio de los td en el datepicker */
+.p-datepicker table td {
+  padding: px-rem(5px) !important;
+}
+
+/** 2. Ancho del calendar */
+.p-calendar {
+  width: 100% !important;
+}
+
+/** 3. Color de fondo botones bloqueado del datepicker */
+.p-datepicker-group-container {
+  .p-datepicker-group {
+    .p-datepicker-header {
+      .p-button:disabled,
+      button:disabled {
+        background-color: $clr-blanco !important;
+      }
+    }
+  }
+}
+
+.fecha {
+  //margin-top: -28px;
+  background-color: #f8f8f8;
+  padding: 5px;
+}

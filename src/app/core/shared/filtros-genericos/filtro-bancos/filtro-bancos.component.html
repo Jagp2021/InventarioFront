@@ -1,0 +1,224 @@
+<p-toast [key]="'fu-t-unique'"></p-toast>
+
+<p-confirmDialog
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="10000"
+  [key]="'fu-cd-unique'"
+></p-confirmDialog>
+
+<div class="filtroGenericoMHCP" *ngIf="bAbrirFiltro">
+  <p-dialog
+    [id]="'filtroBancos' + sId"
+    [style]="{ width: nWidth }"
+    [(visible)]="bAbrirFiltro"
+    [modal]="true"
+    [baseZIndex]="10000"
+    [draggable]="false"
+    [resizable]="false"
+    [closable]="true"
+    [closeOnEscape]="false"
+  >
+    <p-header>
+      <div class="flex justify-content-between">
+        <div>
+          <i class="pi pi-search" style="margin-right: 10px"></i>
+          {{ sTituloHeader }}
+        </div>
+        <div
+          class="filtroGenericoMHCP-cerrar"
+          (click)="fnObtenerCierreFiltro(false)"
+        >
+          X
+        </div>
+      </div>
+    </p-header>
+
+    <div class="col-12 flex">
+      <div
+        [ngClass]="{
+          'w-full': !bMostrarResultados,
+          'md:col-4': bMostrarResultados
+        }"
+        class="surface-card my-3 pt-4 pb-1 px-3 border-round shadow-2"
+        [style]="{ height: 'fit-content' }"
+      >
+        <form
+          class="field col-12"
+          [formGroup]="frmBuscarFiltro"
+          autocomplete="off"
+        >
+          <div class="formgrid grid">
+            <div class="field col-12 md:col-12">
+              <label htmlfor="tipoEntidad" class="frm-titulo"
+                >Tipo de entidad <span class="required">*</span></label
+              >
+
+              <div class="formgroup-inline">
+                <div
+                  class="col-6 p-0 mt-1"
+                  *ngFor="let tipoEntidad of aTipoEntidad"
+                >
+                  <div class="field-radiobutton">
+                    <p-radioButton
+                      [value]="tipoEntidad.sigla"
+                      formControlName="tipoEntidad"
+                    ></p-radioButton>
+                    <label [for]="tipoEntidad.sigla">{{
+                      tipoEntidad.descripcion
+                    }}</label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- <div class="formgroup-inline">
+                <div class="col-12 md:col-5 p-0">
+                  <div class="field-radiobutton mt-1">
+                    <p-radioButton
+                      id="nacional"
+                      name="tipoEntidad"
+                      [value]="true"
+                      class="p-element"
+                      formControlName="tipoEntidad"
+                    ></p-radioButton>
+                    <label htmlfor="nacional">Nacional</label>
+                  </div>
+                </div>
+
+                <div class="col-12 md:col-5">
+                  <div class="field-radiobutton mt-1">
+                    <p-radioButton
+                      id="extranjera"
+                      name="tipoEntidad"
+                      [value]="false"
+                      class="p-element"
+                      formControlName="tipoEntidad"
+                    ></p-radioButton>
+                    <label htmlfor="extranjera">Extranjera</label>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+
+            <div class="field col-12 md:col-12">
+              <label htmlfor="tipoDocumento" class="frm-titulo"
+                >Tipo de documento <span class="required">*</span></label
+              >
+
+              <div class="col-12 p-0">
+                <p-dropdown
+                  filterBy="descripcion"
+                  placeholder="Seleccione tipo de documento"
+                  formControlName="tipoDocumento"
+                  optionValue="sigla"
+                  optionLabel="descripcion"
+                  class="mt-1"
+                  [options]="aTipoDocumentos"
+                  [filter]="true"
+                  [showClear]="false"
+                >
+                </p-dropdown>
+              </div>
+            </div>
+
+            <div class="field col-12 md:col-12">
+              <label htmlfor="numeroDocumento" class="frm-titulo"
+                >Número de documento</label
+              >
+
+              <div
+                class="flex justify-content-between field grid col-12 md:col-12 p-0"
+              >
+                <div class="col-10">
+                  <p-autoComplete
+                    field=""
+                    formControlName="numeroDocumento"
+                    placeholder="Ingrese documento"
+                    [suggestions]="aBancosFiltrados"
+                    [minLength]="1"
+                    [dropdown]="false"
+                    (completeMethod)="fnFiltrarEntidades($event, 'numeroDoc')"
+                  ></p-autoComplete>
+                </div>
+                <div class="col-1">-</div>
+                <div class="col-1 p-0">
+                  <input
+                    type="number"
+                    pInputText
+                    [disabled]="
+                      frmBuscarFiltro.get('tipoDocumento')?.value !== 'NIT'
+                    "
+                    style="width: 30px !important"
+                  />
+                </div>
+              </div>
+
+              <div class="field col-12 md:col-12 p-0">
+                <label htmlfor="razonSocial" class="frm-titulo"
+                  >Razón Social</label
+                >
+
+                <div class="col-12 p-0">
+                  <p-autoComplete
+                    field=""
+                    formControlName="razonSocial"
+                    placeholder="Ingrese razón social"
+                    [suggestions]="aBancosFiltrados"
+                    [minLength]="1"
+                    [dropdown]="false"
+                    (completeMethod)="fnFiltrarEntidades($event, 'razonSocial')"
+                  ></p-autoComplete>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 p-0 mt-3 ml-2" *ngIf="bEsMultiple">
+            <div class="field-radiobutton mt-1">
+              <p-checkbox
+                value="true"
+                (click)="fnCambiarRadio()"
+                inputId="ny"
+              ></p-checkbox>
+              <label for="ny">Seleccionar todo</label>
+            </div>
+          </div>
+        </form>
+
+        <div class="col-12 flex justify-content-end mt-3 mb-0 gap-2">
+          <button
+            pButton
+            pRipple
+            icon="pi pi-file-edit"
+            label="Limpiar"
+            class="p-button-outlined colorVerdeMHCP"
+            (click)="fnLimpiarDatos()"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-search"
+            label="Buscar"
+            class="p-button-success colorVerdeMHCP"
+            type="submit"
+            [disabled]="frmBuscarFiltro.invalid"
+            (click)="fnBuscarResultados()"
+          ></button>
+        </div>
+      </div>
+
+      <div class="md:col-8" *ngIf="bMostrarResultados">
+        <app-filtro-bancos-resultado
+          [oBuscar]="oBuscar"
+          [bEsMultiple]="bEsMultiple"
+          [bAbrirFiltro]="bAbrirFiltro"
+          [bDevolverSoloID]="bDevolverSoloID"
+          [bGuardarLocalStorage]="bGuardarLocalStorage"
+          [oInformacionFiltro]="oInformacionFiltro"
+          [bSeleccionarTodo]="bSeleccionarTodo"
+          (bCerrarFiltro)="fnObtenerCierreFiltro($event)"
+          (aBancosEmitados)="fnObtenerBancos($event)"
+        ></app-filtro-bancos-resultado>
+      </div>
+    </div>
+  </p-dialog>
+</div>

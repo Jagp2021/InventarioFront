@@ -1,0 +1,236 @@
+<!-- Dialogo de Confirmación -->
+<p-confirmDialog
+  [key]="'cf-frm-crear'"
+  [style]="{ width: '40vw' }"
+  [baseZIndex]="10000"
+  [header]="'Cancelar adición de cuenta bancaria'"
+></p-confirmDialog>
+
+<!-- Filtro Genérico: Cuentas Bancarias -->
+<app-filtro-bancos
+  [sId]="'fb1'"
+  [sTituloHeader]="'Buscar Entidad Financiera'"
+  [oInformacionFiltro]="aCuentasBancarias"
+  [oInformacionPreFiltrada]="[]"
+  [oCamposFormulario]="[]"
+  [bEsMultiple]="false"
+  [bDevolverSoloID]="false"
+  [bAbrirFiltro]="bAbrirFiltro"
+  [bGuardarLocalStorage]="true"
+  (bCerrarFiltro)="fnObtenerCierreFiltro($event)"
+  (aBancosEmitados)="fnObtenerDataFiltro($event)"
+></app-filtro-bancos>
+
+<!-- Código Base -->
+<p-fieldset
+  legend="Nueva Cuenta Bancaria"
+  [toggleable]="true"
+  [collapsed]="true"
+  class="col-12"
+>
+  <form
+    class="field col-12 p-0 mt-0"
+    [formGroup]="frmCrearCuentaBancaria"
+    autocomplete="off"
+  >
+    <div class="formgrid grid">
+      <div class="col-12">
+        <app-lbl-subtitulo
+          subtitulo="Datos de la entidad financiera"
+          [bEsSubtituloPrincipal]="false"
+        ></app-lbl-subtitulo>
+      </div>
+
+      <div class="field col-12 md:col-3 mt-3">
+        <label htmlfor="entidadFinanciera" class="frm-titulo"
+          >Entidad financiera <span class="required">*</span>
+        </label>
+        <div class="col-12 p-0 mt-1">
+          <span class="p-input-icon-right">
+            <i
+              class="pi pi-search"
+              (click)="fnAbrirFiltroCuentasBancarias()"
+            ></i>
+            <input
+              pInputText
+              type="text"
+              id="entidadFinanciera"
+              type="text"
+              placeholder="Seleccione la entidad financiera"
+              formControlName="nombreEntidadFinanciera"
+            />
+          </span>
+          <small class="p-error" *ngIf="fnValidarCampo('codigoTransaccion')">
+            {{ fnListarErrorForm("codigoTransaccion") }}
+          </small>
+        </div>
+      </div>
+
+      <ng-container
+        *ngIf="
+          frmCrearCuentaBancaria.get('nombreEntidadFinanciera')?.value !== null
+        "
+        ><div class="field col-12 md:col-3 mt-3">
+          <label htmlfor="tipoEntidad" class="frm-titulo font-semibold"
+            >Tipo de entidad</label
+          >
+          <div class="formgroup-inline">
+            <div class="col-12 md:col-3 p-0">
+              <div class="field-radiobutton mt-1">
+                <p-radioButton
+                  id="tipoEntidad1"
+                  name="tipoEntidad"
+                  [value]="true"
+                  formControlName="tipoEntidad"
+                ></p-radioButton>
+                <label htmlfor="tipoEntidad1">{{
+                  frmCrearCuentaBancaria.get("tipoEntidad1")?.value
+                }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="field col-12 md:col-3 mt-3">
+          <label htmlfor="tipoIdentificacion" class="frm-titulo font-semibold"
+            >Tipo de identificación</label
+          >
+          <div class="col-12 p-0 mt-2">
+            <input
+              type="text"
+              pInputText
+              formControlName="tipoDocumentoEntidadFinanciera"
+            />
+          </div>
+        </div>
+
+        <div class="field col-12 md:col-3 mt-3">
+          <label htmlfor="numIdentificacion" class="frm-titulo font-semibold"
+            >No. identificación</label
+          >
+          <div class="col-12 p-0 mt-2">
+            <input
+              type="text"
+              pInputText
+              formControlName="numeroDocumentoEntidadFinanciera"
+            />
+          </div></div
+      ></ng-container>
+
+      <div class="col-12 mt-4">
+        <app-lbl-subtitulo
+          subtitulo="Datos de la cuenta bancaria"
+          [bEsSubtituloPrincipal]="false"
+        ></app-lbl-subtitulo>
+      </div>
+
+      <div class="field col-4 md:col-3">
+        <label htmlfor="tipoMoneda" class="frm-titulo"
+          >Tipo moneda <span class="required">*</span></label
+        >
+        <div class="col-12 p-0">
+          <p-dropdown
+            filterBy="descripcion"
+            placeholder="Seleccione tipo moneda"
+            formControlName="tipoMoneda"
+            optionValue="sigla"
+            optionLabel="sOpcionConcatenada"
+            class="mt-1"
+            [options]="aTipoMoneda"
+            [filter]="true"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="field col-4 md:col-3">
+        <label htmlfor="tipoCuentaBancaria" class="frm-titulo"
+          >Tipo cuenta bancaria <span class="required">*</span></label
+        >
+        <div class="col-12 p-0">
+          <p-dropdown
+            filterBy="descripcion"
+            placeholder="Seleccione tipo cuenta bancaria"
+            formControlName="tipoCuenta"
+            optionValue="sigla"
+            optionLabel="descripcion"
+            class="mt-1"
+            [options]="aTipoCuentaBancaria"
+            [filter]="true"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="field col-4 md:col-3">
+        <label htmlfor="numeroCuenta" class="frm-titulo"
+          >Número de cuenta <span class="required">*</span></label
+        >
+        <div class="col-12 p-0">
+          <p-inputNumber
+            mode="decimal"
+            inputId="withoutgrouping"
+            formControlName="numeroCuenta"
+            [useGrouping]="false"
+          ></p-inputNumber>
+        </div>
+      </div>
+
+      <div class="field col-4 md:col-3">
+        <label htmlfor="estado" class="frm-titulo">Estado </label>
+        <div class="col-12 p-0">
+          <p-dropdown
+            filterBy="descripcion"
+            placeholder="Seleccione estado cuenta bancaria"
+            formControlName="estadoCuentaBancaria"
+            optionValue="sigla"
+            optionLabel="descripcion"
+            class="mt-1"
+            [options]="aEstadosCuenta"
+            [filter]="true"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="field col-3 md:col-3">
+        <label htmlfor="fechaCreacion" class="frm-titulo"
+          >Fecha creación
+        </label>
+        <div class="col-12 p-0">
+          <p-calendar
+            [showIcon]="true"
+            placeholder="DD/MM/AAA"
+            dateFormat="yy-mm-dd"
+            formControlName="fechaCreacion"
+            dataType="string"
+          ></p-calendar>
+        </div>
+      </div>
+
+      <div class="flex justify-content-end col-9 lg:col-9 p-0 mt-3 gap-2">
+        <button
+          pButton
+          pRipple
+          label="Descartar"
+          icon="pi pi-times"
+          class="p-button-outlined colorRojoMHCP"
+          (click)="fnDescartarCuenta()"
+        ></button>
+
+        <button
+          pButton
+          pRipple
+          label="Agregar cuenta"
+          icon="pi pi-plus"
+          class="p-button-outlined colorVerdeMHCP"
+          (click)="fnAgregarCuentaBancaria()"
+          [disabled]="fnHabilitarAgregar"
+        ></button>
+      </div>
+    </div>
+  </form>
+</p-fieldset>

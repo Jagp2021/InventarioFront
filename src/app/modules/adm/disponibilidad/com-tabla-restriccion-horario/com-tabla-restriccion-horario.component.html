@@ -1,0 +1,121 @@
+<!-- Código Base -->
+<div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+  <form class="col-12 p-0" [formGroup]="frmHorariosSistema" autocomplete="off">
+    <div class="formgrid grid">
+      <div class="flex flex-column w-full lg:w-6 fecha">
+        <label class="font-bold mb-2 w-full lg:w-12"
+          >Horarios de registro restricción</label
+        >
+        <div class="flex">
+          <div class="flex flex-column w-full lg:w-6 mr-5">
+            <label class="font-bold mb-1"
+              >Hora Inicio <span class="required">*</span></label
+            >
+            <p-calendar
+              formControlName="horaInicio"
+              icon="pi pi-clock"
+              [showIcon]="true"
+              [showTime]="true"
+              [showSeconds]="false"
+              [hourFormat]="'12'"
+              [timeOnly]="true"
+              placeholder="HH:MM"
+            ></p-calendar>
+          </div>
+          <div class="flex flex-column w-full lg:w-6">
+            <label class="font-bold mb-1"
+              >Hora Final <span class="required">*</span></label
+            >
+            <p-calendar
+              formControlName="horaFinal"
+              icon="pi pi-clock"
+              [showIcon]="true"
+              [showTime]="true"
+              [showSeconds]="false"
+              [hourFormat]="'12'"
+              [timeOnly]="true"
+              placeholder="HH:MM"
+            ></p-calendar>
+          </div>
+        </div>
+      </div>
+      <div class="field col-3 md:col-3" [ngStyle]="{ 'margin-top': '40px' }">
+        <button
+          pButton
+          pRipple
+          icon="pi pi-plus"
+          label="agregar"
+          class="p-button-success colorVerdeMHCP"
+          type="submit"
+          (click)="agregarReestriccionHorario()"
+          [disabled]="frmHorariosSistema.invalid"
+        ></button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<app-lbl-subtitulo
+  subtitulo="Horarios Existentes"
+  [bEsSubtituloPrincipal]="false"
+></app-lbl-subtitulo>
+
+<div class="field col-12 p-0">
+  <p-table
+    #dt
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    selectionMode="single"
+    [loading]="false"
+    [value]="oListaHorario"
+    [scrollable]="false"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowHover]="true"
+    [paginator]="oListaHorario.length > 10"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="codigo">
+          Hora inicial <p-sortIcon field="codigo"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nombre">
+          Hora final <p-sortIcon field="nombre"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-oListaHorario let-ri="rowIndex">
+      <tr
+        (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-reest')"
+        (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-reest')"
+        [pSelectableRow]="oListaHorario"
+      >
+        <td>{{ oListaHorario.horaInicio | horaText }}</td>
+        <td>{{ oListaHorario.horaFinal | horaText }}</td>
+
+        <div id="button-{{ ri }}-tb-reest" class="no-mostrar">
+          <button
+            pButton
+            pRipple
+            pTooltip="Eliminar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-trash"
+            class="botonTableMHCP colorRojoMHCP"
+            (click)="eliminarRestriccionHorario(oListaHorario, ri)"
+          ></button>
+        </div>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="2" class="text-center">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

@@ -1,0 +1,146 @@
+@import "_mixins";
+@import "_functions";
+@import "_variables";
+
+/** 
+* 1. Ajustes de botones generales
+* 2. Colores de botones
+*   2.1 Botones solidos
+*     2.1.1 Color rojo
+*     2.1.2 Color amarillo
+*   2.2 Botones outlined
+*     2.2.1 Color azul
+*     2.2.2 Color verde
+*     2.2.3 Color rojo
+*     2.2.4 Color gris
+* 3. Inhabilitación de botones outlined 
+*/
+
+/** 1. Ajustes de botones generales */
+p-button,
+button {
+  height: px-rem(35px) !important;
+  width: auto !important;
+  letter-spacing: 2px !important;
+  text-transform: uppercase;
+
+  &:disabled {
+    background-color: $clr-gris-disabled !important;
+    border-color: $clr-gris-disabled !important;
+  }
+  .p-disabled,
+  .p-component:disabled {
+    opacity: 1 !important;
+  }
+  .p-button-icon-left {
+    margin-right: px-rem(8px);
+  }
+}
+
+/** 2. Colores de botones */
+/** 2.1 Botones solidos */
+/** 2.1.1 Color rojo */
+p-button.colorRojoMHCP,
+button.colorRojoMHCP {
+  background-color: $clr-rojo-principal !important;
+  border-color: $clr-rojo-principal !important;
+
+  &:hover {
+    background-color: $clr-rojo-hover !important;
+    border-color: $clr-rojo-hover !important;
+    color: $clr-blanco-pastel !important;
+  }
+  &:enabled:active {
+    background-color: $clr-rojo-principal !important;
+    border-color: $clr-rojo-principal !important;
+  }
+}
+/** 2.1.1 Color amarillo */
+p-button.colorAmarilloMHCP,
+button.colorAmarilloMHCP {
+  background-color: $clr-amarillo-principal !important;
+  border-color: $clr-amarillo-principal !important;
+
+  &:hover {
+    background-color: $clr-amarillo-hover !important;
+    border-color: $clr-amarillo-hover !important;
+    color: $clr-blanco-pastel !important;
+  }
+  &:enabled:active {
+    background-color: $clr-amarillo-hover !important;
+    border-color: $clr-amarillo-hover !important;
+  }
+}
+/** 2.2 Botones outlined */
+/** 2.2.1 Color azul */
+.p-button-outlined.colorAzulMHCP {
+  color: $clr-azul-principal !important;
+
+  @media (min-width: 320px) and (max-width: 800px) {
+    width: 100% !important;
+  }
+  &:hover {
+    background-color: $clr-azul-hover !important;
+    color: $clr-azul-principal !important;
+  }
+  &:enabled:active {
+    background-color: $clr-azul-principal !important;
+    color: $clr-blanco-suave !important;
+  }
+}
+/** 2.2.2 Color verde */
+.p-button-outlined.colorVerdeMHCP {
+  color: $clr-verde-principal !important;
+
+  &:hover {
+    background-color: $clr-verde-hover !important;
+    color: $clr-verde-principal !important;
+  }
+  &:enabled:active {
+    background-color: $clr-verde-principal !important;
+    color: $clr-blanco-suave !important;
+  }
+}
+/** 2.2.3 Color rojo */
+.p-button-outlined.colorRojoMHCP {
+  color: $clr-rojo-principal !important;
+
+  &:hover {
+    background-color: $clr-rojo-hover !important;
+    color: $clr-rojo-principal !important;
+  }
+  &:enabled:active {
+    background-color: $clr-rojo-principal !important;
+    color: $clr-blanco-suave !important;
+  }
+}
+/** 2.2.4 Color gris */
+.p-button-outlined.colorGrisMHCP {
+  color: $clr-gris-principal !important;
+
+  &:hover {
+    background-color: $clr-gris-hover !important;
+    color: $clr-gris-principal !important;
+  }
+  &:enabled:active {
+    background-color: $clr-gris-principal !important;
+    color: $clr-blanco-suave !important;
+  }
+}
+/** 3. Inhabilitación de botones outlined */
+.p-button-outlined.colorAzulMHCP,
+.p-button-outlined.colorVerdeMHCP,
+.p-button-outlined.colorRojoMHCP,
+.p-button-outlined.colorAmarilloMHCP,
+.p-button-outlined.colorGrisMHCP {
+  &:disabled {
+    background-color: $clr-gris-disabled !important;
+    border-color: $clr-gris-disabled !important;
+    color: $clr-blanco-suave !important;
+    opacity: 1;
+  }
+}
+
+.removerEspacioBoton span {
+  margin-right: 0rem !important;
+}

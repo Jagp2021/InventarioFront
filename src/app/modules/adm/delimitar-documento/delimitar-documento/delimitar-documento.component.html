@@ -1,0 +1,200 @@
+<!-- Toast -->
+<p-toast></p-toast>
+
+<!-- Diálogo de confirmación -->
+<p-confirmDialog
+  [style]="{ width: '40vw' }"
+  [baseZIndex]="10000"
+  header="Cancelar operación"
+></p-confirmDialog>
+
+<!-- Filtro Genérico Transacciones -->
+<app-filtro-transacciones
+  [sId]="'ft1'"
+  [sTituloHeader]="'Buscar Transacción'"
+  [oInformacionFiltro]="aTransacciones"
+  [oInformacionPreFiltrada]="[]"
+  [oCamposFormulario]="[]"
+  [bEsMultiple]="false"
+  [bDevolverSoloID]="false"
+  [bAbrirFiltro]="bAbrirFiltro"
+  [bGuardarLocalStorage]="true"
+  [nIndex]="0"
+  (bCerrarFiltro)="fnObtenerCierreFiltro($event)"
+  (aTransacionesEmitadas)="fnObtenerDataFiltro($event)"
+></app-filtro-transacciones>
+
+<!-- Desarrollo Base -->
+<div class="grid">
+  <div class="col-12 md:col-12 lg:col-12">
+    <div class="w-full surface-card border-round espacio-cardMHCP">
+      <div class="paginaMHCP">
+        <div class="flex col-12 md:col-12 lg:col-12 paginaMHCP-header">
+          <div class="col-8 md:col-8 lg:col-8 p-0 paginaMHCP-header-titulo">
+            <app-lbl-titulo
+              titulo="Delimitar documento soporte"
+              descripcion="Administrar la delimitación de los tipos de documentos soporte asociados a una transacción del sistema."
+            ></app-lbl-titulo>
+          </div>
+        </div>
+
+        <div class="paginaMHCP-contenedor">
+          <div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+            <app-lbl-subtitulo
+              subtitulo="Delimitar transacción"
+              [bEsSubtituloPrincipal]="false"
+            ></app-lbl-subtitulo>
+
+            <form
+              class="col-12 p-0"
+              [formGroup]="frmBuscarTransaccion"
+              autocomplete="off"
+            >
+              <div class="formgrid grid">
+                <div class="field col-12 md:col-4">
+                  <label htmlfor="codigoTransaccion" class="frm-titulo"
+                    >Código de la transacción
+                    <span class="required">*</span></label
+                  >
+                  <div class="col-12 p-0 mt-1">
+                    <span class="p-input-icon-right">
+                      <i
+                        class="pi pi-search"
+                        (click)="fnAbrirFiltroTransaccion()"
+                      ></i>
+                      <input
+                        pInputText
+                        type="text"
+                        id="codigoTransaccion"
+                        type="text"
+                        placeholder="Seleccione la transacción"
+                        class="p-inputtext"
+                        formControlName="codigoTransaccion"
+                      />
+                    </span>
+                    <small
+                      class="p-error"
+                      *ngIf="fnValidarCampo('codigoTransaccion')"
+                    >
+                      {{ fnListarErrorForm("codigoTransaccion") }}
+                    </small>
+                  </div>
+                </div>
+
+                <div class="field col-12 md:col-4">
+                  <label htmlfor="nombreTransaccion" class="frm-titulo"
+                    >Nombre de la transacción
+                  </label>
+                  <div class="col-12 p-0 mt-1">
+                    <input
+                      pInputText
+                      id="nombreTransaccion"
+                      type="text"
+                      placeholder="Escriba el nombre de la transacción"
+                      class="p-inputtext"
+                      formControlName="nombreTransaccion"
+                    />
+                    <small
+                      class="p-error"
+                      *ngIf="fnValidarCampo('nombreTransaccion')"
+                    >
+                      {{ fnListarErrorForm("nombreTransaccion") }}
+                    </small>
+                  </div>
+                </div>
+
+                <div
+                  class="field col-12 md:col-4"
+                  [ngStyle]="{ 'margin-top': '17px' }"
+                >
+                  <button
+                    pButton
+                    pRipple
+                    type="button"
+                    label="Buscar"
+                    icon="pi pi-search"
+                    class="p-button-success colorVerdeMHCP"
+                    (click)="fnBuscarTransaccion(true)"
+                    [disabled]="frmBuscarTransaccion.invalid"
+                  ></button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="col-12 md:col-12 lg:col-12 p-0">
+            <app-lbl-subtitulo
+              subtitulo="Tipo de Documento de Soporte"
+              [bEsSubtituloPrincipal]="false"
+            ></app-lbl-subtitulo>
+
+            <p-tabView>
+              <p-tabPanel header="Documento soporte">
+                <h6>Documentos para vincular a transacción</h6>
+                <div class="formgrid grid">
+                  <div class="field col-12 md:col-12">
+                    <p-pickList
+                      sourceHeader="Documentos disponibles"
+                      targetHeader="Documentos vinculados"
+                      [source]="aDocumentosADelimitar"
+                      [target]="aDocumentosDelimitados"
+                      [dragdrop]="false"
+                      [responsive]="true"
+                      [sourceStyle]="{ height: '300px' }"
+                      [targetStyle]="{ height: '300px' }"
+                      [showSourceControls]="false"
+                      [showTargetControls]="false"
+                      (onMoveToTarget)="fnVerificarMovimientoDocumento($event)"
+                      (onMoveAllToTarget)="
+                        fnVerificarMovimientoDocumento($event)
+                      "
+                      (onMoveToSource)="fnEditarMovimientoDocumento($event)"
+                      (onMoveAllToSource)="fnEditarMovimientoDocumento($event)"
+                      filterBy="name"
+                      sourceFilterPlaceholder="Buscar por documento"
+                      targetFilterPlaceholder="Buscar por documento"
+                    >
+                      <ng-template let-documentos pTemplate="item">
+                        <h6 class="mb-2">
+                          {{ documentos.sigla }} -
+                          {{ documentos.descripcion }}
+                        </h6>
+                      </ng-template>
+                    </p-pickList>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="Lista de movimientos realizados">
+                <app-com-tabla-historico-documento
+                  [oTransaccion]="oTransaccion"
+                  [aDocumentos]="aDocumentos"
+                ></app-com-tabla-historico-documento>
+              </p-tabPanel>
+            </p-tabView>
+          </div>
+        </div>
+
+        <div class="col-12 md:col-12 lg:col-12 gap-2 paginaMHCP-footer">
+          <button
+            pButton
+            pRipple
+            icon="pi pi-times"
+            label="Cancelar"
+            class="colorRojoMHCP"
+            (click)="fnCancelarProceso()"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-save"
+            label="Guardar"
+            class="p-button-success colorVerdeMHCP"
+            type="submit"
+            (click)="fnGuardarProceso()"
+            [disabled]="bInhabilitar"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

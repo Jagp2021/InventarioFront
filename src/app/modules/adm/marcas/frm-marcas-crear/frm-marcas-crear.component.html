@@ -1,0 +1,448 @@
+<!-- Toast -->
+<p-toast></p-toast>
+
+<!-- Diálogo de confirmación -->
+<p-confirmDialog
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="10000"
+  header="Cancelar operación"
+></p-confirmDialog>
+
+<!-- Código base -->
+<div class="grid">
+  <div class="col-12 md:col-12 lg:col-12">
+    <div class="w-full surface-card border-round espacio-cardMHCP">
+      <div class="paginaMHCP">
+        <div class="flex col-12 md:col-12 lg:col-12 paginaMHCP-header">
+          <div class="col-8 md:col-8 lg:col-8 p-0 paginaMHCP-header-titulo">
+            <app-lbl-titulo
+              titulo="Marcas Función"
+              descripcion='Crear marcas con sus valores, para cada una de las "funciones de catálogo", estas marcas son adicionales a las básicas que están previamente definidas en los requerimientos de cada uno de los catálogos.'
+            >
+            </app-lbl-titulo>
+          </div>
+        </div>
+
+        <div class="paginaMHCP-contenedor">
+          <div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+            <app-lbl-subtitulo
+              subtitulo="{{ lblBotonGuardar }} marca función"
+              [bEsSubtituloPrincipal]="false"
+            ></app-lbl-subtitulo>
+
+            <form class="col-12 p-0" [formGroup]="formMarca" autocomplete="off">
+              <div class="formgrid grid">
+                <div class="field col-3 md:col-3">
+                  <label class="frm-titulo"
+                    >Función catálogo <span class="required">*</span></label
+                  >
+                  <div class="col-12 p-0">
+                    <p-dropdown
+                      [options]="listaFuncionCatalogo"
+                      [(ngModel)]="selectedItem"
+                      optionLabel="descripcion"
+                      [filter]="true"
+                      filterBy="descripcion"
+                      [showClear]="false"
+                      placeholder="Selecionar función de catálogo"
+                      formControlName="funcionCatalogo"
+                    >
+                      <ng-template pTemplate="selectedItem">
+                        <div
+                          class="country-item country-item-value"
+                          *ngIf="selectedItem"
+                        >
+                          <div>{{ selectedItem.descripcion }}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                    <small
+                      class="form-text text-red-600"
+                      *ngIf="campoNoValido('funcionCatalogo')"
+                    >
+                      {{ listaErroresMensajes("funcionCatalogo") }}
+                    </small>
+                  </div>
+                </div>
+
+                <div class="field col-12 md:col-3">
+                  <label htmlfor="name1" class="frm-titulo"
+                    >Nombre <span class="required">*</span></label
+                  >
+                  <div class="col-12 p-0" disabled>
+                    <input
+                      pInputText
+                      id="name1"
+                      type="text"
+                      placeholder="A003"
+                      class="p-inputtext"
+                      formControlName="nombre"
+                    />
+                    <small
+                      class="form-text text-red-600"
+                      *ngIf="campoNoValido('nombre')"
+                    >
+                      {{ listaErroresMensajes("nombre") }}
+                    </small>
+                  </div>
+                </div>
+
+                <div class="field col-12 md:col-3">
+                  <label class="frm-titulo">Dominio</label>
+                  <div class="col-12 p-0">
+                    <p-dropdown
+                      [options]="listaTipoDato"
+                      [(ngModel)]="selectedItem2"
+                      [filter]="true"
+                      filterBy="descripcion"
+                      [showClear]="false"
+                      placeholder="Selecionar el dominio"
+                      formControlName="tipoDato"
+                      optionLabel="descripcion"
+                      (onChange)="valorDominio($event)"
+                    >
+                      <ng-template pTemplate="selectedItem">
+                        <div
+                          class="country-item country-item-value"
+                          *ngIf="selectedItem2"
+                        >
+                          <div>{{ selectedItem2.descripcion }}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                  <small
+                    class="form-text text-red-600"
+                    *ngIf="campoNoValido('tipoDato')"
+                  >
+                    {{ listaErroresMensajes("tipoDato") }}
+                  </small>
+                </div>
+
+                <div class="field col-12 md:col-3">
+                  <label htmlfor="name1" class="frm-titulo"
+                    >Estado marca <span class="required">*</span></label
+                  >
+
+                  <div class="col-12 p-0">
+                    <p-dropdown
+                      [options]="oEstado"
+                      [filter]="false"
+                      placeholder="Selecionar estado"
+                      formControlName="activo"
+                      optionValue="valor"
+                      optionLabel="id"
+                    >
+                    </p-dropdown>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="col-12 md:col-12 lg:col-12 p-0">
+            <div class="flex flex-wrap justify-content-end mb-4 gap-2">
+              <button
+                pButton
+                pRipple
+                label="Definir Características"
+                icon="pi pi-calendar-plus"
+                class="p-button-outlined colorAzulMHCP"
+                (click)="modalDefinirCaracteristicas('editar')"
+                *ngIf="sAccion === 'editar'"
+              ></button>
+              <button
+                pButton
+                pRipple
+                label=" agregar valor"
+                icon="pi pi-plus"
+                class="p-button-outlined colorAzulMHCP"
+                (click)="modalValoresMarca('crear')"
+                [disabled]="formMarca.invalid || bValorDominio"
+              ></button>
+            </div>
+
+            <p-table
+              #dt
+              styleClass="p-datatable-gridlines p-datatable-striped"
+              [loading]="false"
+              [value]="oValoresMarca"
+              [scrollable]="false"
+              [tableStyle]="{ 'min-width': '50rem' }"
+              [rowHover]="true"
+              dataKey="id"
+              [paginator]="oValoresMarca.length > 10"
+              [rows]="5"
+              [rowsPerPageOptions]="[5, 10, 25, 50]"
+              currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+              [showCurrentPageReport]="true"
+              [globalFilterFields]="['idMarca', 'valor', 'activo']"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="idMarca">
+                    Código <p-sortIcon field="idMarca"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="valor">
+                    Texto asociado <p-sortIcon field="valor"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="activo">
+                    Estado Valor <p-sortIcon field="activo"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-valorMarca let-ri="rowIndex">
+                <tr
+                  (mouseenter)="
+                    fnMostrarOcultarBotones($event, ri, true, 'tb-trmaredt')
+                  "
+                  (mouseleave)="
+                    fnMostrarOcultarBotones($event, ri, false, 'tb-trmaredt')
+                  "
+                  [pSelectableRow]="valorMarca"
+                >
+                  <td>{{ valorMarca.codigo }}</td>
+                  <td>{{ valorMarca.valor }}</td>
+                  <td>{{ valorMarca.activo | convertirBoolean : "ai" }}</td>
+
+                  <div
+                    id="button-{{ ri }}-tb-trmaredt"
+                    class="no-mostrar"
+                    *ngIf="!bValorDominio"
+                  >
+                    <button
+                      pButton
+                      pRipple
+                      Tooltip="Editar"
+                      tooltipPosition="top"
+                      type="button"
+                      icon="pi pi-pencil"
+                      class="botonTableMHCP p-button-success colorVerdeMHCP"
+                      (click)="modalValoresMarca('editar', valorMarca)"
+                    ></button>
+                    <button
+                      pButton
+                      pRipple
+                      pTooltip="Eliminar"
+                      tooltipPosition="top"
+                      type="button"
+                      icon="pi pi-trash"
+                      class="botonTableMHCP colorRojoMHCP"
+                      (click)="eliminarValoresMarca(ri, valorMarca)"
+                    ></button>
+                  </div>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="5" class="text-center">
+                    No se han encontrado registrados.
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+
+        <div class="col-12 md:col-12 lg:col-12 gap-2 paginaMHCP-footer">
+          <button
+            pButton
+            pRipple
+            icon="pi pi-times"
+            label="Cancelar"
+            class="colorRojoMHCP"
+            (click)="cancelarProceso()"
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-save"
+            label="Guardar"
+            class="p-button-success colorVerdeMHCP"
+            type="submit"
+            [disabled]="formMarca.invalid && oValoresMarca.length === 0"
+            (click)="guardarDatosMarca('')"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [header]="
+    sAccionModal + ' valores de la lista ' + sListaSeleccion.toLowerCase()
+  "
+  [(visible)]="bDisplayModal"
+  [modal]="true"
+  [style]="{ width: '55vw' }"
+  [baseZIndex]="10000"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form
+    class="col-12"
+    [formGroup]="formValoresPosiblesMarcas"
+    autocomplete="off"
+  >
+    <div class="formgrid grid">
+      <div class="field col-6 md:col-3">
+        <label htmlfor="name1" class="frm-titulo"
+          >Código <span class="required">*</span>
+        </label>
+
+        <div class="col-12 p-0">
+          <input
+            pInputText
+            id="name1"
+            type="text"
+            placeholder="Nuevo PCP gasto"
+            class="p-inputtext p-component p-element"
+            formControlName="codigo"
+          />
+          <small class="form-text text-red-600" *ngIf="campoNoValido('codigo')">
+            {{ listaErroresMensajes("codigo") }}
+          </small>
+        </div>
+      </div>
+
+      <div class="field col-6 md:col-6">
+        <label htmlfor="name1" class="frm-titulo"
+          >Texto asociado <span class="required">*</span></label
+        >
+
+        <div class="col-12 p-0">
+          <input
+            pInputText
+            id="name1"
+            type="text"
+            placeholder="Nuevo plan de cuentas de ejecución"
+            class="p-inputtext p-component p-element"
+            formControlName="valor"
+          />
+          <small class="form-text text-red-600" *ngIf="campoNoValido('valor')">
+            {{ listaErroresMensajes("valor") }}
+          </small>
+        </div>
+      </div>
+
+      <div class="field col-6 md:col-3">
+        <label htmlfor="name1" class="frm-titulo">Estado Valor</label>
+
+        <div class="formgroup-inline">
+          <div class="col-12 md:col-5 p-0">
+            <div class="field-radiobutton mt-1 p-0">
+              <p-radioButton
+                name="activo"
+                [value]="true"
+                class="p-element"
+                formControlName="activo"
+              ></p-radioButton>
+              <label for="city1">Si</label>
+            </div>
+          </div>
+          <div class="col-12 md:col-5">
+            <div class="field-radiobutton mt-1 p-0">
+              <p-radioButton
+                name="activo"
+                [value]="false"
+                class="p-element"
+                formControlName="activo"
+              ></p-radioButton>
+              <label for="city1">No</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 flex justify-content-end gap-2 paginaMHCP-footer">
+      <button
+        (click)="cerrarModal()"
+        label="Cancelar"
+        class="p-button-danger"
+        [style]="{ width: '8.5rem' }"
+        icon="pi pi-times"
+        pButton
+        pRipple
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="ACEPTAR"
+        class="p-button-success"
+        icon="pi pi-check"
+        [style]="{ width: '8.5rem' }"
+        [disabled]="formValoresPosiblesMarcas.invalid"
+        (click)="guardarValorMarca()"
+      ></button>
+    </div>
+  </form>
+</p-dialog>
+
+<p-dialog
+  [header]="'Definir Características para la marca: '"
+  [(visible)]="bDisplayModalCaracteristica"
+  [modal]="true"
+  [style]="{ width: '55vw' }"
+  [baseZIndex]="10000"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form class="col-12" [formGroup]="formMarca" autocomplete="off">
+    <div class="formgrid grid">
+      <label htmlfor="name1" class="frm-titulo mt-1"
+        >Características de uso de la marca:
+      </label>
+
+      <div class="formgroup-inline">
+        <div class="col-12 md:col-5 p-0">
+          <div class="field-radiobutton p-0 ml-3">
+            <p-radioButton
+              name="caracteristicaUso"
+              [value]="true"
+              class="p-element"
+              formControlName="caracteristicaUso"
+            ></p-radioButton>
+            <label for="city1">Heredable</label>
+          </div>
+        </div>
+
+        <div class="col-12 md:col-5 p-0">
+          <div class="field-radiobutton p-0">
+            <p-radioButton
+              name="caracteristicaUso"
+              [value]="false"
+              class="p-element"
+              formControlName="caracteristicaUso"
+            ></p-radioButton>
+            <label for="city1">Susceptible</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 flex justify-content-end gap-2 paginaMHCP-footer">
+      <button
+        (click)="cerrarModalCaracteristicas()"
+        label="Cancelar"
+        class="p-button-danger"
+        [style]="{ width: '8.5rem' }"
+        icon="pi pi-times"
+        pButton
+        pRipple
+      ></button>
+      <button
+        pButton
+        pRipple
+        label="ACEPTAR"
+        class="p-button-success"
+        icon="pi pi-check"
+        [style]="{ width: '8.5rem' }"
+        [disabled]="formMarca.invalid"
+        (click)="guardarDatosMarca('caracteristica')"
+      ></button>
+    </div>
+  </form>
+</p-dialog>

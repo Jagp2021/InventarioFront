@@ -1,0 +1,12 @@
+.layout-main-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  justify-content: space-between;
+  padding: 4.9rem 0rem 0rem 0rem;
+  opacity: 1;
+}
+
+.layout-main {
+  flex: 1 1 auto;
+}

@@ -1,0 +1,224 @@
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Toast"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <div class="flex flex-row flex-wrap card-container blue-container">
+    <div
+      class="flex align-items-center justify-content-center w-10rem h-4rem font-bold text-white border-round m-2"
+      style="background-color: #009216; cursor: pointer"
+      (click)="fnMostrarToastSuccess()"
+    >
+      Éxito
+    </div>
+    <div
+      class="flex align-items-center justify-content-center w-10rem h-4rem font-bold text-white border-round m-2"
+      style="background-color: #c22d2d; cursor: pointer"
+      (click)="fnMostrarToastError()"
+    >
+      Error
+    </div>
+    <div
+      class="flex align-items-center justify-content-center w-10rem h-4rem font-bold text-white border-round m-2"
+      style="background-color: #facb36; cursor: pointer"
+      (click)="fnMostrarToastWarn()"
+    >
+      Advertencia
+    </div>
+  </div>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Toast Personalizado"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <app-lbl-toast-acciones
+    [sKey]="'desv'"
+    [sTitulo]="'Título toast'"
+    [sMensajePrimario]="'Mensaje primario del toast'"
+    [sMensajeSecundario]="'Mensaje de botones'"
+    (oClick)="fnCargarEvento()"
+  ></app-lbl-toast-acciones>
+
+  <div class="flex flex-row flex-wrap card-container blue-container">
+    <div
+      class="flex align-items-center justify-content-center w-10rem h-4rem font-bold text-white border-round m-2"
+      style="background-color: gray; cursor: pointer"
+      (click)="fnGenerarMensajeErrores()"
+    >
+      Lanzar toast
+    </div>
+  </div>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Banderas"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <p-messages
+    [(value)]="oMensajeBandera"
+    [enableService]="false"
+    [closable]="true"
+    [escape]="false"
+  ></p-messages>
+
+  <div class="flex flex-row flex-wrap card-container blue-container">
+    <div
+      class="flex align-items-center justify-content-center w-10rem h-4rem font-bold text-white border-round m-2"
+      style="background-color: #009216; cursor: pointer"
+      (click)="fnMostrarBanderaSuccess()"
+    >
+      Éxito - Sencillo
+    </div>
+    <div
+      class="flex align-items-center justify-content-center w-10rem h-4rem font-bold text-white border-round m-2"
+      style="background-color: #009216; cursor: pointer"
+      (click)="fnMostrarBanderaSuccess(false)"
+    >
+      Éxito - Múltiple
+    </div>
+    <div
+      class="flex align-items-center justify-content-center w-10rem h-4rem font-bold text-white border-round m-2"
+      style="background-color: #c22d2d; cursor: pointer"
+      (click)="fnMostrarBanderaError()"
+    >
+      Error
+    </div>
+    <div
+      class="flex align-items-center justify-content-center w-10rem h-4rem font-bold text-white border-round m-2"
+      style="background-color: #c22d2d; cursor: pointer"
+      (click)="fnMostrarBanderaError(false)"
+    >
+      Error - Múltiple
+    </div>
+    <div
+      class="flex align-items-center justify-content-center w-10rem h-4rem font-bold text-white border-round m-2"
+      style="background-color: #facb36; cursor: pointer"
+      (click)="fnMostrarBanderaWarn()"
+    >
+      Advertencia
+    </div>
+    <div
+      class="flex align-items-center justify-content-center w-15rem h-4rem font-bold text-white border-round m-2"
+      style="background-color: #facb36; cursor: pointer"
+      (click)="fnMostrarBanderaWarn(false)"
+    >
+      Advertencia - Múltiple
+    </div>
+  </div>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Evento del Sistema"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <p-messages
+    *ngIf="oEventoSistema.bMostrar"
+    [severity]="oEventoSistema.sTipo"
+    [enableService]="false"
+    [closable]="false"
+    [showTransitionOptions]="'500ms'"
+    [hideTransitionOptions]="'500ms'"
+    [escape]="true"
+  >
+    <ng-template pTemplate>
+      <div class="flex align-content-center align-items-center col-12 p-0">
+        <div
+          class="flex-wrap align-items-center contenido md:col-10 p-0 ml-5"
+          style="font-weight: 600"
+        >
+          <i [class]="'pi pi-' + oEventoSistema.sIcono + ' text-xl mr-3'"></i>
+          <span class="encabezado" *ngIf="oEventoSistema.bEsMultiple">{{
+            oEventoSistema.sEncabezado
+          }}</span>
+
+          <span class="md:col-3">{{ oEventoSistema.sMensaje }}</span>
+
+          <div class="md:col-8">
+            <p-progressBar
+              [showValue]="false"
+              [value]="nValorProgress"
+              [style]="{ height: '10px', 'margin-top': '4px' }"
+              *ngIf="oEventoSistema.bEsEvento"
+            ></p-progressBar>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-messages>
+
+  <div class="flex flex-row flex-wrap card-container blue-container">
+    <div
+      class="flex align-items-center justify-content-center w-20rem h-4rem font-bold text-white border-round m-2"
+      style="background-color: gray; cursor: pointer"
+      (click)="fnMostrarEventoSistema()"
+    >
+      Lanzar Evento del Sistema
+    </div>
+  </div>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Loading"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <div class="flex flex-row flex-wrap card-container blue-container">
+    <div
+      class="flex align-items-center justify-content-center w-10rem h-4rem font-bold text-white border-round m-2"
+      style="background-color: gray; cursor: pointer"
+      (click)="fnMostrarLoading()"
+    >
+      Lanzar Loading
+    </div>
+  </div>
+
+  <p-dialog
+    id="loading"
+    [(visible)]="bVisibleLoading"
+    [modal]="true"
+    [style]="{ width: '20vw' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <div class="flex flex-column">
+      <div class="text-center">
+        <img src="assets/layout/images/logo2.png" width="100" />
+      </div>
+      <div class="grid col-12 md:col-12">
+        <div class="md:col-11 p-0 mt-2">
+          <p-progressBar
+            [showValue]="false"
+            [value]="nValorProgress"
+            [style]="{ height: '10px', 'margin-top': '4px' }"
+          ></p-progressBar>
+        </div>
+        <div
+          class="md:col-1 text-center loadingAzul"
+          [style]="{ 'margin-top': '2px' }"
+        >
+          {{ this.nValorProgress }}%
+        </div>
+      </div>
+      <div class="text-center loadingAzul">Cargando...</div>
+    </div>
+  </p-dialog>
+
+  <p-divider></p-divider>
+</div>

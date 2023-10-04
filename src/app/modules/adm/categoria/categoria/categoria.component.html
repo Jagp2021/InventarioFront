@@ -1,0 +1,123 @@
+<!-- Diálogo de confirmación -->
+<p-confirmDialog
+  [style]="{ width: '50vw' }"
+  [baseZIndex]="10000"
+></p-confirmDialog>
+
+<!-- Código base -->
+<div class="grid">
+  <div class="col-12 md:col-12 lg:col-12">
+    <div class="w-full surface-card border-round espacio-cardMHCP">
+      <div class="paginaMHCP">
+        <div class="flex col-12 md:col-12 lg:col-12 paginaMHCP-header">
+          <div class="col-8 md:col-8 lg:col-8 p-0 paginaMHCP-header-titulo">
+            <app-lbl-titulo
+              titulo="Categorías"
+              descripcion="Crear las 'categorías de transacciones del sistema' las cuales permiten clasificar las 'transacciones del sistema' de acuerdo con un rol del negocio, esta clasificación facilita la asignación a los 'usuarios del sistema' de 'perfiles de usuario'."
+            ></app-lbl-titulo>
+          </div>
+          <div class="col-4 md:col-4 lg:col-4 p-0 paginaMHCP-accionPrincipal">
+            <button
+              pButton
+              pRipple
+              label="crear categoria"
+              icon="pi pi-plus"
+              class="p-button-success"
+              (click)="crearCategoria()"
+            ></button>
+          </div>
+        </div>
+
+        <div class="paginaMHCP-contenedor">
+          <div class="col-12 md:col-12 lg:col-12 p-0">
+            <app-lbl-subtitulo
+              subtitulo="Categorías de transacción existentes"
+              [bEsSubtituloPrincipal]="false"
+            ></app-lbl-subtitulo>
+
+            <p-table
+              #dt
+              styleClass="p-datatable-gridlines p-datatable-striped"
+              selectionMode="single"
+              [value]="lCategorias"
+              [scrollable]="false"
+              [tableStyle]="{ 'min-width': '50rem' }"
+              [rowHover]="true"
+              [paginator]="lCategorias.length > 10"
+              [rows]="10"
+              [rowsPerPageOptions]="[10, 25, 50]"
+              currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+              [showCurrentPageReport]="true"
+              [globalFilterFields]="['descripcion', 'codigo']"
+            >
+              <ng-template
+                pTemplate="caption"
+                style="display: flex; justify-content: flex-start"
+              >
+                <div>
+                  <span class="p-input-icon-right ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input
+                      pInputText
+                      type="text"
+                      (input)="applyFilterGlobal($event, 'contains')"
+                      placeholder="Buscar..."
+                      [style]="{ width: '100%' }"
+                    />
+                  </span>
+                </div>
+              </ng-template>
+
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="descripcion">
+                    Nombre de la categoria
+                    <p-sortIcon field="descripcion"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="codigo">
+                    Código <p-sortIcon field="codigo"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="activo">
+                    Estado <p-sortIcon field="activo"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-lista let-ri="rowIndex">
+                <tr
+                  (mouseenter)="
+                    fnMostrarOcultarBotones($event, ri, true, 'tb-catgs')
+                  "
+                  (mouseleave)="
+                    fnMostrarOcultarBotones($event, ri, false, 'tb-catgs')
+                  "
+                  [pSelectableRow]="lista"
+                >
+                  <td>{{ lista.descripcion }}</td>
+                  <td>{{ lista.codigo }}</td>
+                  <td>{{ lista.activo | estadoPipe }}</td>
+
+                  <div id="button-{{ ri }}-tb-catgs" class="no-mostrar">
+                    <button
+                      pButton
+                      pRipple
+                      icon="pi pi-pencil"
+                      class="botonTableMHCP p-button-success colorVerdeMHCP"
+                      pTooltip="Editar"
+                      (click)="editarCategoria(lista)"
+                    ></button>
+                  </div>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="5">No se han encontrado registrados.</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

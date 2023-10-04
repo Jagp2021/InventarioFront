@@ -1,0 +1,440 @@
+<!-- Filtros Genéricos -->
+<app-filtro-catalogo
+  [sId]="'fc1'"
+  [sTituloHeader]="'Ámbito aplicación PGN'"
+  [oInformacionFiltro]="aPosicionesPgn"
+  [oCamposFormulario]="oCamposFormularioPGN"
+  [bEsMultiple]="true"
+  [bDevolverSoloID]="false"
+  [bAbrirFiltro]="bAbrirFiltroPosicionPgn"
+  [bGuardarLocalStorage]="true"
+  [aNiveles]="[]"
+  (bCerrarFiltro)="fnObtenerCierreFiltroPosicionPgn($event)"
+  (aPosicionesCatalogosEmitadas)="fnObtenerDataFiltroPosicionPgn($event)"
+></app-filtro-catalogo>
+
+<app-filtro-catalogo
+  [sId]="'fc2'"
+  [sTituloHeader]="'Ámbito aplicación No PGN'"
+  [oInformacionFiltro]="aPosicionesNoPgn"
+  [oCamposFormulario]="oCamposFormularioNoPGN"
+  [bEsMultiple]="true"
+  [bDevolverSoloID]="false"
+  [bAbrirFiltro]="bAbrirFiltroPosicionNoPgn"
+  [bGuardarLocalStorage]="true"
+  [aNiveles]="[]"
+  (bCerrarFiltro)="fnObtenerCierreFiltroPosicionNoPgn($event)"
+  (aPosicionesCatalogosEmitadas)="fnObtenerDataFiltroPosicionNoPgn($event)"
+></app-filtro-catalogo>
+
+<!-- Código Base -->
+
+<div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Ámbito aplicacion PGN"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+  <form [formGroup]="formAmbitoPgn" autocomplete="off" class="col-12 pb-0">
+    <div class="formgrid grid">
+      <div class="field col-4 mt-3 p-0">
+        <div class="formgroup-inline">
+          <div class="col-6 p-0">
+            <div class="field-radiobutton">
+              <p-checkbox
+                name="groupname"
+                value="val1"
+                formControlName="restringir"
+                [binary]="true"
+                (onChange)="checkSeleccionadoPgn('restringir')"
+              ></p-checkbox>
+              <label for="city1">Restringir</label>
+            </div>
+          </div>
+          <div class="col-6 p-0">
+            <div class="field-radiobutton">
+              <p-checkbox
+                name="groupname"
+                value="val2"
+                formControlName="noRestringir"
+                [binary]="true"
+                (onChange)="checkSeleccionadoPgn('noRestringir')"
+              ></p-checkbox>
+              <label for="city1">No Restringir</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field col-4 md:col-4 FG-MHCP">
+        <label class="frm-titulo">Posición de Catalogo</label>
+        <span class="p-input-icon-right cursor-pointer">
+          <i
+            class="pi pi-search"
+            (click)="fnAbrirFiltroTransaccionPosicionPgn()"
+            style="z-index: 9999"
+          ></i>
+
+          <p-dropdown
+            [options]="aNombreMostrarPosicionPgn"
+            optionLabel="nombre"
+            optionValue="nombre"
+            [dropdownIcon]="'none'"
+            [readonly]="true"
+          ></p-dropdown>
+        </span>
+      </div>
+      <!-- <div class="field col-3 md:col-3 mt-3 ml-5">
+        <button
+          pButton
+          pRipple
+          icon="pi pi-plus"
+          label="Agregar"
+          class="p-button-success colorVerdeMHCP"
+          type="submit"
+          (click)="buscarCatalogoPgn()"
+        ></button>
+      </div> -->
+    </div>
+  </form>
+</div>
+
+<div class="col-12 p-0" *ngIf="aPosicionesPgn.length > 0">
+  <div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+    <app-lbl-subtitulo
+      subtitulo="Unidades/Subunidades PGN agregar"
+      [bEsSubtituloPrincipal]="false"
+    ></app-lbl-subtitulo>
+
+    <!-- TODO: GENERAR CAMBIOS DE LÍNEA GRÁFICA -->
+    <p-table
+      #dt
+      styleClass="p-datatable-gridlines p-datatable-striped"
+      selectionMode="single"
+      [loading]="false"
+      [value]="aPosicionesPgn"
+      [scrollable]="false"
+      [tableStyle]="{ 'min-width': '50rem' }"
+      [rowHover]="true"
+      [paginator]="aPosicionesPgn.length > 10"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+      [showCurrentPageReport]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="codigo">
+            Código <p-sortIcon field="codigo"></p-sortIcon>
+          </th>
+          <th pSortableColumn="nombre">
+            Nombre <p-sortIcon field="nombre"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-aPosicionesPgn let-ri="rowIndex">
+        <tr
+          (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-rusub')"
+          (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-rusub')"
+          [pSelectableRow]="aPosicionesPgn"
+        >
+          <td>{{ aPosicionesPgn.data.codigo }}</td>
+          <td>{{ aPosicionesPgn.data.nombre }}</td>
+
+          <div #actions id="button-{{ ri }}-tb-rusub" class="no-mostrar">
+            <button
+              pButton
+              pRipple
+              pTooltip="Eliminar"
+              tooltipPosition="top"
+              type="button"
+              icon="pi pi-trash"
+              class="botonTableMHCP colorRojoMHCP"
+              (click)="eliminarRestriccionUnidadPgnFiltro(aPosicionesPgn, ri)"
+            ></button>
+          </div>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td colspan="2" class="text-center">
+            No se han encontrado registrados.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Unidades/Subunidades PGN Existentes"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+  <p-table
+    #dt
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    selectionMode="single"
+    [loading]="false"
+    [value]="oListaUnidadPgn"
+    [scrollable]="false"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowHover]="true"
+    [paginator]="oListaUnidadPgn.length > 10"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="codigo">
+          Código <p-sortIcon field="codigo"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nombre">
+          Nombre <p-sortIcon field="nombre"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-oListaUnidadPgn let-ri="rowIndex">
+      <tr
+        (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-uni')"
+        (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-uni')"
+        [pSelectableRow]="oListaUnidadPgn"
+      >
+        <td>{{ oListaUnidadPgn.valorEntidadPci.codigo }}</td>
+        <td>
+          {{ oListaUnidadPgn.valorEntidadPci.nombre }}
+        </td>
+
+        <div id="button-{{ ri }}-tb-uni" class="no-mostrar">
+          <button
+            pButton
+            pRipple
+            pTooltip="Eliminar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-trash"
+            class="botonTableMHCP colorRojoMHCP"
+            (click)="eliminarRestriccionUnidadPgn(oListaUnidadPgn, ri)"
+          ></button>
+        </div>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="2" class="text-center">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+  <hr />
+</div>
+
+<div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Ámbito aplicacion No PGN"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form [formGroup]="formAmbitoNoPgn" autocomplete="off" class="col-12 pb-0">
+    <div class="formgrid grid p-fluid">
+      <div class="field col-4 mt-3 p-0">
+        <div class="formgroup-inline">
+          <div class="col-6 p-0">
+            <div class="field-radiobutton">
+              <p-checkbox
+                name="groupnames"
+                value="val"
+                formControlName="restringir"
+                [binary]="true"
+                (onChange)="checkSeleccionadoNoPgn('restringir')"
+              ></p-checkbox>
+              <label for="city1">Restringir</label>
+            </div>
+          </div>
+          <div class="col-6 p-0">
+            <div class="field-radiobutton">
+              <p-checkbox
+                name="groupnames"
+                value="val3"
+                formControlName="noRestringir"
+                [binary]="true"
+                (onChange)="checkSeleccionadoNoPgn('noRestringir')"
+              ></p-checkbox>
+              <label for="city1">No Restringir</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="field col-4 md:col-4 FG-MHCP">
+        <label htmlfor="categoria" class="frm-titulo"
+          >Posición de Catalogo</label
+        >
+        <span class="p-input-icon-right cursor-pointer">
+          <i
+            class="pi pi-search"
+            (click)="fnAbrirFiltroTransaccionPosicionNoPgn()"
+            style="z-index: 9999"
+          ></i>
+
+          <p-dropdown
+            [options]="aNombreMostrarPosicionNoPgn"
+            optionLabel="nombre"
+            optionValue="nombre"
+            [dropdownIcon]="'none'"
+            [readonly]="true"
+          ></p-dropdown>
+        </span>
+      </div>
+
+      <!-- <div class="field col-3 md:col-3 mt-3 ml-5">
+        <button
+          pButton
+          pRipple
+          icon="pi pi-plus"
+          label="Agregar"
+          class="p-button-success colorVerdeMHCP"
+          type="submit"
+          (click)="buscarCatalogoNoPgn()"
+        ></button>
+      </div> -->
+    </div>
+  </form>
+</div>
+
+<div
+  class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP"
+  *ngIf="aPosicionesNoPgn.length > 0"
+>
+  <app-lbl-subtitulo
+    subtitulo="Unidades/Subunidades No PGN Agregar"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <p-table
+    #dt
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    selectionMode="single"
+    [loading]="false"
+    [value]="aPosicionesNoPgn"
+    [scrollable]="false"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowHover]="true"
+    [paginator]="aPosicionesNoPgn.length > 10"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="codigo">
+          Código <p-sortIcon field="codigo"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nombre">
+          Nombre <p-sortIcon field="nombre"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-aPosicionesNoPgn let-ri="rowIndex">
+      <tr
+        (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-posngn')"
+        (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-posngn')"
+        [pSelectableRow]="aPosicionesNoPgn"
+      >
+        <td>{{ aPosicionesNoPgn.data.codigo }}</td>
+        <td>{{ aPosicionesNoPgn.data.nombre }}</td>
+
+        <div id="button-{{ ri }}-tb-posngn" class="no-mostrar">
+          <button
+            pButton
+            pRipple
+            pTooltip="Eliminar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-trash"
+            class="botonTableMHCP colorRojoMHCP"
+            (click)="eliminarRestriccionUnidadNoPgnFiltro(aPosicionesNoPgn, ri)"
+          ></button>
+        </div>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="2" class="text-center">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<app-lbl-subtitulo
+  subtitulo="Unidades/Subunidades No PGN Existentes"
+  [bEsSubtituloPrincipal]="false"
+></app-lbl-subtitulo>
+<p-table
+  #dt
+  styleClass="p-datatable-gridlines p-datatable-striped"
+  selectionMode="single"
+  [loading]="false"
+  [value]="oListaUnidadNoPgn"
+  [scrollable]="false"
+  [tableStyle]="{ 'min-width': '50rem' }"
+  [rowHover]="true"
+  [paginator]="oListaUnidadNoPgn.length > 10"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="codigo">
+        Código <p-sortIcon field="codigo"></p-sortIcon>
+      </th>
+      <th pSortableColumn="nombre">
+        Nombre <p-sortIcon field="nombre"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-oListaUnidadNoPgn let-ri="rowIndex">
+    <tr
+      (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-npgn')"
+      (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-npgn')"
+      [pSelectableRow]="oListaUnidadNoPgn"
+    >
+      <td>{{ oListaUnidadNoPgn.valorEntidadPci.codigo }}</td>
+      <td>
+        {{ oListaUnidadNoPgn.valorEntidadPci.nombre }}
+      </td>
+
+      <div id="button-{{ ri }}-tb-npgn" class="no-mostrar">
+        <button
+          pButton
+          pRipple
+          pTooltip="Eliminar"
+          tooltipPosition="top"
+          type="button"
+          icon="pi pi-trash"
+          class="botonTableMHCP colorRojoMHCP"
+          (click)="eliminarRestriccionUnidadNoPgn(oListaUnidadNoPgn, ri)"
+        ></button>
+      </div>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="2" class="text-center">No se han encontrado registrados.</td>
+    </tr>
+  </ng-template>
+</p-table>

@@ -1,0 +1,48 @@
+.p-picklist-buttons > button {
+  width: 2.5rem !important;
+}
+.p-breadcrumb .p-menuitem-text {
+  text-transform: capitalize;
+}
+span.p-autocomplete {
+  width: 100% !important;
+}
+.btn-accion-derecha {
+  width: 50px !important;
+  height: 40px !important;
+  border-top-left-radius: 16px;
+  background-color: var(--primary-color);
+  position: fixed;
+  bottom: 100px;
+  right: 0px;
+  border: 1px solid var(--primary-color);
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  & i.icono {
+    color: #ffffff;
+    font-size: 25px;
+    line-height: 2;
+  }
+}
+.p-autocomplete-panel .p-autocomplete-items .p-autocomplete-item:hover {
+  color: #495057;
+  background: rgba(27, 187, 43, 0.3) !important;
+}
+span.p-input-icon-right,
+span.p-input-icon-left {
+  width: 100% !important;
+
+  & > i {
+    color: #2d77c2 !important;
+  }
+}
+.p-picklist .p-picklist-list .p-picklist-item {
+  h6 {
+    font-weight: 400;
+    font-size: 0.938rem;
+  }
+}

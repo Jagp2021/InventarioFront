@@ -1,0 +1,88 @@
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Filtro Sencillo"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form>
+    <div class="field col-12 md:col-2">
+      <label htmlfor="name1" class="frm-titulo">Transacciones</label>
+
+      <input
+        pInputText
+        id="codigo"
+        type="text"
+        placeholder="Agregar código"
+        class="p-inputtext"
+        formControlName="sigla"
+        autofocus
+      />
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Filtro Búsqueda Extra"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form>
+    <div class="field col-12 md:col-2">
+      <label htmlfor="name1" class="frm-titulo">Transacciones</label>
+
+      <span class="p-input-icon-right cursor-pointer">
+        <i class="pi pi-search" style="z-index: 9999"></i>
+
+        <p-dropdown
+          [options]="[]"
+          optionLabel="nombre"
+          optionValue="id"
+          [dropdownIcon]="'none'"
+          [readonly]="true"
+          placeholder="Buscar transacción"
+          [showClear]="true"
+        ></p-dropdown>
+      </span>
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Filtro Atributo Desplegable"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <h6><i class="pi pi-exclamation-triangle"></i> En contrucción...</h6>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Autocomplete"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form>
+    <div class="field col-12 md:col-2">
+      <label htmlfor="numDoc" class="frm-titulo">No. Documento</label>
+
+      <p-autoComplete
+        field=""
+        placeholder="Ingrese documento"
+        [suggestions]="aNumDocsFiltrados"
+        [minLength]="1"
+        [dropdown]="false"
+        (completeMethod)="fnFiltrarNumDoc($event)"
+      ></p-autoComplete>
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>

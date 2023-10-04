@@ -1,0 +1,302 @@
+<!-- Dialogo de Confirmación -->
+<p-confirmDialog
+  [key]="'cf-frm-desvincular'"
+  [style]="{ width: '40vw' }"
+  [baseZIndex]="10000"
+  [header]="'Desvincular / Vincular  la cuenta bancaria'"
+></p-confirmDialog>
+
+<p-confirmDialog
+  [key]="'cf-frm-cerrarmd'"
+  [style]="{ width: '40vw' }"
+  [baseZIndex]="10000"
+></p-confirmDialog>
+
+<!-- Mensaje bandera -->
+<p-messages
+  [(value)]="oMensajeBandera"
+  [enableService]="false"
+  [closable]="true"
+></p-messages>
+
+<!-- Código Base -->
+<div class="flex justify-content-center col-12 p-0">
+  <div class="flex align-items-center justify-content-center flex-column col-8">
+    <hr [ngStyle]="{ border: '1px solid #bbc2c8', width: '100%' }" />
+    <span class="font-semibold" *ngIf="aCuentasBancarias.length === 0"
+      >No se han registrado cuentas bancarias para este tercero.</span
+    >
+  </div>
+</div>
+
+<div class="field col-12 p-0 mt-3" *ngIf="aCuentasBancarias.length > 0">
+  <p-table
+    #dt
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    selectionMode="single"
+    [loading]="bCargarLoading"
+    [value]="aCuentasBancarias"
+    [scrollable]="false"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowHover]="true"
+    [paginator]="aCuentasBancarias.length > 10"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="entidadFinanciera">
+          Entidad financiera
+          <p-sortIcon field="entidadFinanciera"></p-sortIcon>
+        </th>
+        <th pSortableColumn="tipoCuenta">
+          Tipo cuenta <p-sortIcon field="tipoCuenta"></p-sortIcon>
+        </th>
+        <th pSortableColumn="numeroCuenta">
+          No. de cuenta <p-sortIcon field="numeroCuenta"></p-sortIcon>
+        </th>
+        <th pSortableColumn="tipoMoneda">
+          Tipo moneda <p-sortIcon field="tipoMoneda"></p-sortIcon>
+        </th>
+        <th pSortableColumn="fechaCreacion">
+          Fecha creación <p-sortIcon field="fechaCreacion"></p-sortIcon>
+        </th>
+        <th pSortableColumn="estado">
+          Estado <p-sortIcon field="estado"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-cuentasBancarias let-ri="rowIndex">
+      <tr
+        (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-cutban')"
+        (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-cutban')"
+        [pSelectableRow]="cuentasBancarias"
+      >
+        <td>
+          <div class="flex justify-content-between">
+            {{ cuentasBancarias.nombreEntidadFinanciera }}
+            <ng-container *ngIf="!cuentasBancarias.activo"
+              ><i
+                class="pi pi-bookmark-fill"
+                pTooltip="Desvinculada"
+                tooltipPosition="top"
+              ></i
+            ></ng-container>
+          </div>
+        </td>
+        <td>{{ cuentasBancarias.descripcionTipoCuenta }}</td>
+        <td>{{ cuentasBancarias.numeroCuenta }}</td>
+        <td>{{ cuentasBancarias.tipoMoneda }}</td>
+        <td>{{ cuentasBancarias.fechaCreacion | date : "yyyy-MM-dd" }}</td>
+        <td>
+          {{ cuentasBancarias.descripcionEstadoCuentaBancaria }}
+        </td>
+
+        <div id="button-{{ ri }}-tb-cutban" class="no-mostrar">
+          <button
+            pButton
+            pRipple
+            pTooltip="Editar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-pencil"
+            class="botonTableMHCP p-button-success colorVerdeMHCP"
+            (click)="fnEditarCuentaBancaria(ri, cuentasBancarias)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            [pTooltip]="cuentasBancarias.activo ? 'Desvincular' : 'Vincular'"
+            tooltipPosition="top"
+            type="button"
+            class="botonTableMHCP colorAzulMHCP"
+            (click)="
+              fnVincularCuentaBancaria(
+                cuentasBancarias,
+                cuentasBancarias.activo ? 'Desvincular' : 'Vincular'
+              )
+            "
+            [disabled]="!cuentasBancarias.activo || cuentasBancarias.esTemporal"
+          >
+            <span class="material-icons">
+              {{ cuentasBancarias.activo ? "link_off" : "link" }}
+            </span>
+          </button>
+        </div>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center nr-border">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  [header]="'Modificar cuenta bancaria a tercero'"
+  [(visible)]="bDisplayModal"
+  [modal]="true"
+  [style]="{ width: '55vw' }"
+  [baseZIndex]="10000"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <form
+    class="field col-12 p-0"
+    [formGroup]="frmEditarCuenta"
+    autocomplete="off"
+  >
+    <div class="col-12 p-0">
+      <app-lbl-subtitulo
+        subtitulo="Datos de la entidad financiera"
+        [bEsSubtituloPrincipal]="false"
+      ></app-lbl-subtitulo>
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-12">
+        <label htmlfor="codigo" class="frm-titulo">Razón Social</label>
+        <div class="col-12 p-0">
+          <input
+            type="text"
+            pInputText
+            formControlName="nombreEntidadFinanciera"
+          />
+        </div>
+      </div>
+
+      <div class="col-12 mt-3">
+        <app-lbl-subtitulo
+          subtitulo="Datos de la entidad financiera"
+          [bEsSubtituloPrincipal]="false"
+        ></app-lbl-subtitulo>
+      </div>
+
+      <div class="field col-4 md:col-4">
+        <label htmlfor="tipoMoneda" class="frm-titulo"
+          >Tipo Moneda <span class="required">*</span></label
+        >
+
+        <div class="col-12 p-0">
+          <p-dropdown
+            filterBy="descripcion"
+            placeholder="Seleccione tipo moneda"
+            formControlName="tipoMoneda"
+            optionValue="sigla"
+            optionLabel="sOpcionConcatenada"
+            class="mt-1"
+            [options]="aTipoMoneda"
+            [filter]="true"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="field col-4 md:col-4">
+        <label htmlfor="tipoCuenta" class="frm-titulo"
+          >Tipo Cuenta Bancaria
+        </label>
+
+        <div class="col-12 p-0">
+          <p-dropdown
+            filterBy="descripcion"
+            placeholder="Seleccione tipo cuenta bancaria"
+            formControlName="tipoCuenta"
+            optionValue="sigla"
+            optionLabel="descripcion"
+            class="mt-1"
+            [options]="aTipoCuentaBancaria"
+            [filter]="true"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="field col-4 md:col-4">
+        <label htmlfor="estado" class="frm-titulo"
+          >Estado <span class="required">*</span></label
+        >
+
+        <div class="col-12 p-0">
+          <p-dropdown
+            filterBy="descripcion"
+            placeholder="Seleccione estado cuenta bancaria"
+            formControlName="estadoCuentaBancaria"
+            optionValue="sigla"
+            optionLabel="descripcion"
+            class="mt-1"
+            [options]="aEstadosCuenta"
+            [filter]="true"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="field col-4 md:col-4">
+        <label htmlfor="numeroCuenta" class="frm-titulo"
+          >Número de cuenta</label
+        >
+
+        <div class="col-12 p-0">
+          <input
+            pInputText
+            id="numeroCuenta"
+            type="text"
+            placeholder="Descripción del valor"
+            class="p-inputtext"
+            formControlName="numeroCuenta"
+          />
+        </div>
+      </div>
+
+      <div class="field col-4 md:col-4">
+        <label htmlfor="fechaCreacion" class="frm-titulo"
+          >Fecha Creación
+        </label>
+
+        <div class="col-12 p-0">
+          <p-calendar
+            [showIcon]="true"
+            placeholder="AAAA-MM-DD"
+            dateFormat="yy-mm-dd"
+            formControlName="fechaCreacion"
+            dataType="string"
+          ></p-calendar>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="col-12 flex justify-content-end mt-5 gap-2 p-0"
+      style="margin-bottom: -15px"
+    >
+      <button
+        pButton
+        pRipple
+        icon="pi pi-times"
+        label="Cancelar"
+        class="colorRojoMHCP"
+        (click)="fnCerrarModal(true)"
+      ></button>
+      <button
+        pButton
+        pRipple
+        icon="pi pi-check"
+        label="Aceptar"
+        class="p-button-success colorVerdeMHCP"
+        type="submit"
+        [disabled]="frmEditarCuenta.invalid"
+        (click)="fnEditarTempCuentaBancaria()"
+      ></button>
+    </div>
+  </form>
+</p-dialog>

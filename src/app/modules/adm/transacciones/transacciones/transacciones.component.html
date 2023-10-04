@@ -1,0 +1,67 @@
+<!-- Código base -->
+<div class="grid">
+  <div class="col-12 md:col-12 lg:col-12">
+    <div class="w-full surface-card border-round espacio-cardMHCP">
+      <div class="paginaMHCP">
+        <div class="flex col-12 md:col-12 lg:col-12 paginaMHCP-header">
+          <div class="col-8 md:col-8 lg:col-8 p-0 paginaMHCP-header-titulo">
+            <app-lbl-titulo
+              titulo="Transacciones"
+              descripcion="Permite crear y modificar las transacciones del sistema y definir sus parámetros."
+            ></app-lbl-titulo>
+          </div>
+          <div class="col-4 md:col-4 lg:col-4 p-0 paginaMHCP-accionPrincipal">
+            <button
+              pButton
+              pRipple
+              label="crear transacción"
+              icon="pi pi-plus"
+              class="p-button-success"
+              (click)="crearTransaccion()"
+            ></button>
+          </div>
+        </div>
+
+        <div class="paginaMHCP-contenedor">
+          <div class="col-12 md:col-12 lg:col-12 p-0">
+            <app-lbl-subtitulo
+              subtitulo="Libreria de transacciones del sistema"
+              [bEsSubtituloPrincipal]="false"
+            ></app-lbl-subtitulo>
+
+            <app-com-tabla-transacciones></app-com-tabla-transacciones>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="grid">
+  <div class="col-12 lg:col-12 mt-5">
+    <app-lbl-titulo
+      titulo="Transacciones"
+      descripcion="Permite crear y modificar las transacciones del sistema y definir sus parámetros."
+    ></app-lbl-titulo>
+  </div>
+
+  <div class="col-12 lg:col-12">
+    <p-card styleClass="shadow-2" class="p-fluid">
+      <app-lbl-subtitulo
+        subtitulo="Libreria de transacciones del sistema"
+      ></app-lbl-subtitulo>
+      <div class="formgroup-inline justify-content-end">
+        <button
+          pButton
+          pRipple
+          label="crear transacción"
+          icon="pi pi-plus"
+          class="p-button-success"
+          (click)="crearTransaccion()"
+        ></button>
+      </div>
+      <br />
+      <app-com-tabla-transacciones></app-com-tabla-transacciones>
+    </p-card>
+  </div>
+</div> -->

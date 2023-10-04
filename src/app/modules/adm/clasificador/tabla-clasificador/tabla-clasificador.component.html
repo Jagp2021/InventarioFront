@@ -1,0 +1,99 @@
+<!-- Toast -->
+<p-toast></p-toast>
+
+<!-- Código Base -->
+<p-table
+  #dt
+  styleClass="p-datatable-gridlines p-datatable-striped"
+  selectionMode="single"
+  [loading]="loadingTabla"
+  [value]="lista"
+  [scrollable]="false"
+  [rowHover]="true"
+  [paginator]="lista.length > 10"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  [globalFilterFields]="[
+    'descripcion',
+    'DescripcionFuncionCatalogo',
+    'topeCaracteres',
+    'activo'
+  ]"
+>
+  <ng-template
+    pTemplate="caption"
+    style="display: flex; justify-content: flex-start"
+  >
+    <div>
+      <span class="p-input-icon-right ml-auto">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          (input)="applyFilterGlobal($event, 'contains')"
+          placeholder="Buscar..."
+          [style]="{ width: '100%' }"
+        />
+      </span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="descripcion">
+        Descripción <p-sortIcon field="descripcion"></p-sortIcon>
+      </th>
+      <th pSortableColumn="DescripcionFuncionCatalogo">
+        Función Catálogo
+        <p-sortIcon field="DescripcionFuncionCatalogo"></p-sortIcon>
+      </th>
+      <th pSortableColumn="topeCaracteres">
+        TopeCaracteres <p-sortIcon field="topeCaracteres"></p-sortIcon>
+      </th>
+      <th pSortableColumn="activo">
+        Estado <p-sortIcon field="activo"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-lista let-ri="rowIndex">
+    <tr
+      (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-clsif')"
+      (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-clsif')"
+      [pSelectableRow]="lista"
+    >
+      <td>{{ lista.descripcion }}</td>
+      <td>{{ lista.DescripcionFuncionCatalogo }}</td>
+      <td>{{ lista.topeCaracteres }}</td>
+      <td>{{ lista.activo | estadoPipe }}</td>
+
+      <div id="button-{{ ri }}-tb-clsif" class="no-mostrar">
+        <button
+          pButton
+          pRipple
+          pTooltip="Editar"
+          tooltipPosition="top"
+          icon="pi pi-pencil"
+          class="botonTableMHCP p-button-success colorVerdeMHCP"
+          (click)="editarFila(lista)"
+        ></button>
+        <button
+          pButton
+          pRipple
+          pTooltip="Copiar Clasificador"
+          tooltipPosition="top"
+          icon="pi pi-file-edit"
+          class="botonTableMHCP p-button-info colorAzulMHCP"
+          (click)="copiarFila(lista)"
+        ></button>
+      </div>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5">No se han encontrado registrados.</td>
+    </tr>
+  </ng-template>
+</p-table>

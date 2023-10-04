@@ -1,0 +1,35 @@
+.p-steps.p-steps-completed-1
+  .p-steps-item:nth-child(1)
+  .p-menuitem-link
+  .p-steps-number,
+.p-steps.p-steps-completed-2
+  .p-steps-item:nth-child(2)
+  .p-menuitem-link
+  .p-steps-number,
+.p-steps.p-steps-completed-3
+  .p-steps-item:nth-child(3)
+  .p-menuitem-link
+  .p-steps-number,
+.p-steps.p-steps-completed-4
+  .p-steps-item:nth-child(4)
+  .p-menuitem-link
+  .p-steps-number,
+.p-steps.p-steps-completed-5
+  .p-steps-item:nth-child(5)
+  .p-menuitem-link
+  .p-steps-number,
+.p-steps.p-steps-completed-6
+  .p-steps-item:nth-child(6)
+  .p-menuitem-link
+  .p-steps-number {
+  background: #3589d4 !important;
+  color: white !important;
+}
+
+.p-steps {
+  .p-steps-item[aria-selected="true"][aria-expanded="true"] {
+    .p-steps-number {
+      // background-color: #009216;
+    }
+  }
+}

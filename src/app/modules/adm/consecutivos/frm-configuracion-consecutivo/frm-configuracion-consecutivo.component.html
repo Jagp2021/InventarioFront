@@ -1,0 +1,72 @@
+<p-toast></p-toast>
+
+<p-confirmDialog
+  [style]="{ width: '55vw' }"
+  [baseZIndex]="10000"
+  [header]="'Cancelar operación'"
+></p-confirmDialog>
+<div class="formgrid grid p-fluid">
+  <div class="field col-4 md:col-4">
+    <label htmlfor="name1" class="frm-titulo mr-3">Nombre: </label>
+    <span>{{ sigla }}</span>
+  </div>
+  <div class="field col-6 md:col-6">
+    <label htmlfor="name1" class="frm-titulo mr-3">Descripción: </label>
+    <span>{{ descripcion }}</span>
+  </div>
+</div>
+
+<form [formGroup]="frmConfiguracionConsecutivo">
+  <div class="formgrid grid p-fluid">
+    <div class="field col-4">
+      <label htmlfor="name1" class="frm-titulo"
+        >Generación de consecutivo</label
+      >
+
+      <div class="formgroup-inline">
+        <div class="col-6 md:col-6">
+          <div class="field-radiobutton mt-2">
+            <p-radioButton
+              name="entidadPci"
+              [value]="true"
+              class="p-element"
+              formControlName="entidadPci"
+            ></p-radioButton>
+            <label for="city1">PCI</label>
+          </div>
+        </div>
+
+        <div class="col-6 md:col-6">
+          <div class="field-radiobutton mt-2">
+            <p-radioButton
+              name="entidadPci"
+              [value]="false"
+              class="p-element"
+              formControlName="entidadPci"
+            ></p-radioButton>
+            <label for="city1">General</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<div class="col-12 md:col-12 lg:col-12 gap-2 paginaMHCP-footer">
+  <button
+    pButton
+    pRipple
+    label="CANCELAR"
+    class="colorRojoMHCP"
+    icon="pi pi-times"
+    (click)="cancelar()"
+  ></button>
+  <button
+    pButton
+    pRipple
+    label="ACEPTAR"
+    class="p-button-success colorVerdeMHCP"
+    icon="pi pi-check"
+    (click)="crearConsecutivo()"
+    [disabled]="frmConfiguracionConsecutivo.invalid"
+  ></button>
+</div>

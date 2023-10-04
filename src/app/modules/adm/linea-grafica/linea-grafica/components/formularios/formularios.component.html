@@ -1,0 +1,521 @@
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Listas Dropdown"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form id="frm1" class="col-12 p-0" autocomplete="off">
+    <div class="col-6 p-0">
+      <p-dropdown
+        filterBy="tipo"
+        placeholder="Seleccione..."
+        formControlName="tipoTransaccion"
+        optionValue="tipo"
+        optionLabel="tipo"
+        class="mt-1"
+        [options]="[]"
+        [filter]="false"
+        [showClear]="false"
+      >
+      </p-dropdown>
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Multiselección"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form id="frm2" class="col-12 p-0" autocomplete="off">
+    <div class="field col-12 md:col-6">
+      <label htmlfor="TipoFuncionalidad" class="frm-titulo"
+        >Relaciones entre listas</label
+      >
+
+      <div class="col-12 p-0">
+        <p-multiSelect
+          id="ms-reporte"
+          display="chip"
+          defaultLabel="Seleccionar relación entre listas"
+          emptyMessage="No se encontraron coincidencias"
+          [options]="['test1', 'test2', 'test3']"
+          [style]="{ width: '600px' }"
+          [panelStyle]="{ width: '600px' }"
+          [showClear]="true"
+        >
+        </p-multiSelect>
+      </div>
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Multidata"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form id="frm3" class="col-12 p-0" autocomplete="off"></form>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Radios, Checks y Switch"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form id="frm4" class="col-12 p-0" autocomplete="off">
+    <div class="card flex justify-content-center gap-3">
+      <div class="flex align-items-center">
+        <p-radioButton
+          name="pizza"
+          value="Cheese"
+          [(ngModel)]="ingredient"
+          inputId="ingredient1"
+        ></p-radioButton>
+        <label for="ingredient1" class="ml-2">Cheese</label>
+      </div>
+
+      <div class="flex align-items-center">
+        <p-radioButton
+          name="pizza"
+          value="Mushroom"
+          [(ngModel)]="ingredient"
+          inputId="ingredient2"
+        ></p-radioButton>
+        <label for="ingredient2" class="ml-2">Mushroom</label>
+      </div>
+
+      <div class="flex align-items-center">
+        <p-radioButton
+          name="pizza"
+          value="Pepper"
+          [(ngModel)]="ingredient"
+          inputId="ingredient3"
+        ></p-radioButton>
+        <label for="ingredient3" class="ml-2">Pepper</label>
+      </div>
+
+      <div class="flex align-items-center">
+        <p-radioButton
+          name="pizza"
+          value="Onion"
+          [(ngModel)]="ingredient"
+          inputId="ingredient4"
+        ></p-radioButton>
+        <label for="ingredient4" class="ml-2">Onion</label>
+      </div>
+    </div>
+
+    <div class="card flex justify-content-center gap-3">
+      <div class="flex align-items-center gap-1">
+        <p-checkbox
+          name="group1"
+          value="New York"
+          [(ngModel)]="selectedCities"
+          inputId="ny"
+        ></p-checkbox>
+        <label for="ny">New York</label>
+      </div>
+
+      <div class="flex align-items-center gap-1">
+        <p-checkbox
+          name="group1"
+          value="San Francisco"
+          [(ngModel)]="selectedCities"
+          inputId="sf"
+        ></p-checkbox>
+        <label for="sf">San Francisco</label>
+      </div>
+
+      <div class="flex align-items-center gap-1">
+        <p-checkbox
+          name="group1"
+          value="Los Angeles"
+          [(ngModel)]="selectedCities"
+          inputId="la"
+        ></p-checkbox>
+        <label for="la">Los Angeles</label>
+      </div>
+    </div>
+
+    <div class="card flex justify-content-center gap-3">
+      <div class="col-2 flex justify-content-between align-items-center mt-2">
+        <span _ngcontent-yup-c206="">OFF</span
+        ><p-inputSwitch
+          [(ngModel)]="checked"
+          [disabled]="false"
+          [ngModelOptions]="{ standalone: true }"
+        ></p-inputSwitch
+        ><span>ON</span>
+      </div>
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Textarea"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form id="frm6" class="col-12 p-0" autocomplete="off">
+    <textarea rows="5" cols="30" pInputTextarea [(ngModel)]="value"></textarea>
+  </form>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Calendario"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form id="frm6" class="col-12 p-0" autocomplete="off">
+    <div class="field col-12 md:col-3">
+      <label htmlfor="fecha" class="frm-titulo">Fecha</label>
+
+      <div class="col-12 p-0">
+        <p-calendar
+          placeholder="AAAA-MM-DD"
+          dateFormat="yy-mm-dd"
+          [readonlyInput]="true"
+          [showIcon]="true"
+          class="mt2 mb-5"
+        ></p-calendar>
+      </div>
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Múltiple Calendario"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form id="frm7" class="col-12 p-0" autocomplete="off">
+    <div class="field col-12 md:col-3">
+      <label htmlfor="fecha" class="frm-titulo">Fecha</label>
+
+      <div class="col-12 p-0">
+        <p-calendar
+          [showIcon]="true"
+          placeholder="AAAA-MM-DD"
+          dateFormat="yy-mm-dd"
+          [(ngModel)]="oDiasSeleccionados"
+          [disabledDates]="oListaFinesSemana"
+          [minDate]="fechaMinima"
+          [maxDate]="fechaMaxima"
+          selectionMode="multiple"
+          [numberOfMonths]="3"
+          dataType="string"
+        >
+        </p-calendar>
+      </div>
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Hora"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form id="frm8" class="col-12 p-0" autocomplete="off">
+    <div class="field col-12 md:col-3">
+      <label htmlfor="hora" class="frm-titulo">Hora</label>
+
+      <div class="col-12 p-0">
+        <p-calendar
+          placeholder="HH:MM"
+          icon="pi pi-clock"
+          [showIcon]="true"
+          [showTime]="true"
+          [readonlyInput]="true"
+          [hourFormat]="'12'"
+          [timeOnly]="true"
+          class="mt2 mb-5"
+        ></p-calendar>
+      </div>
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Formulario"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form
+    id="frm5"
+    class="col-12 p-0"
+    autocomplete="off"
+    [formGroup]="frmGenerarReporte"
+  >
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-6">
+        <label htmlfor="tipoTransaccion" class="frm-titulo"
+          >Tipo de transacción</label
+        >
+
+        <div class="col-12 p-0">
+          <p-dropdown
+            filterBy="tipo"
+            placeholder="Seleccione..."
+            formControlName="tipoTransaccion"
+            optionValue="tipo"
+            optionLabel="tipo"
+            class="mt-1"
+            [options]="[]"
+            [filter]="false"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label htmlfor="funcionNegocio" class="frm-titulo"
+          >Función de negocio</label
+        >
+
+        <div class="col-12 p-0">
+          <p-dropdown
+            placeholder="Seleccione..."
+            formControlName="funcionNegocio"
+            optionValue="funcion"
+            optionLabel="funcion"
+            class="mt-1"
+            [options]="[]"
+            [filter]="false"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label htmlfor="codigoTransaccion" class="frm-titulo"
+          >Código de transacción</label
+        >
+
+        <div class="col-12 p-0">
+          <p-autoComplete
+            field=""
+            formControlName="codigoTransaccion"
+            placeholder="Escriba el código de la transacción"
+            [suggestions]="['test', 'test2', 'test3']"
+            [minLength]="1"
+            [dropdown]="false"
+            (completeMethod)="fnFiltrar($event)"
+          ></p-autoComplete>
+        </div>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label htmlfor="nombreTransaccion" class="frm-titulo"
+          >Nombre de transacción</label
+        >
+
+        <div class="col-12 p-0">
+          <p-autoComplete
+            field=""
+            formControlName="nombreTransaccion"
+            placeholder="Escriba el código de la transacción"
+            [suggestions]="['test', 'test2', 'test3']"
+            [minLength]="1"
+            [dropdown]="false"
+            (completeMethod)="fnFiltrar($event)"
+          ></p-autoComplete>
+        </div>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label htmlfor="categoria" class="frm-titulo"
+          >Categoría de transacción</label
+        >
+
+        <div class="col-12 p-0">
+          <p-dropdown
+            filterBy="categoria"
+            placeholder="Seleccione..."
+            formControlName="categoriaTransaccion"
+            optionValue="categoria"
+            optionLabel="categoria"
+            class="mt-1"
+            [options]="[]"
+            [filter]="true"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label htmlfor="estadoTransaccion" class="frm-titulo"
+          >Estado de la transacción</label
+        >
+        <div class="col-12 p-0">
+          <p-dropdown
+            placeholder="Seleccione..."
+            formControlName="estadoTransaccion"
+            optionValue="id"
+            optionLabel="valor"
+            class="mt-1"
+            [options]="[]"
+            [filter]="false"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label htmlfor="atributoLog" class="frm-titulo"
+          >Atributo de generar log de auditoría</label
+        >
+
+        <div class="col-12 p-0">
+          <p-dropdown
+            placeholder="Seleccione..."
+            formControlName="atributoLog"
+            optionValue="id"
+            optionLabel="valor"
+            class="mt-1"
+            [options]="[]"
+            [filter]="false"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label htmlfor="fecha" class="frm-titulo">Fecha</label>
+
+        <div class="col-12 p-0">
+          <p-calendar
+            placeholder="AAAA-MM-DD"
+            dateFormat="yy-mm-dd"
+            [readonlyInput]="true"
+            [showIcon]="true"
+            class="mt2 mb-5"
+            formControlName="fecha"
+          ></p-calendar>
+        </div>
+      </div>
+
+      <div class="field col-12 md:col-3">
+        <label htmlfor="hora" class="frm-titulo">Hora</label>
+
+        <div class="col-12 p-0">
+          <p-calendar
+            placeholder="HH:MM"
+            icon="pi pi-clock"
+            [showIcon]="true"
+            [showTime]="true"
+            [readonlyInput]="true"
+            [hourFormat]="'12'"
+            [timeOnly]="true"
+            class="mt2 mb-5"
+            formControlName="hora"
+          ></p-calendar>
+        </div>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label htmlfor="atributoAlto" class="frm-titulo"
+          >Atributo de alto requerimiento de seguridad</label
+        >
+
+        <div class="col-12 p-0">
+          <p-dropdown
+            placeholder="Seleccione..."
+            formControlName="atributoAlto"
+            optionValue="id"
+            optionLabel="valor"
+            class="mt-1"
+            [options]="[]"
+            [filter]="false"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="field col-12 md:col-6">
+        <label htmlfor="atributoDatos" class="frm-titulo"
+          >Atributo de datos administrativos</label
+        >
+
+        <div class="col-12 p-0">
+          <p-dropdown
+            placeholder="Seleccione..."
+            formControlName="atributoDatos"
+            optionValue="id"
+            optionLabel="valor"
+            class="mt-1"
+            [options]="[]"
+            [filter]="false"
+            [showClear]="false"
+          >
+          </p-dropdown>
+        </div>
+      </div>
+
+      <div class="col-12 flex espaciadoBotonesAccionesMCHP mt-5">
+        <div class="col-3 flex justify-content-start p-0">
+          <button
+            pButton
+            pRipple
+            label="{{ 'limpiar filtros' | uppercase }}"
+            icon="pi pi-eraser"
+            class="p-button-outlined colorVerdeMHCP"
+          ></button>
+        </div>
+
+        <div class="col-9 flex justify-content-end gap-3">
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-times"
+            label="Cancelar"
+            class="colorRojoMHCP"
+          ></button>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-save"
+            label="Ver Modal"
+            class="p-button-success colorVerdeMHCP"
+            [disabled]="true"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>

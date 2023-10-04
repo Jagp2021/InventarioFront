@@ -1,0 +1,129 @@
+<div class="grid">
+  <div class="col-12 md:col-12 lg:col-12">
+    <div class="w-full surface-card border-round espacio-cardMHCP">
+      <div class="paginaMHCP">
+        <div class="flex col-12 md:col-12 lg:col-12 paginaMHCP-header">
+          <div class="col-8 md:col-8 lg:col-8 p-0 paginaMHCP-header-titulo">
+            <app-lbl-titulo
+              titulo="Generación de consecutivo"
+              descripcion="La funcionalidad para creación de catálogos debe permitir asignar una descripción y una estructura jerárquica de niveles de catálogo."
+            ></app-lbl-titulo>
+          </div>
+        </div>
+      </div>
+
+      <app-lbl-subtitulo
+        subtitulo="Seleccione la Operación del Negocio"
+        [bEsSubtituloPrincipal]="false"
+      ></app-lbl-subtitulo>
+
+      <div class="col-12 md:col-12 lg:col-12 p-0">
+        <p-table
+          #dt
+          styleClass="p-datatable-gridlines p-datatable-striped"
+          currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+          selectionMode="single"
+          [loading]="loadingTabla"
+          [value]="oListaTipoDocumentoSoporte"
+          [scrollable]="false"
+          [rowHover]="true"
+          [paginator]="oListaTipoDocumentoSoporte.length > 10"
+          [rows]="10"
+          [rowsPerPageOptions]="[10, 25, 50]"
+          [showCurrentPageReport]="true"
+          [globalFilterFields]="['codigo', 'descripcion']"
+        >
+          <ng-template
+            pTemplate="caption"
+            style="display: flex; justify-content: flex-start"
+          >
+            <div>
+              <span class="p-input-icon-right ml-auto">
+                <i class="pi pi-search"></i>
+                <input
+                  pInputText
+                  type="text"
+                  (input)="applyFilterGlobal($event, 'contains')"
+                  placeholder="Buscar..."
+                  [style]="{ width: '100%' }"
+                />
+              </span>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th pSortableColumn="codigo">
+                Codigo <p-sortIcon field="codigo"></p-sortIcon>
+              </th>
+              <th pSortableColumn="descripcion">
+                Descripcion <p-sortIcon field="descripcion"></p-sortIcon>
+              </th>
+              <th pSortableColumn="descripcion">
+                PCI <p-sortIcon field="descripcion"></p-sortIcon>
+              </th>
+              <th pSortableColumn="descripcion">
+                General <p-sortIcon field="descripcion"></p-sortIcon>
+              </th>
+            </tr>
+          </ng-template>
+
+          <ng-template
+            pTemplate="body"
+            let-oListaTipoDocumentoSoporte
+            let-ri="rowIndex"
+          >
+            <tr
+              (mouseenter)="
+                fnMostrarOcultarBotones($event, ri, true, 'tb-tlsel')
+              "
+              (mouseleave)="
+                fnMostrarOcultarBotones($event, ri, false, 'tb-tlsel')
+              "
+              [pSelectableRow]="oListaTipoDocumentoSoporte"
+            >
+              <td>{{ oListaTipoDocumentoSoporte.codigo }}</td>
+              <td>{{ oListaTipoDocumentoSoporte.descripcion }}</td>
+              <td>
+                {{
+                  oListaTipoDocumentoSoporte.usoSecuencia === null
+                    ? ""
+                    : oListaTipoDocumentoSoporte.usoSecuencia === true
+                    ? "SI"
+                    : "NO"
+                }}
+              </td>
+              <td>
+                {{
+                  oListaTipoDocumentoSoporte.usoSecuencia === null
+                    ? ""
+                    : oListaTipoDocumentoSoporte.usoSecuencia === true
+                    ? "NO"
+                    : "SI"
+                }}
+              </td>
+              <div id="button-{{ ri }}-tb-tlsel" class="no-mostrar">
+                <button
+                  pButton
+                  pRipple
+                  pTooltip="Editar"
+                  tooltipPosition="top"
+                  type="button"
+                  icon="pi pi-pencil"
+                  class="botonTableMHCP p-button-success colorVerdeMHCP"
+                  (click)="editarSecuenciaDocumentoSoporte(ri)"
+                ></button>
+              </div>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <td class="text-center" colspan="5">
+                No se han encontrado registrados.
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </div>
+    </div>
+  </div>
+</div>

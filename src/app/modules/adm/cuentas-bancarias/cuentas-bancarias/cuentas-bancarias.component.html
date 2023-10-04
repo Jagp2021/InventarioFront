@@ -1,0 +1,98 @@
+<!-- Miga de Pan -->
+<p-breadcrumb [model]="lItemsBreadcrumb"></p-breadcrumb>
+
+<!-- Toast -->
+<p-toast></p-toast>
+
+<!-- Dialogo de Confirmación -->
+<p-confirmDialog
+  [key]="'cb-principal'"
+  [style]="{ width: '40vw' }"
+  [baseZIndex]="10000"
+  [header]="'Cancelar operación'"
+></p-confirmDialog>
+
+<!-- Datos Administrativos -->
+<app-datos-administrativos
+  [bMostrarComponente]="true"
+  [bMostrarBotones]="false"
+  [sIdRegistro]="'10'"
+  [oAcciones]="{}"
+  [bEsModalFlotante]="true"
+  [bModalDatosAdministrativos]="bAbrirDatosAdministrativos"
+  (bCerrarDatosAdministrativos)="fnObtenerCierreDatosAdmin($event)"
+>
+</app-datos-administrativos>
+
+<!-- Código Base -->
+<div class="grid">
+  <div class="col-12 lg:col-12">
+    <div class="w-full surface-card py-4 px-3 border-round shadow-2">
+      <div class="flex flex-wrap align-items-center col-12 lg:col-12 p-0">
+        <div class="col-6 lg:col-12 p-0">
+          <app-lbl-titulo
+            [titulo]="'Administrar cuentas bancarias - ' + sJuridicoNatural"
+            descripcion="Definir una o varias “Cuentas Bancarias” a utilizar de un Tercero, en una Unidad o SubUnidad Ejecutora."
+          ></app-lbl-titulo>
+          <app-lbl-subtitulo
+            subtitulo="Cuentas bancarias asociadas"
+            [bEsSubtituloPrincipal]="false"
+          ></app-lbl-subtitulo>
+        </div>
+
+        <div class="col-12 lg:col-12 p-0 mt-5">
+          <app-com-datos-terceros
+            [aTercero]="aTercero"
+          ></app-com-datos-terceros>
+        </div>
+
+        <div class="flex justify-content-center flex-wrap col-12 p-0 mt-2">
+          <div class="flex align-items-center justify-content-center lg:col-11">
+            <app-frm-crear-cuenta
+              (aCuentaBancaria)="fnCargarCuentaBancaria($event)"
+            ></app-frm-crear-cuenta>
+          </div>
+        </div>
+
+        <div class="col-12 lg:col-12 p-0">
+          <app-com-tabla-cuentas
+            [aCuentaAgregar]="oCuentaAgregar"
+            (aCuentasGuardar)="fnGuardarCuentasLocal($event)"
+          >
+          </app-com-tabla-cuentas>
+        </div>
+
+        <div class="flex justify-content-end col-12 lg:col-12 p-0 mt-3 gap-2">
+          <button
+            pButton
+            pRipple
+            label="Datos Administrativos"
+            class="p-button-outlined colorVerdeMHCP"
+            (click)="fnAbrirDatosAdministrativos()"
+            *ngIf="bMostrarBotonDatos"
+          ></button>
+        </div>
+
+        <div class="flex justify-content-end col-12 lg:col-12 p-0 mt-5 gap-2">
+          <button
+            pButton
+            pRipple
+            label="Cancelar"
+            icon="pi pi-times"
+            class="colorRojoMHCP"
+            (click)="fnCancelarTransaccion()"
+          ></button>
+
+          <button
+            pButton
+            pRipple
+            label="Guardar"
+            icon="pi pi-save"
+            class="p-button-success colorVerdeMHCP"
+            (click)="fnGuardarCuentasGeneral()"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

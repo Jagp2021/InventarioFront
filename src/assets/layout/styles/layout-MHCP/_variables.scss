@@ -1,0 +1,29 @@
+@import "_functions";
+
+/** Espacios generales */
+$s-10: px-rem(10px);
+$s-20: px-rem(20px);
+$s-25: px-rem(25px);
+$s-30: px-rem(30px);
+
+/** Colores */
+$bkg-layout: #eeedf0;
+$bkg-icono-info: #1b4a91;
+$bkg-footer: black;
+
+$clr-blanco: #ffffff;
+$clr-footer: white;
+
+$clr-blanco-suave: #f9f9f9;
+$clr-blanco-pastel: #eff1fb;
+$clr-azul-principal: #2d77c2;
+$clr-azul-hover: #e4f2fb;
+$clr-gris-principal: #445968;
+$clr-gris-hover: #e2e6ea;
+$clr-gris-disabled: #8c99a3;
+$clr-rojo-principal: #c22d2d;
+$clr-rojo-hover: #e22828;
+$clr-amarillo-principal: #ffc107;
+$clr-amarillo-hover: #e7cd71;
+$clr-verde-principal: #009216;
+$clr-verde-hover: #eafae8;

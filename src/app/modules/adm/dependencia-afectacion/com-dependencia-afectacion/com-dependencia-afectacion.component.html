@@ -1,0 +1,295 @@
+<!-- Dialogo de Confirmación -->
+<p-confirmDialog
+  [key]="'ada-tbl-desvincular'"
+  [style]="{ width: '40vw' }"
+  [baseZIndex]="10000"
+  [header]="'Desvincular / Vincular dependencias de afectación'"
+></p-confirmDialog>
+
+<p-confirmDialog
+  [key]="'ada-tbl-eliminar'"
+  [style]="{ width: '40vw' }"
+  [baseZIndex]="10000"
+  [header]="'Eliminar dependencias de afectación'"
+></p-confirmDialog>
+
+<!-- Toast con acciones -->
+<app-lbl-toast-acciones
+  [sKey]="'desv'"
+  [sTitulo]="sTitulo"
+  [sMensajePrimario]="sMensajePrimario"
+  [sMensajeSecundario]="sMensajeSecundario"
+  (oClick)="fnCargarEvento()"
+></app-lbl-toast-acciones>
+
+<!-- Código Base -->
+<div class="col-12 p-0" *ngIf="bMostrarTabla">
+  <div class="formgroup-inline justify-content-end mb-4">
+    <button
+      pButton
+      pRipple
+      label="Vincular"
+      class="p-button-outlined colorAzulMHCP"
+      (click)="fnDeterminarDependencia(true)"
+      [disabled]="aDependenciasAfectadasSeleccionadas.length === 0"
+      *ngIf="!bIndicaVinculacion"
+    >
+      <span class="material-icons mr-2"> link </span>
+    </button>
+
+    <button
+      pButton
+      pRipple
+      label="Desvincular"
+      class="p-button-outlined colorAzulMHCP"
+      (click)="fnDeterminarDependencia(false)"
+      [disabled]="aDependenciasAfectadasSeleccionadas.length === 0"
+      *ngIf="bIndicaVinculacion"
+    >
+      <span class="material-icons mr-2"> link_off </span>
+    </button>
+  </div>
+
+  <p-table
+    #dt
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    [(selection)]="aDependenciasAfectadasSeleccionadas"
+    [loading]="bCargarLoading"
+    [value]="aDependenciasAfectacion"
+    [scrollable]="false"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowHover]="true"
+    [paginator]="this.aDependenciasAfectacion.length > 10"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="width: 4%">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th pSortableColumn="nombreFuncionNegocio">
+          Funcion de negocio
+          <p-sortIcon field="nombreFuncionNegocio"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nombreEntidad">
+          Entidad creadora <p-sortIcon field="nombreEntidad"></p-sortIcon>
+        </th>
+        <th pSortableColumn="codigoDependencia" [ngStyle]="{ width: '9rem' }">
+          Código <p-sortIcon field="codigoDependencia"></p-sortIcon>
+        </th>
+        <th pSortableColumn="descripcionDependencia">
+          Descripción <p-sortIcon field="descripcionDependencia"></p-sortIcon>
+        </th>
+        <th
+          pSortableColumn="nombreEstadoDependencia"
+          [ngStyle]="{ width: '7rem' }"
+        >
+          Estado <p-sortIcon field="nombreEstadoDependencia"></p-sortIcon>
+        </th>
+      </tr>
+      <tr>
+        <th class="filtrosTableMHCP nr-border"></th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter(
+                $any($event.target).value,
+                'nombreFuncionNegocio',
+                'contains'
+              )
+            "
+            placeholder="Filtrar función de negocio"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter($any($event.target).value, 'nombreEntidad', 'contains')
+            "
+            placeholder="Filtrar entidad"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter(
+                $any($event.target).value,
+                'codigoDependencia',
+                'contains'
+              )
+            "
+            placeholder="Filtrar código"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter(
+                $any($event.target).value,
+                'descripcionDependencia',
+                'contains'
+              )
+            "
+            placeholder="Filtrar descripción"
+            class="w-full"
+          />
+        </th>
+        <th class="filtrosTableMHCP">
+          <input
+            pInputText
+            type="text"
+            (input)="
+              dt.filter(
+                $any($event.target).value,
+                'nombreEstadoDependencia',
+                'contains'
+              )
+            "
+            placeholder="Filtrar estado"
+            class="w-full"
+          />
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-dependencias let-ri="rowIndex">
+      <tr
+        (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-depafec')"
+        (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-depafec')"
+        [pSelectableRow]="dependencias"
+      >
+        <td>
+          <p-tableCheckbox [value]="dependencias"></p-tableCheckbox>
+        </td>
+        <td>{{ dependencias.nombreFuncionNegocio }}</td>
+        <td>
+          {{ fnCortarTexto(dependencias.nombreEntidad, ri) }}
+          <a
+            id="overlay_{{ ri }}"
+            (click)="fnCargarOverlay($event, op1)"
+            style="display: none"
+          >
+            ...</a
+          >
+          <p-overlayPanel #op1 [style]="{ width: '450px' }">
+            <div>{{ dependencias.nombreEntidad }}</div>
+          </p-overlayPanel>
+        </td>
+        <td>{{ dependencias.codigoDependencia }}</td>
+        <td>{{ dependencias.descripcionDependencia }}</td>
+        <td>
+          {{ dependencias.nombreEstadoDependencia }}
+        </td>
+
+        <div id="button-{{ ri }}-tb-depafec" class="no-mostrar">
+          <button
+            pButton
+            pRipple
+            pTooltip="Editar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-pencil"
+            class="botonTableMHCP p-button-success colorVerdeMHCP"
+            (click)="fnEditarDependencia(dependencias, bIndicaVinculacion)"
+            [disabled]="dependencias.estadoDependencia === 'REGI'"
+          ></button>
+          <button
+            pButton
+            pRipple
+            pTooltip="Eliminar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-trash"
+            class="botonTableMHCP colorRojoMHCP"
+            (click)="fnEliminarDependencia(dependencias, bIndicaVinculacion)"
+            [disabled]="dependencias.estadoDependencia !== 'REGI'"
+          ></button>
+        </div>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6" class="text-center nr-border">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  [header]="'Errores encontrados'"
+  [(visible)]="bDisplayModal"
+  [modal]="true"
+  [style]="{ width: '55vw' }"
+  [baseZIndex]="10000"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <p-table
+    #dt
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    selectionMode="single"
+    [value]="aErroresMostrar"
+    [scrollable]="false"
+    [rowHover]="true"
+    [paginator]="aErroresMostrar.length > 10"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="mensaje">
+          Mensaje
+          <p-sortIcon field="mensaje"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-mensaje let-ri="rowIndex">
+      <tr [pSelectableRow]="mensaje">
+        <td>
+          La dependencia de afectación {{ mensaje.codigoDependencia }} -
+          {{ mensaje.nombreDependencia }} se encuentra en estado Inactiva.
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="1" class="text-center nr-border">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+  <div
+    class="col-12 flex justify-content-end mt-5 gap-2 p-0"
+    style="margin-bottom: -15px"
+  >
+    <button
+      pButton
+      pRipple
+      icon="pi pi-times"
+      (click)="fnCerrarModal()"
+      label="Cancelar"
+      class="colorRojoMHCP"
+    ></button>
+  </div>
+</p-dialog>

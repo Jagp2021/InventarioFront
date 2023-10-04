@@ -1,0 +1,109 @@
+<div class="headerMHCP layout-topbar">
+  <button
+    type="button"
+    #menubutton
+    class="headerMHCP-menu p-link layout-menu-button layout-topbar-button p-4"
+    (click)="layoutService.onMenuToggle()"
+  >
+    <i class="pi pi-bars"></i>
+  </button>
+
+  <div class="headerMHCP-separador"></div>
+
+  <a class="layout-topbar-logo">
+    <img
+      src="../../../../assets/layout/images/logoNew.jpeg"
+      width="94"
+      height="70"
+      alt="logo"
+      [ngStyle]="{ 'margin-left': '1.563rem', 'margin-bottom': '4px' }"
+    />
+  </a>
+
+  <button
+    type="button"
+    #topbarmenubutton
+    class="p-link layout-topbar-menu-button layout-topbar-button"
+    (click)="layoutService.showProfileSidebar()"
+  >
+    <i class="pi pi-ellipsis-v"></i>
+  </button>
+
+  <div
+    #topbarmenu
+    class="layout-topbar-menu mt-2"
+    [ngClass]="{
+      'layout-topbar-menu-mobile-active':
+        layoutService.state.profileSidebarVisible
+    }"
+  >
+    <div
+      class="flex mr-2 sm:mb-2 align-items-center"
+      [ngStyle]="{ color: '#ffffff', 'font-weight': '400!important' }"
+      style="border-right: solid 1px rgba(255, 255, 255, 0.5); padding: 5px"
+    >
+      <div
+        class="flex flex-column ml-3"
+        (click)="toogleOverlay()"
+        [style]="{ cursor: 'pointer', 'font-size': '0.875rem' }"
+      >
+        <span> MetaTech</span>
+      </div>
+
+      <button
+        type="button"
+        class="p-link layout-topbar-button"
+        style="margin-right: 8px; margin-left: 16px"
+      >
+        <img
+          src="assets/layout/images/icon_user_header.png"
+          alt="icono usuario"
+          (click)="toogleOverlay()"
+          width="22"
+        />
+        <!-- <i
+          class="pi pi-user"
+          style="color: rgba(255, 255, 255, 0.8)"
+          (click)="toogleOverlay()"
+        ></i> -->
+        <!-- <p-avatar
+          icon="pi pi-user"
+          styleClass="bg-white text-lg"
+          shape="circle"
+          (click)="toogleOverlay()"
+        ></p-avatar> -->
+      </button>
+    </div>
+  </div>
+
+  <p-overlay
+    [(visible)]="overlayVisible"
+    [responsive]="{
+      breakpoint: '640px',
+      direction: 'bottom',
+      contentStyleClass: 'h-20rem'
+    }"
+    contentStyleClass="p-4 surface-overlay shadow-2 border-round"
+    styleClass="overlay-usuario"
+    [style]="{ 'min-width': '250px', right: '10px', background: '#f9f9f9' }"
+  >
+    <ng-template pTemplate="content" let-option>
+      <div class="flex flex-column overlay-usuario_contenedor">
+        <div class="overlay-usuario_contenedor_usuario">
+          <div class="overlay-usuario_contenedor_usuario--fuerte">yarango</div>
+          <span>Yesid Arango</span>
+          <span>Administrador</span>
+        </div>
+        <hr />
+        <div class="overlay-usuario_contenedor_acciones">
+          <a pTooltip="Cerrar sesión" tooltipPosition="top"
+           (click)="logOut()"
+            ><i class="pi pi-sign-out text-lg"></i
+          > Cerrar Sesión</a>
+        </div>
+        <hr />
+        
+      </div>
+    </ng-template>
+  </p-overlay>
+</div>

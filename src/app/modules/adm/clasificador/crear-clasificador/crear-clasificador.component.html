@@ -1,0 +1,287 @@
+<!-- Toast -->
+<p-toast></p-toast>
+
+<!-- Diálogo de Confirmación -->
+<p-confirmDialog
+  [style]="{ width: '40vw' }"
+  [baseZIndex]="10000"
+  [header]="'Cancelar operación'"
+></p-confirmDialog>
+
+<!-- Código Base -->
+
+<div class="grid">
+  <div class="col-12 md:col-12 lg:col-12">
+    <div class="w-full surface-card border-round espacio-cardMHCP">
+      <div class="paginaMHCP">
+        <div class="flex col-12 md:col-12 lg:col-12 paginaMHCP-header">
+          <div class="col-8 md:col-8 lg:col-8 p-0 paginaMHCP-header-titulo">
+            <app-lbl-titulo
+              titulo="Clasificadores"
+              descripcion="La funcionalidad para creación de catálogos debe permitir asignar una descripción y una estructura jerárquica de niveles de catálogo."
+            ></app-lbl-titulo>
+          </div>
+          <div
+            class="col-4 md:col-4 lg:col-4 p-0 paginaMHCP-accionPrincipal"
+          ></div>
+        </div>
+
+        <div class="paginaMHCP-contenedor">
+          <div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+            <app-lbl-subtitulo
+              subtitulo="Datos del clasificador"
+              [bEsSubtituloPrincipal]="false"
+            ></app-lbl-subtitulo>
+
+            <form class="col-12 p-0" [formGroup]="formClasificador">
+              <div class="formgrid grid">
+                <div class="field col-12 md:col-4">
+                  <label htmlfor="name1" class="frm-titulo"
+                    >Descripción <span class="required">*</span></label
+                  >
+
+                  <div class="col-12 p-0">
+                    <input
+                      pInputText
+                      id="name1"
+                      type="text"
+                      placeholder="Ingrese descripción"
+                      class="p-inputtext p-component p-element text-12"
+                      formControlName="Descripcion"
+                    />
+                  </div>
+                  <div class="col-12">
+                    <small
+                      class="form-text text-red-600"
+                      *ngIf="campoNoValido('Descripcion')"
+                    >
+                      {{ listaErroresMensajes("Descripcion") }}
+                    </small>
+                  </div>
+                </div>
+
+                <div class="field col-12 md:col-4">
+                  <label htmlfor="name1" class="frm-titulo"
+                    >Función de Catálogo <span class="required">*</span></label
+                  >
+
+                  <div class="col-12 p-0">
+                    <p-dropdown
+                      [options]="listaFuncionCatalogo"
+                      [(ngModel)]="selectedItem"
+                      optionLabel="descripcion"
+                      [showClear]="true"
+                      placeholder="Selecionar función de catálogo"
+                      formControlName="FuncionCatalogo"
+                    >
+                      <ng-template pTemplate="selectedItem">
+                        <div
+                          class="country-item country-item-value"
+                          *ngIf="selectedItem"
+                        >
+                          <div>{{ selectedItem.descripcion }}</div>
+                        </div>
+                      </ng-template>
+                      <ng-template let-dominio pTemplate="item">
+                        <div class="dominio-item">
+                          <div>{{ dominio.descripcion }}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                    <small
+                      class="form-text text-red-600"
+                      *ngIf="campoNoValido('FuncionCatalogo')"
+                    >
+                      {{ listaErroresMensajes("FuncionCatalogo") }}
+                    </small>
+                  </div>
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label htmlfor="name1" class="frm-titulo"
+                    >Tope de caracteres</label
+                  >
+
+                  <div class="col-12 p-0">
+                    <input
+                      pInputText
+                      id="name1"
+                      type="text"
+                      placeholder="Ingrese descripción"
+                      class="p-inputtext p-component p-element"
+                      formControlName="TopeCaracteres"
+                    />
+                    <small
+                      class="form-text text-red-600"
+                      *ngIf="campoNoValido('TopeCaracteres')"
+                    >
+                      {{ listaErroresMensajes("TopeCaracteres") }}
+                    </small>
+                  </div>
+                </div>
+                <div class="field col-12 md:col-4">
+                  <label htmlfor="name1" class="frm-titulo">Activo</label>
+
+                  <div class="formgroup-inline">
+                    <div class="col-12 md:col-3 p-0">
+                      <div class="field-radiobutton mt-2">
+                        <p-radioButton
+                          name="Activo"
+                          value="true"
+                          class="p-element"
+                          formControlName="Activo"
+                        ></p-radioButton>
+                        <label for="city1">Si</label>
+                      </div>
+                    </div>
+
+                    <div class="col-12 md:col-3 p-0">
+                      <div class="field-radiobutton mt-2">
+                        <p-radioButton
+                          name="Activo"
+                          value="false"
+                          class="p-element"
+                          formControlName="Activo"
+                        ></p-radioButton>
+                        <label for="city1">No</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="col-12 md:col-12 lg:col-12 p-0">
+            <app-lbl-subtitulo
+              subtitulo="Niveles de clasificador"
+              [bEsSubtituloPrincipal]="false"
+            ></app-lbl-subtitulo>
+
+            <div
+              *ngIf="tipo !== 'copiar'"
+              class="flex flex-wrap justify-content-end mt-1 mb-4 gap-2"
+            >
+              <button
+                pButton
+                pRipple
+                type="button"
+                label="Agregar Nivel"
+                class="p-button-outlined p-button-info"
+                icon="pi pi-plus"
+                [style]="{ width: '12.5rem' }"
+                (click)="agregarNivel()"
+                [disabled]="bdeshabilitarAcciones || bDeshabilitar"
+              ></button>
+            </div>
+
+            <p-table
+              #dt
+              styleClass="p-datatable-gridlines p-datatable-striped"
+              selectionMode="single"
+              [value]="listaNiveles"
+              [scrollable]="false"
+              [tableStyle]="{ 'min-width': '50rem' }"
+              [rowHover]="true"
+              [paginator]="true"
+              [rows]="10"
+              [rowsPerPageOptions]="[10, 25, 50]"
+              currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+              [showCurrentPageReport]="true"
+              [globalFilterFields]="['nombre', 'tipoDato', 'longitud', 'orden']"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th pSortableColumn="nombre">
+                    Nombre <p-sortIcon field="nombre"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="tipoDato">
+                    Tipo de Dato <p-sortIcon field="tipoDato"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="longitud">
+                    Cantidad de Carácteres
+                    <p-sortIcon field="longitud"></p-sortIcon>
+                  </th>
+                  <th pSortableColumn="orden">
+                    Orden Numérico <p-sortIcon field="orden"></p-sortIcon>
+                  </th>
+                </tr>
+              </ng-template>
+
+              <ng-template pTemplate="body" let-lista let-ri="rowIndex">
+                <tr
+                  (mouseenter)="
+                    fnMostrarOcultarBotones($event, ri, true, 'tb-clsif')
+                  "
+                  (mouseleave)="
+                    fnMostrarOcultarBotones($event, ri, false, 'tb-clsif')
+                  "
+                  [pSelectableRow]="lista"
+                >
+                  <td>{{ lista.nombre }}</td>
+                  <td>{{ asociarTipoDato(lista.tipoDato) }}</td>
+                  <td>{{ lista.longitud }}</td>
+                  <td>{{ lista.orden }}</td>
+
+                  <div
+                    id="button-{{ ri }}-tb-clsif"
+                    class="no-mostrar"
+                    *ngIf="tipo === 'editar'"
+                  >
+                    <button
+                      pButton
+                      pRipple
+                      pTooltip="Editar"
+                      tooltipPosition="top"
+                      icon="pi pi-pencil"
+                      class="botonTableMHCP p-button-success colorVerdeMHCP"
+                      (click)="editarNivel(lista, ri)"
+                    ></button>
+                    <button
+                      pButton
+                      pRipple
+                      pTooltip="Eliminar Nivel"
+                      tooltipPosition="top"
+                      icon="pi pi-trash"
+                      class="botonTableMHCP colorRojoMHCP"
+                      (click)="eliminarNivel(ri)"
+                    ></button>
+                  </div>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                  <td colspan="4" class="text-center">
+                    No se han encontrado registrados.
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+
+        <div class="col-12 md:col-12 lg:col-12 gap-2 paginaMHCP-footer">
+          <button
+            pButton
+            pRipple
+            label="CANCELAR"
+            class="p-button-danger"
+            icon="pi pi-times"
+            [style]="{ width: '8.5rem' }"
+            (click)="cancelar()"
+            [disabled]="bDeshabilitar"
+          ></button>
+          <button
+            pButton
+            pRipple
+            [label]="lblBotonGuardar"
+            class="p-button-success"
+            [icon]="iconoBotonGuardar"
+            [style]="{ width: '8.5rem' }"
+            (click)="guardar()"
+            [disabled]="formClasificador.invalid || bDeshabilitar"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

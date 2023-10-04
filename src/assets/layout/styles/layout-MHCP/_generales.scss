@@ -1,0 +1,163 @@
+@import "_mixins";
+@import "_functions";
+@import "_variables";
+
+/** 
+* 1. Fuente iconos Material
+* 2. Color de fondo layout principal
+* 3. Espacios a respetar
+*   3.1 Espacio lateral layout principal
+*   3.2 Espacio card principal
+*   3.3 Espacios padding bottom
+*   3.4 Espacios padding top
+* 4. Contenedor código base
+* 5. Miga de pan
+* 6. Page404
+* 7. Loading
+* 8. Remoción flechas type number
+* 9. Ajuste field formularios
+*/
+
+/** 1. Fuente iconos Material */
+.material-icons {
+  font-size: px-rem(18px);
+}
+
+/** 2. Color de fondo layout principal */
+.layout-main-container {
+  background-color: $bkg-layout;
+}
+
+/** 3. Espacios a respetar */
+/** 3.1 Espacio lateral layout principal */
+.espacio-lateralMHCP {
+  padding-left: 5% !important;
+  padding-right: 5% !important;
+}
+/** Espacio card principal */
+.espacio-cardMHCP {
+  padding: $s-20 $s-20 $s-30;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06),
+    0px 2px 6px rgba(0, 0, 0, 0.12) !important;
+}
+/** 3.3 Espacios padding bottom */
+.espacio-pb10MHCP {
+  padding-bottom: $s-10;
+}
+.espacio-pb20MHCP {
+  padding-bottom: $s-20;
+}
+.espacio-pb25MHCP {
+  padding-bottom: $s-25;
+}
+.espacio-pb30MHCP {
+  padding: 0 0 $s-30 !important;
+}
+/** 3.4 Espacios padding top */
+.espacio-pt30MHCP {
+  padding-top: $s-10;
+}
+.espacio-pt20MHCP {
+  padding-top: $s-20;
+}
+.espacio-pt30MHCP {
+  padding: $s-30 0 0 !important;
+}
+
+/** 4. Contenedor código base */
+.paginaMHCP {
+  &-header {
+    padding: 0 0 $s-25 !important;
+
+    &-titulo {
+      font-weight: 500;
+      font-size: px-rem(24px);
+      color: #2d77c2;
+    }
+  }
+  &-accionPrincipal {
+    @include flex-jc-endMHCP;
+  }
+  &-footer {
+    padding: $s-30 0 0 !important;
+    @include flex-jc-endMHCP;
+  }
+
+  .iconoInformativoMHCP {
+    background: $bkg-icono-info;
+    color: $clr-blanco-suave;
+    border-radius: 50%;
+    width: px-rem(18px);
+    height: px-rem(18px);
+
+    & > i {
+      display: flex;
+      font-size: $s-10;
+      align-items: center;
+      justify-content: center;
+      margin-top: 0.25rem;
+    }
+  }
+}
+
+/** 5. Miga de pan */
+.p-breadcrumb ul li:last-child::after {
+  content: "⌄";
+  margin-left: px-rem(10px);
+  font-size: px-rem(18px);
+  position: absolute;
+  top: 79px;
+}
+
+/** 6. Page404 */
+.contenido-404 {
+  letter-spacing: 2px;
+  font-weight: 600;
+
+  &__titulo {
+    font-size: $s-30;
+    color: $clr-azul-principal;
+  }
+
+  &__mensaje {
+    font-size: px-rem(16px);
+    color: $clr-gris-disabled;
+    width: 78%;
+  }
+}
+
+/** 7. Loading */
+#loading {
+  .p-dialog-content {
+    padding: px-rem(16px);
+    border-radius: 4px;
+  }
+
+  .p-dialog-header,
+  .p-dialog-footer {
+    display: none;
+  }
+
+  .loadingAzul {
+    color: $clr-azul-principal;
+    letter-spacing: 2px;
+    font-size: px-rem(14px);
+    font-weight: 500;
+  }
+}
+
+/** 8. Remoción flechas type number */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/** 9. Ajuste field formularios */
+.field {
+  margin-bottom: px-rem(11px) !important;
+}

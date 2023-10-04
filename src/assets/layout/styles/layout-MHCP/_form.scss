@@ -1,0 +1,193 @@
+form {
+  // .p-button {
+  //   background-color: #eff1fb;
+  // }
+
+  // .p-dropdown {
+  //   .ng-invalid.ng-touched {
+  //     border-color: #c22d2d;
+  //   }
+  // }
+  .p-inputtextarea {
+    background-color: rgba(187, 194, 200, 20%);
+  }
+  .field-checkbox,
+  .field-radiobutton {
+    margin-bottom: 0rem;
+  }
+  .p-radiobutton-disabled {
+    &.p-radiobutton .p-radiobutton-box.p-highlight {
+      border: gray !important;
+      background-color: rgb(184, 184, 184) !important;
+
+      & > .p-radiobutton-icon {
+        background-color: rgb(209, 203, 203) !important;
+      }
+    }
+  }
+  .field {
+    span.required {
+      color: #c22d2d;
+    }
+
+    > label {
+      margin-bottom: 0.2rem;
+    }
+  }
+  & label {
+    font-size: 0.875rem;
+    font-weight: 600;
+
+    @media (min-width: 1600px) and (max-width: 2560px) {
+      font-size: 0.938rem;
+    }
+  }
+  .p-dropdown {
+    width: 100% !important;
+  }
+  .p-component:disabled {
+    opacity: 1;
+    background-color: #bbc2c8 !important;
+  }
+  .p-button:disabled {
+    background-color: #8c99a3 !important;
+    border-color: #8c99a3 !important;
+    color: #f9f9f9 !important;
+    opacity: 1;
+  }
+  .p-inputtext,
+  input,
+  select {
+    height: 1.625rem !important;
+    font-size: 0.813rem !important;
+    color: #617330 !important;
+    width: 100% !important;
+
+    @media (min-width: 1600px) and (max-width: 2560px) {
+      height: 2.125rem !important;
+      font-size: 0.938rem !important;
+    }
+  }
+  .p-inputtextarea {
+    width: 100% !important;
+    height: auto !important;
+  }
+  .p-inputtext.p-dropdown-label {
+    line-height: 1 !important;
+  }
+  .p-calendar-w-btn .p-datepicker-trigger {
+    width: 2.3rem !important;
+    height: 1.625rem !important;
+    padding: 0 6px;
+    background-color: #eff1fb;
+    color: #3589d4;
+    border-top: 1px solid #ced4da;
+    border-right: 1px solid #ced4da;
+    border-bottom: 1px solid #ced4da;
+    border-left: none;
+
+    @media (min-width: 1600px) and (max-width: 2560px) {
+      //1920x380
+      height: 2.125rem !important;
+    }
+
+    & > span.pi {
+      font-size: 0.8rem;
+    }
+  }
+
+  .p-fluid .p-inputgroup .p-button.p-button-icon-only {
+    .p-button-icon {
+      font-size: 0.75rem !important;
+    }
+  }
+
+  /** Ajustes del Multidata */
+  & .multidataMHCP {
+    .p-button {
+      background-color: #eff1fb;
+      border-top: 1px solid #ced4da;
+      border-right: 1px solid #ced4da;
+      border-bottom: 1px solid #ced4da;
+      border-left: none;
+      color: #3589d4;
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+      height: 1.625rem !important;
+    }
+    .p-datatable {
+      border: none;
+    }
+
+    .p-datatable .p-datatable-tbody tr td {
+      padding: 14px !important;
+      border-bottom: 1px solid #dedada !important;
+
+      .p-button.p-button-danger {
+        width: 1.865rem !important;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        background-color: #c22d2d;
+
+        span.p-button-icon {
+          color: white;
+          font-size: 0.75rem;
+        }
+      }
+    }
+  }
+
+  /** Ajuste de espacios formulario */
+  @media screen and (min-width: 768px) {
+    $columns: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12;
+
+    @each $colMD in $columns {
+      .md\:col-#{$colMD} {
+        padding: 0 1.375rem 0 0.5rem !important;
+      }
+    }
+  }
+
+  /** Ajustes RadioButtons */
+  p-radiobutton + label {
+    font-weight: 400;
+  }
+  p-radiobutton[ng-reflect-is-disabled] + label {
+    color: rgba($color: #8c99a3, $alpha: 0.5);
+  }
+
+  .p-inputswitch.p-component.p-disabled {
+    span {
+      background-color: #8c99a3 !important;
+    }
+  }
+}
+.p-disabled > .p-dropdown-trigger {
+  background-color: #8c99a3 !important;
+  border-color: #8c99a3 !important;
+  color: #f9f9f9 !important;
+}
+/** RadioButton */
+.p-radiobutton-box.p-highlight .p-radiobutton-icon {
+  background: #2d77c2;
+
+  &::before {
+    content: "·";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+    color: white;
+    position: absolute;
+    top: -10px;
+    left: 3px;
+  }
+}
+
+span.required {
+  color: #c22d2d;
+}
+
+.p-sidebar {
+  width: 25rem !important;
+}

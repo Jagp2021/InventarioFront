@@ -1,0 +1,402 @@
+<!-- Toast -->
+<p-toast></p-toast>
+<!-- Dialogo de Confirmación -->
+<p-confirmDialog
+  [style]="{ width: '40vw' }"
+  [baseZIndex]="10000"
+  [header]="'Cancelar operación'"
+></p-confirmDialog>
+
+<!-- <div class="paginaMHCP"> -->
+<app-lbl-subtitulo
+  subtitulo="Información tributaria"
+  [bEsSubtituloPrincipal]="false"
+></app-lbl-subtitulo>
+
+<div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+  <form
+    class="col-12 p-0"
+    [formGroup]="frmInformacionTributaria"
+    autocomplete="off"
+  >
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-3" *ngIf="bTipoNatural">
+        <label htmlfor="name1" class="frm-titulo mb-3"
+          >No. de identificación
+        </label>
+        <div class="grid p-fluid mr-0">
+          <div class="col-10">
+            <p-inputNumber
+              class="p-component p-element"
+              formControlName="numeroDocumento"
+              [maxlength]="15"
+              (onBlur)="validarTipoYnumeroIdentificacion(false)"
+            ></p-inputNumber>
+            <small
+              class="form-text text-red-600"
+              *ngIf="campoNoValido('numeroDocumento')"
+            >
+              {{ listaErroresMensajes("numeroDocumento") }}
+            </small>
+          </div>
+          <div class="col-1">-</div>
+          <div class="col-1 p-0">
+            <input
+              pInputText
+              style="width: 25px !important"
+              formControlName="digitoVerificacionPersona"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="field col-12 md:col-2">
+        <label htmlfor="name1" class="frm-titulo">Estado NIT </label>
+        <input
+          pInputText
+          id="name1"
+          type="text"
+          class="p-inputtext mt-1"
+          formControlName="validacionExitosaDian"
+        />
+      </div>
+      <div
+        class="field col-12 flex justify-content-end p-0"
+        [ngClass]="bTipoJuridico ? 'md:col-10' : 'md:col-8'"
+        [ngStyle]="{ 'margin-top': '-10px' }"
+        *ngIf="bActualizarTributaria"
+      >
+        <div class="flex justify-content-end col-3 flex-column">
+          <div [style]="{ display: 'inline-block', float: 'right' }">
+            <div class="flex justify-content-end">
+              <div class="iconoInformativoMHCP mb-1">
+                <i
+                  class="pi pi-info"
+                  pTooltip="Fuente DIAN - {{ sMensajeFuenteDian }}"
+                  tooltipPosition="top"
+                  [fitContent]="false"
+                ></i>
+              </div>
+            </div>
+
+            <button
+              pButton
+              pRipple
+              icon="pi pi-refresh"
+              label="Actualizar"
+              class="p-button-success colorVerdeMHCP w-7"
+              type="submit"
+              (click)="actualizarDatosDian()"
+              [ngStyle]="{ float: 'right' }"
+            ></button>
+            <small
+              [style]="{
+                'margin-top': '6px',
+                display: 'table',
+                float: 'right'
+              }"
+              >Ultima actualización: {{ sFechaActualizacion }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+  <div class="formgrid grid">
+    <div class="field col-12 md:col-6">
+      <app-lbl-subtitulo
+        subtitulo="Actividad económica CIIU relacionadas"
+        [bEsSubtituloPrincipal]="false"
+      ></app-lbl-subtitulo>
+      <form [formGroup]="frmActividad">
+        <div class="formgrid grid p-fluid">
+          <div
+            class="field col-12 md:col-11"
+            style="padding: 0 1rem 0 0.5rem !important"
+          >
+            <label class="frm-titulo"
+              >Actividad económica<span
+                class="required"
+                *ngIf="!bActivarAccionActividad"
+                >*</span
+              ></label
+            >
+            <p-dropdown
+              [options]="oListaActividad"
+              defaultLabel="Seleccione"
+              optionLabel="descripcion"
+              [filter]="true"
+              filterBy="descripcion"
+              [showClear]="false"
+              placeholder="Seleccione"
+              formControlName="actividad"
+            >
+            </p-dropdown>
+          </div>
+          <div class="field col-12 md:col-1 mt-3">
+            <button
+              pButton
+              pRipple
+              label=" "
+              icon="pi pi-plus"
+              class="p-button-outlined colorAzulMHCP removerEspacioBoton"
+              [disabled]="bActivarAccionActividad"
+              (click)="agregarActividad()"
+              [ngStyle]="{ padding: '0 0.5rem' }"
+            ></button>
+          </div>
+        </div>
+      </form>
+      <p-table
+        #dt
+        [tableStyle]="{ 'min-width': '80rem' }"
+        styleClass="p-datatable-gridlines p-datatable-striped"
+        currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+        selectionMode="single"
+        [tableStyle]="{ 'min-width': '24rem' }"
+        [loading]="bMostrarLoading"
+        [value]="oActEconomica!"
+        [scrollable]="false"
+        [rowHover]="true"
+        [paginator]="oActEconomica!.length > 10 ? true : false"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [showCurrentPageReport]="true"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="codigoActividadCiiu">
+              Código <p-sortIcon field="codigoActividadCiiu"></p-sortIcon>
+            </th>
+            <th pSortableColumn="descripcionActividadCiiu">
+              Descripcion
+              <p-sortIcon field="descripcionActividadCiiu"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-oActEconomica let-ri="rowIndex">
+          <tr
+            (mouseenter)="
+              fnMostrarOcultarBotones($event, ri, true, 'tb-tlsel1')
+            "
+            (mouseleave)="
+              fnMostrarOcultarBotones($event, ri, false, 'tb-tlsel1')
+            "
+            [pSelectableRow]="oActEconomica"
+          >
+            <td>{{ oActEconomica.codigoActividadCiiu }}</td>
+            <td>{{ oActEconomica.descripcionActividadCiiu }}</td>
+            <div
+              id="button-{{ ri }}-tb-tlsel1"
+              class="no-mostrar"
+              *ngIf="bAccionesActividad"
+            >
+              <button
+                pButton
+                pRipple
+                pTooltip="Eliminar"
+                tooltipPosition="top"
+                type="button"
+                icon="pi pi-trash"
+                class="botonTableMHCP colorRojoMHCP"
+                (click)="eliminarActividad(oActEconomica, ri)"
+              ></button>
+            </div>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="2" class="text-center">
+              No se han encontrado registrados.
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="field col-12 md:col-6">
+      <app-lbl-subtitulo
+        subtitulo="Responsabilidad tributaria"
+        [bEsSubtituloPrincipal]="false"
+      ></app-lbl-subtitulo>
+      <form [formGroup]="frmResponsabilidad">
+        <div class="formgrid grid p-fluid">
+          <div
+            class="field col-12 md:col-11"
+            style="padding: 0 1rem 0 0.5rem !important"
+          >
+            <label class="frm-titulo"
+              >Responsabilidad tributaria<span
+                class="required"
+                *ngIf="!bActivarAccionResponsabilidad"
+                >*</span
+              ></label
+            >
+
+            <p-dropdown
+              [options]="oListaResponsabilidad"
+              defaultLabel="Seleccione"
+              optionLabel="descripcion"
+              [filter]="true"
+              filterBy="descripcion"
+              [showClear]="false"
+              placeholder="Seleccione"
+              formControlName="responsabilidad"
+            >
+            </p-dropdown>
+          </div>
+          <div class="field col-12 md:col-1 mt-3">
+            <button
+              pButton
+              pRipple
+              label=" "
+              icon="pi pi-plus"
+              class="p-button-outlined colorAzulMHCP removerEspacioBoton"
+              [style]="{ width: '11rem' }"
+              [disabled]="bActivarAccionResponsabilidad"
+              (click)="agregarResponsabilidad()"
+              [ngStyle]="{ padding: '0 0.5rem' }"
+            ></button>
+          </div>
+        </div>
+      </form>
+
+      <p-table
+        #dt
+        [tableStyle]="{ 'min-width': '80rem' }"
+        styleClass="p-datatable-gridlines p-datatable-striped"
+        currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+        selectionMode="single"
+        [tableStyle]="{ 'min-width': '24rem' }"
+        [loading]="bMostrarLoading"
+        [value]="oResTributaria!"
+        [scrollable]="false"
+        [rowHover]="true"
+        [paginator]="oResTributaria!.length > 10 ? true : false"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [showCurrentPageReport]="true"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="tipoResponsabilidadTributaria">
+              Código
+              <p-sortIcon field="tipoResponsabilidadTributaria"></p-sortIcon>
+            </th>
+            <th pSortableColumn="descripcionTipoResponsabilidadTributaria">
+              Descripcion
+              <p-sortIcon
+                field="descripcionTipoResponsabilidadTributaria"
+              ></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-oResTributaria let-ri="rowIndex">
+          <tr
+            (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-tlsel')"
+            (mouseleave)="
+              fnMostrarOcultarBotones($event, ri, false, 'tb-tlsel')
+            "
+            [pSelectableRow]="oResTributaria"
+          >
+            <td>{{ oResTributaria.tipoResponsabilidadTributaria }}</td>
+            <td>
+              {{ oResTributaria.descripcionTipoResponsabilidadTributaria }}
+            </td>
+            <div
+              id="button-{{ ri }}-tb-tlsel"
+              class="no-mostrar"
+              *ngIf="bAccionesResponsabilidad"
+            >
+              <button
+                pButton
+                pRipple
+                pTooltip="Eliminar"
+                tooltipPosition="top"
+                type="button"
+                icon="pi pi-trash"
+                class="botonTableMHCP colorRojoMHCP"
+                (click)="eliminarResponsabilidad(oResTributaria, ri)"
+              ></button>
+            </div>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="2" class="text-center">
+              No se han encontrado registrados.
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+
+<div class="w-full flex flex-row justify-content-between align-content-center">
+  <div class="flex flex-column">
+    <button
+      pButton
+      pRipple
+      label="ANTERIOR"
+      class="p-button-outlined colorVerdeMHCP"
+      icon="pi pi-step-backward"
+      iconPos="left"
+      (click)="anterior()"
+    ></button>
+  </div>
+  <div class="flex flex-column">
+    <button
+      pButton
+      pRipple
+      label="Siguiente"
+      class="p-button-outlined colorVerdeMHCP"
+      [icon]="'pi pi-step-forward'"
+      iconPos="right"
+      [disabled]="oActEconomica!.length <= 0 || oResTributaria!.length <= 0"
+      (click)="siguiente(false)"
+    ></button>
+  </div>
+</div>
+
+<div
+  class="col-12 flex flex-row justify-content-between gap-2 paginaMHCP-footer"
+>
+  <div class="flex flex-row gap-2">
+    <button
+      *ngIf="sAccion === 'editar'"
+      pButton
+      pRipple
+      class="p-button-outlined colorVerdeMHCP"
+      label="ADICIONAR CUENTAS BANCARIAS"
+      [icon]="'pi pi-plus'"
+      iconPos="left"
+      (click)="adicionarCuentasBancarias()"
+    ></button>
+  </div>
+  <div class="flex flex-row gap-2">
+    <button
+      pButton
+      pRipple
+      icon="pi pi-times"
+      label="CANCELAR"
+      class="colorRojoMHCP"
+      (click)="cancelar()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      icon="pi pi-save"
+      label="Guardar"
+      class="p-button-success colorVerdeMHCP"
+      type="submit"
+      (click)="siguiente(true)"
+      [disabled]="oActEconomica!.length <= 0 || oResTributaria!.length <= 0"
+    ></button>
+  </div>
+</div>
+<!-- </div> -->

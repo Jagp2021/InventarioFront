@@ -1,0 +1,460 @@
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Miga de Pan"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <p-breadcrumb [model]="lItemsBreadcrumb"></p-breadcrumb>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Datos con Énfasis"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <h6><i class="pi pi-exclamation-triangle"></i> En contrucción...</h6>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Ítem descriptivo"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <h6><i class="pi pi-exclamation-triangle"></i> En contrucción...</h6>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Rangos de Fechas"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form>
+    <div class="formgrid grid">
+      <div
+        class="flex flex-column md:col-6 fecha"
+        style="padding: 0 1rem 0 0.5rem !important"
+      >
+        <label class="font-bold mb-3 pl-2 pt-2">Fechas de consulta</label>
+        <div class="flex">
+          <div class="flex flex-column md:col-6 p-0">
+            <label class="font-bold mb-1">Fecha Inicial</label>
+            <p-calendar
+              [showIcon]="true"
+              placeholder="AAAA-MM-DD"
+              dateFormat="yy-mm-dd"
+              formControlName="fechaInicial"
+              dataType="string"
+            ></p-calendar>
+          </div>
+          <div class="flex flex-column md:col-6">
+            <label class="font-bold mb-1">Fecha Final</label>
+            <p-calendar
+              [showIcon]="true"
+              placeholder="AAAA-MM-DD"
+              dateFormat="yy-mm-dd"
+              formControlName="fechaFinal"
+              dataType="string"
+            ></p-calendar>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-column md:col-6 fecha">
+        <label class="font-bold mb-3 pl-2 pt-2"
+          >Horarios de registro restricción</label
+        >
+        <div class="flex">
+          <div class="flex flex-column md:col-6">
+            <label class="font-bold mb-1">Hora Inicial </label>
+            <p-calendar
+              formControlName="horaInicial"
+              icon="pi pi-clock"
+              [showIcon]="true"
+              [showTime]="true"
+              [showSeconds]="false"
+              [hourFormat]="'12'"
+              [timeOnly]="true"
+              placeholder="HH:MM"
+            ></p-calendar>
+          </div>
+          <div class="flex flex-column md:col-6">
+            <label class="font-bold mb-1">Hora Final </label>
+            <p-calendar
+              formControlName="horaFinal"
+              icon="pi pi-clock"
+              [showIcon]="true"
+              [showTime]="true"
+              [showSeconds]="false"
+              [hourFormat]="'12'"
+              [timeOnly]="true"
+              placeholder="HH:MM"
+            ></p-calendar>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Iconos"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <div class="grid">
+    <div class="col-2"><i class="pi pi-check"></i> Aceptar</div>
+    <div class="col-2"><i class="pi pi-save"></i> Guardar</div>
+    <div class="col-2"><i class="pi pi-times"></i> Cancelar</div>
+    <div class="col-2"><i class="pi pi-eraser"></i> Limpiar</div>
+    <div class="col-2"><i class="pi pi-step-backward"></i> Anterior</div>
+    <div class="col-2"><i class="pi pi-step-forward"></i> Siguiente</div>
+    <div class="col-2"><i class="pi pi-file"></i> Datos admin.</div>
+    <div class="col-2"><i class="pi pi-trash"></i> Eliminar</div>
+    <div class="col-2"><i class="pi pi-pencil"></i> Editar</div>
+    <div class="col-2"><i class="pi pi-power-off"></i> Cambiar estado</div>
+    <div class="col-2"><i class="pi pi-copy"></i> Duplicar</div>
+    <div class="col-2"><i class="pi pi-plus"></i> Crear / Agregar</div>
+    <div class="col-2"><i class="pi pi-list"></i> Ver reporte</div>
+    <div class="col-2"><i class="pi pi-search"></i> Buscar</div>
+    <div class="col-2"><i class="pi pi-download"></i> Descargar</div>
+    <div class="col-2"><i class="pi pi-user"></i> Tercero</div>
+    <div class="col-2"><i class="pi pi-refresh"></i> Actualizar</div>
+    <div class="col-2"><i class="pi pi-stop-circle"></i> Interrumpir</div>
+    <div class="col-2"><i class="pi pi-ban"></i> Anular</div>
+    <div class="col-2"><i class="pi pi-clone"></i> Copiar</div>
+    <div class="col-2"><i class="pi pi-eye"></i> Ver</div>
+    <div class="col-2"><i class="pi"></i> VIncular</div>
+    <div class="col-2"><i class="pi"></i> Desvincular</div>
+    <div class="col-2"><i class="pi"></i> Registro masivo</div>
+  </div>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Plantilla Correo"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <html>
+    <head>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>SIIF Nación</title>
+      <style>
+        img {
+          border: none;
+          -ms-interpolation-mode: bicubic;
+          max-width: 100%;
+        }
+
+        body {
+          background-color: #f6f6f6;
+          font-family: sans-serif;
+          -webkit-font-smoothing: antialiased;
+          font-size: 0.875rem;
+          line-height: 1.4;
+          margin: 0;
+          padding: 0;
+          -ms-text-size-adjust: 100%;
+          -webkit-text-size-adjust: 100%;
+        }
+
+        .body {
+          background-color: #f6f6f6;
+          width: 100%;
+        }
+
+        .container {
+          display: block;
+          margin: 0 auto !important;
+          max-width: 580px;
+          padding: 10px;
+          width: 580px;
+        }
+
+        .content {
+          box-sizing: border-box;
+          display: block;
+          margin: 0 auto;
+          max-width: 580px;
+          padding: 10px;
+        }
+
+        .main {
+          background: #ffffff;
+          border-radius: 3px;
+          width: 100%;
+        }
+
+        .wrapper {
+          border: 1px solid #bbc2c8;
+          box-sizing: border-box;
+          padding: 20px;
+        }
+
+        .titulo {
+          font-weight: bold;
+          font-size: 1.2rem;
+          text-align: left;
+          margin: 1.25rem 0 0 0;
+          color: #2d77c2;
+        }
+
+        .importante {
+          color: #2d77c2;
+          padding: 5px;
+        }
+
+        .content-block {
+          padding-bottom: 10px;
+          padding-top: 10px;
+        }
+
+        .mt0 {
+          margin-top: 0;
+        }
+
+        .mb0 {
+          margin-bottom: 0;
+        }
+
+        hr {
+          border: 0;
+          border-bottom: 1px solid #c2c2c2;
+          margin: 5px 0 20px 0;
+        }
+
+        @media only screen and (max-width: 620px) {
+          table.body h1 {
+            font-size: 28px !important;
+            margin-bottom: 10px !important;
+          }
+          table.body p,
+          table.body ul,
+          table.body ol,
+          table.body td,
+          table.body span,
+          table.body a {
+            font-size: 16px !important;
+          }
+          table.body .wrapper,
+          table.body .article {
+            padding: 10px !important;
+          }
+          table.body .content {
+            padding: 0 !important;
+          }
+          table.body .container {
+            padding: 0 !important;
+            width: 100% !important;
+          }
+          table.body .main {
+            border-left-width: 0 !important;
+            border-radius: 0 !important;
+            border-right-width: 0 !important;
+          }
+          table.body .btn table {
+            width: 100% !important;
+          }
+          table.body .btn a {
+            width: 100% !important;
+          }
+          table.body .img-responsive {
+            height: auto !important;
+            max-width: 100% !important;
+            width: auto !important;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      <table border="0" cellpadding="0" cellspacing="0" class="body">
+        <tr>
+          <td>&nbsp;</td>
+          <td class="container">
+            <div class="content">
+              <table role="presentation" class="main">
+                <tr>
+                  <td class="wrapper">
+                    <img
+                      src="https://i.ibb.co/31TBQS6/header-mail.png"
+                      alt="header-mail"
+                      border="0"
+                    />
+
+                    <table border="0" cellpadding="0" cellspacing="0">
+                      <tr>
+                        <td>
+                          <span class="s">
+                            Bogotá D.C, 16 de Agosto de 2023
+                          </span>
+
+                          <p class="titulo">Reestablecimiento de contraseña</p>
+                          <hr />
+                          <p>Sr(a) Nombre Usuario, reciba cordial saludo:</p>
+                          <p>
+                            Bienvenido al SISTEMA INTEGRADO DE INFORMACIÓN
+                            FINANCIERO - SIIF NACIÓN, a continuación encontrará
+                            sus nuevas credenciales de acceso:
+                          </p>
+                          <table
+                            border="0"
+                            cellpadding="0"
+                            cellspacing="0"
+                            class="btn btn-primary"
+                          >
+                            <tbody>
+                              <tr>
+                                <td align="center">
+                                  <div
+                                    style="position: relative; margin-top: 10px"
+                                  >
+                                    <div
+                                      class="importante"
+                                      style="
+                                        background: #f4f4f5;
+                                        width: auto;
+                                        text-align: left;
+                                        padding: 10px;
+                                      "
+                                    >
+                                      <div>
+                                        Su usuario de acceso al sistema es:
+                                        <strong style="color: #2e5183"
+                                          >MHxxxxxx</strong
+                                        >
+                                      </div>
+                                      <br />
+                                      <div>
+                                        Su contraseña es:
+                                        <strong style="color: #2e5183"
+                                          >667@2159kL84</strong
+                                        >
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                          <p style="margin-top: 25px">
+                            Recuerde que, al ingresar por primera vez al
+                            sistema, debe cambiar obligatoriamente su
+                            contraseña.
+                          </p>
+                          <p style="margin-bottom: 20px">
+                            <br />
+                            Cordialmente, <br />
+                            ADMINISTRACIÓN DEL SIIF NACIÓN
+                          </p>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <div
+                      style="
+                        height: 70px;
+                        background-color: #eeedf0;
+                        background-image: url('https://i.ibb.co/XtNhtvG/footer-mail.png');
+                        background-size: cover;
+                        background-position: center;
+                        background-repeat: no-repeat;
+                        display: flex;
+                        justify-content: flex-end;
+                        padding-right: 10px;
+                        align-items: center;
+                        color: #ffffff;
+                        font-weight: normal;
+                        font-size: 11px;
+                      "
+                    >
+                      Horario de atención: Lunes a Viernes de 7:00 A.M. a 7:00
+                      P.M. Jornada Continua.
+                      <br />
+                      En Bogotá: (601) 6021270 opción 1 - Línea Gratuita:
+                      01-8000-910071 opción 1
+                    </div>
+                    <!-- <img
+                    src="https://i.ibb.co/qxdJW2v/footer-mail.png"
+                    alt="footer-mail"
+                    border="0"
+                    style="height: 70px"
+                  /> -->
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </td>
+          <td>&nbsp;</td>
+        </tr>
+      </table>
+    </body>
+  </html>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Plantilla Código Base"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <div class="grid">
+    <div class="col-12 md:col-12 lg:col-12">
+      <div class="w-full surface-card border-round espacio-cardMHCP">
+        <div class="paginaMHCP">
+          <div class="flex col-12 md:col-12 lg:col-12 paginaMHCP-header">
+            <div class="col-8 md:col-8 lg:col-8 p-0 paginaMHCP-header-titulo">
+              <app-lbl-titulo titulo="Test de Título"></app-lbl-titulo>
+            </div>
+            <div class="col-4 md:col-4 lg:col-4 p-0 paginaMHCP-accionPrincipal">
+              <button>Acción</button>
+            </div>
+          </div>
+
+          <div class="paginaMHCP-contenedor">
+            <div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+              <app-lbl-subtitulo
+                subtitulo="Sección 1"
+                [bEsSubtituloPrincipal]="false"
+              ></app-lbl-subtitulo>
+
+              <div>Contenido Sección 1</div>
+            </div>
+
+            <div class="col-12 md:col-12 lg:col-12 p-0">
+              <app-lbl-subtitulo
+                subtitulo="Sección 2"
+                [bEsSubtituloPrincipal]="false"
+              ></app-lbl-subtitulo>
+
+              <div>Contenido Sección 2</div>
+            </div>
+          </div>
+
+          <div class="col-12 md:col-12 lg:col-12 gap-2 paginaMHCP-footer">
+            <button>Cancelar</button>
+            <button>Guardar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-divider></p-divider>
+</div>

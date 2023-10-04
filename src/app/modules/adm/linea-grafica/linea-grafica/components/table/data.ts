@@ -1,0 +1,81 @@
+export const dataTable = [
+  {
+    sigla: 'VAL1',
+    descripcion: 'Valor 1 de la tabla',
+    nombre: 'Línea gráfica',
+    valor1: 9525,
+    valor2: 1678234,
+  },
+  {
+    sigla: 'VAL2',
+    descripcion: 'Valor 2 de la tabla',
+    nombre: 'Línea gráfica',
+    valor1: 9525,
+    valor2: 1678234,
+  },
+  {
+    sigla: 'VAL3',
+    descripcion:
+      'Valor 3 de la tabla, este campo contiene mucha información de tipo texto para lectura del usuario, por tal motivo debe ser recortado y mostrado en un Popover',
+    nombre: 'Línea gráfica',
+    valor1: 9525,
+    valor2: 1678234,
+  },
+  {
+    sigla: 'VAL4',
+    descripcion: 'Valor 4 de la tabla',
+    nombre: 'Línea gráfica',
+    valor1: 9525,
+    valor2: 1678234,
+  },
+  {
+    sigla: 'VAL5',
+    descripcion: 'Valor 5 de la tabla',
+    nombre: 'Línea gráfica',
+    valor1: 9525,
+    valor2: 1678234,
+  },
+  {
+    sigla: 'VAL6',
+    descripcion: 'Valor 6 de la tabla',
+    nombre: 'Línea gráfica',
+    valor1: 9525,
+    valor2: 1678234,
+  },
+  {
+    sigla: 'VAL7',
+    descripcion: 'Valor 7 de la tabla',
+    nombre: 'Línea gráfica',
+    valor1: 9525,
+    valor2: 1678234,
+  },
+  {
+    sigla: 'VAL8',
+    descripcion: 'Valor 8 de la tabla',
+    nombre: 'Línea gráfica',
+    valor1: 9525,
+    valor2: 1678234,
+  },
+  {
+    sigla: 'VAL9',
+    descripcion:
+      'Valor 9 de la tabla, este campo contiene mucha información de tipo texto para lectura del usuario, por tal motivo debe ser recortado y mostrado en un Popover',
+    nombre: 'Línea gráfica',
+    valor1: 9525,
+    valor2: 1678234,
+  },
+  {
+    sigla: 'VAL10',
+    descripcion: 'Valor 10 de la tabla',
+    nombre: 'Línea gráfica',
+    valor1: 9525,
+    valor2: 1678234,
+  },
+  {
+    sigla: 'VAL11',
+    descripcion: 'Valor 11 de la tabla',
+    nombre: 'Línea gráfica',
+    valor1: 9525,
+    valor2: 1678234,
+  },
+];

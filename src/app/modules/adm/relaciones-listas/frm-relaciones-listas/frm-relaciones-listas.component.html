@@ -1,0 +1,159 @@
+<!-- Toast -->
+<p-toast></p-toast>
+
+<!-- Diálogo de Confirmación -->
+<p-confirmDialog
+  [style]="{ width: '40vw' }"
+  [baseZIndex]="10000"
+  header="Cancelar operación"
+></p-confirmDialog>
+
+<!-- Desarrollo Base -->
+<div class="grid">
+  <div class="col-12 md:col-12 lg:col-12">
+    <div class="w-full surface-card border-round espacio-cardMHCP">
+      <div class="paginaMHCP">
+        <div class="paginaMHCP-contenedor">
+          <div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+            <app-lbl-subtitulo
+              subtitulo="Relacionar listas"
+              [bEsSubtituloPrincipal]="false"
+            ></app-lbl-subtitulo>
+
+            <p-accordion
+              [multiple]="false"
+              [activeIndex]="nActiveIndex"
+              [style]="{ width: '100%' }"
+              expandIcon="pi pi-angle-down"
+              collapseIcon="pi pi-angle-up"
+            >
+              <p-accordionTab
+                *ngFor="let relaciones of aDominiosRelacionados; let i = index"
+                [header]="relaciones.descripcionLista!"
+              >
+                <p-table
+                  #dt
+                  [id]="relaciones.id"
+                  styleClass="p-datatable-gridlines p-datatable-striped"
+                  currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+                  [value]="relaciones.valoresDominioDtos!"
+                  [scrollable]="false"
+                  [rowHover]="true"
+                  [paginator]="relaciones.valoresDominioDtos!.length > 10"
+                  [rows]="10"
+                  [rowsPerPageOptions]="[10, 25, 50]"
+                  [showCurrentPageReport]="true"
+                >
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th pSortableColumn="codigo" [style]="{ width: '20%' }">
+                        Código
+                        <p-sortIcon field="codigo"></p-sortIcon>
+                      </th>
+                      <th
+                        pSortableColumn="descripcion"
+                        [style]="{ width: '70%' }"
+                      >
+                        Descripción
+                        <p-sortIcon field="descripcion"></p-sortIcon>
+                      </th>
+                      <th></th>
+                    </tr>
+                    <tr>
+                      <th class="filtrosTableMHCP">
+                        <input
+                          pInputText
+                          type="text"
+                          (input)="
+                            dt.filter(
+                              $any($event.target).value,
+                              'sigla',
+                              'contains'
+                            )
+                          "
+                          placeholder="Filtrar por código"
+                          class="w-full"
+                        />
+                      </th>
+                      <th class="filtrosTableMHCP">
+                        <input
+                          pInputText
+                          type="text"
+                          (input)="
+                            dt.filter(
+                              $any($event.target).value,
+                              'descripcion',
+                              'contains'
+                            )
+                          "
+                          placeholder="Filtrar por descripción"
+                          class="w-full"
+                        />
+                      </th>
+                      <th class="filtrosTableMHCP"></th></tr
+                  ></ng-template>
+
+                  <ng-template
+                    pTemplate="body"
+                    let-valoresDominio
+                    let-ri="rowIndex"
+                  >
+                    <tr>
+                      <td>{{ valoresDominio.sigla }}</td>
+                      <td>{{ valoresDominio.descripcion }}</td>
+                      <td>
+                        <p-tableRadioButton
+                          [value]="valoresDominio"
+                          (click)="
+                            fnCambiarRelacion(relaciones, valoresDominio, i)
+                          "
+                        ></p-tableRadioButton>
+                      </td>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td colspan="3" class="text-center">
+                        No se han encontrado registrados.
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </p-accordionTab>
+            </p-accordion>
+
+            <div class="col-12 flex justify-content-end gap-2 mt-5">
+              <button
+                pButton
+                pRipple
+                icon="pi pi-plus"
+                label="Crear"
+                class="p-button-outlined colorVerdeMHCP"
+                type="submit"
+                (click)="fnGuardarRelacion()"
+              ></button>
+            </div>
+          </div>
+
+          <div class="col-12 md:col-12 lg:col-12 p-0">
+            <app-com-tabla-relaciones-listas
+              [nTotalRegistros]="nTotalRegistros"
+              [nIdRelacionCrud]="nIdRelacionCrud"
+            ></app-com-tabla-relaciones-listas>
+          </div>
+        </div>
+
+        <div class="col-12 md:col-12 lg:col-12 gap-2 paginaMHCP-footer">
+          <button
+            pButton
+            pRipple
+            icon="pi pi-times"
+            label="Cancelar"
+            class="colorRojoMHCP"
+            (click)="fnCancelarProceso()"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

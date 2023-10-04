@@ -1,0 +1,65 @@
+<p-toast key="some" position="top-right" (onClose)="fnRechazarAccion()">
+  <ng-template let-message pTemplate="message">
+    <div class="col-12">
+      <div class="flex flex-row">
+        <div class="icono mr-3">
+          <i
+            [class]="sSeverity === 'error' ? 'pi pi-times' : ' pi pi-check'"
+            style="font-size: 2rem"
+          >
+          </i>
+        </div>
+        <div class="contenido">
+          <div class="titulo">
+            <h6 style="color: #fff">{{ sTitulo }}</h6>
+          </div>
+          <div class="mensaje" style="margin-top: -8px">
+            <span>{{ sMensajePrimario }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div
+          class="flex flex-wrap flex-column border-round-sm mt-3 px-2 py-2"
+          style="background-color: #fff"
+        >
+          <div
+            class="titulo mb-3"
+            [ngStyle]="{ color: sSeverity === 'error' ? '#c22d2d' : '#009216' }"
+            style="text-align: center; font-weight: 600"
+          >
+            {{ sMensajeSecundario }}
+          </div>
+          <div class="flex flex-row justify-content-around">
+            <button
+              style="width: 120px !important"
+              pButton
+              pRipple
+              type="button"
+              label="No"
+              class="p-button-outlined"
+              [ngClass]="
+                sSeverity === 'error' ? 'colorRojoMHCP' : 'colorVerdeMHCP'
+              "
+              (click)="fnRechazarAccion()"
+            ></button>
+
+            <button
+              style="width: 120px !important"
+              pButton
+              pRipple
+              label="Si"
+              class="p-button-success colorVerdeMHCP"
+              [ngClass]="
+                sSeverity === 'error' ? 'colorRojoMHCP' : 'colorVerdeMHCP'
+              "
+              type="submit"
+              (click)="fnConfirmarAccion()"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>

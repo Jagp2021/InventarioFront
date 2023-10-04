@@ -1,0 +1,9 @@
+@mixin flex-jc-endMHCP {
+  display: flex;
+  justify-content: flex-end !important;
+}
+
+@mixin flex-ai-centerMHCP {
+  display: flex;
+  align-items: center !important;
+}

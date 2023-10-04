@@ -1,0 +1,54 @@
+.p-messages {
+  position: fixed;
+  top: 56px;
+  width: 100%;
+  left: 0;
+  z-index: 5000;
+}
+.p-message {
+  .contenido {
+    display: flex;
+    // flex-direction: column;
+    // margin-left: 0.875rem;
+
+    .encabezado {
+      font-weight: bold;
+    }
+  }
+}
+
+/******************************/
+/** TOAST                     */
+/******************************/
+
+/******************************/
+/** DIALOG                    */
+/******************************/
+.p-dialog.p-confirm-dialog.p-component {
+  width: 40vw !important;
+}
+.p-dialog .p-dialog-header .p-dialog-header-icon:last-child {
+  margin-right: 0;
+  display: none;
+}
+
+/******************************/
+/** CONFIRM DIALOG            */
+/******************************/
+.p-confirm-dialog {
+  .p-dialog-header .p-dialog-title {
+    background: #ffc107;
+    color: #1b1c1e;
+  }
+  .p-dialog-content {
+    font-weight: 500;
+    padding-left: 2.2rem !important;
+  }
+}
+
+/******************************/
+/** TOOLTIP                   */
+/******************************/
+.p-tooltip {
+  max-width: 50% !important;
+}

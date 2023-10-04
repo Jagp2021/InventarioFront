@@ -1,0 +1,131 @@
+<div class="grid">
+    <div class="col-12 md:col-12 lg:col-12">
+      <div class="w-full surface-card border-round espacio-cardMHCP">
+        <div class="paginaMHCP">
+          <div class="flex col-12 md:col-12 lg:col-12 paginaMHCP-header">
+            <div class="col-8 md:col-8 lg:col-8 p-0 paginaMHCP-header-titulo">
+              <app-lbl-titulo
+                titulo="Proveedor"
+                descripcion="La funcionalidad para creación de catálogos debe permitir asignar una descripción y una estructura jerárquica de niveles de catálogo."
+              ></app-lbl-titulo>
+            </div>
+            <div class="col-4 md:col-4 lg:col-4 p-0 paginaMHCP-accionPrincipal">
+              <button
+                pButton
+                pRipple
+                label="Crear"
+                icon="pi pi-plus"
+                class="p-button-success"
+              ></button>
+            </div>
+          </div>
+  
+          <div class="paginaMHCP-contenedor">
+            <div class="col-12 md:col-12 lg:col-12 p-0">
+                <!-- Toast -->
+<p-toast></p-toast>
+
+<!-- Código Base -->
+<p-table
+  #dt
+  styleClass="p-datatable-gridlines p-datatable-striped"
+  selectionMode="single"
+  [loading]="loadingTabla"
+  [value]="lista"
+  [scrollable]="false"
+  [rowHover]="true"
+  [paginator]="lista.length > 10"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+  [globalFilterFields]="[
+    'descripcion',
+    'DescripcionFuncionCatalogo',
+    'topeCaracteres',
+    'activo'
+  ]"
+>
+  <ng-template
+    pTemplate="caption"
+    style="display: flex; justify-content: flex-start"
+  >
+    <div>
+      <span class="p-input-icon-right ml-auto">
+        <i class="pi pi-search"></i>
+        <input
+          pInputText
+          type="text"
+          (input)="applyFilterGlobal($event, 'contains')"
+          placeholder="Buscar..."
+          [style]="{ width: '100%' }"
+        />
+      </span>
+    </div>
+  </ng-template>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="descripcion">
+        Descripción <p-sortIcon field="descripcion"></p-sortIcon>
+      </th>
+      <th pSortableColumn="DescripcionFuncionCatalogo">
+        Función Catálogo
+        <p-sortIcon field="DescripcionFuncionCatalogo"></p-sortIcon>
+      </th>
+      <th pSortableColumn="topeCaracteres">
+        TopeCaracteres <p-sortIcon field="topeCaracteres"></p-sortIcon>
+      </th>
+      <th pSortableColumn="activo">
+        Estado <p-sortIcon field="activo"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-lista let-ri="rowIndex">
+    <tr
+      (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-clsif')"
+      (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-clsif')"
+      [pSelectableRow]="lista"
+    >
+      <td>{{ lista.descripcion }}</td>
+      <td>{{ lista.DescripcionFuncionCatalogo }}</td>
+      <td>{{ lista.topeCaracteres }}</td>
+      <td>{{ lista.activo | estadoPipe }}</td>
+
+      <div id="button-{{ ri }}-tb-clsif" class="no-mostrar">
+        <button
+          pButton
+          pRipple
+          pTooltip="Editar"
+          tooltipPosition="top"
+          icon="pi pi-pencil"
+          class="botonTableMHCP p-button-success colorVerdeMHCP"
+          
+        ></button>
+        <button
+          pButton
+          pRipple
+          pTooltip="Copiar Clasificador"
+          tooltipPosition="top"
+          icon="pi pi-file-edit"
+          class="botonTableMHCP p-button-info colorAzulMHCP"
+          
+        ></button>
+      </div>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5">No se han encontrado registros.</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

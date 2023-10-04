@@ -1,0 +1,48 @@
+@import "_mixins";
+@import "_functions";
+@import "_variables";
+
+/** 
+* 1. Espacios y diagramación footer
+* 2. Ancho del calendar
+* 3. Color de fondo botones bloqueado del datepicker
+*/
+
+/** 1. Espacios y diagramación footer */
+.footerMHCP {
+  margin-top: px-rem(80px);
+  background-color: $bkg-footer;
+  padding: px-rem(12px) px-rem(60px);
+  color: $clr-footer;
+  font-weight: bold;
+  font-size: px-rem(11px);
+  justify-content: space-between;
+
+  img {
+    width: px-rem(300px);
+  }
+  hr {
+    border-bottom: 1px solid $clr-blanco;
+  }
+  &-informacion {
+    .horarios {
+      border-bottom: 1px solid $clr-blanco;
+      padding-bottom: px-rem(8px);
+      margin-bottom: px-rem(14px);
+    }
+    .telefonos {
+      @include flex-jc-endMHCP;
+
+      .icono {
+        align-self: center;
+        margin-right: $s-30;
+        i {
+          font-size: px-rem(22px);
+        }
+      }
+      .texto {
+        text-align: right;
+      }
+    }
+  }
+}

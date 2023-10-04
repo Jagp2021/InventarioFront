@@ -1,0 +1,275 @@
+<app-lbl-subtitulo
+  subtitulo="Datos de la transacción"
+  [bEsSubtituloPrincipal]="false"
+></app-lbl-subtitulo>
+
+<form class="col-12 p-0" autocomplete="off" [formGroup]="frmGenerarReporte">
+  <div class="formgrid grid col-12 espacio-pb30MHCP">
+    <div class="field col-12 md:col-3">
+      <label htmlfor="TipoFuncionalidad" class="frm-titulo"
+        >Tipo de transacción</label
+      >
+
+      <p-dropdown
+        filterBy="descripcion"
+        placeholder="Seleccione..."
+        formControlName="TipoFuncionalidad"
+        optionValue="sigla"
+        optionLabel="descripcion"
+        class="mt-1"
+        [options]="aTipoTransaccion"
+        [filter]="false"
+        [showClear]="false"
+      >
+      </p-dropdown>
+    </div>
+
+    <div class="field col-12 md:col-3">
+      <label htmlfor="FuncionNegocio" class="frm-titulo"
+        >Función de negocio</label
+      >
+
+      <div class="col-12 p-0">
+        <p-dropdown
+          placeholder="Seleccione..."
+          formControlName="FuncionNegocio"
+          optionValue="sigla"
+          optionLabel="descripcion"
+          class="mt-1"
+          [options]="aFuncionNegocio"
+          [filter]="false"
+          [showClear]="false"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+
+    <div class="field col-12 md:col-3">
+      <label htmlfor="CodigoTransaccion" class="frm-titulo"
+        >Código de transacción</label
+      >
+
+      <div class="col-12 p-0">
+        <p-autoComplete
+          field=""
+          formControlName="CodigoTransaccion"
+          placeholder="Escriba el código de la transacción"
+          [suggestions]="aTransaccionesFiltradas"
+          [minLength]="1"
+          [dropdown]="false"
+          (completeMethod)="fnFiltrarTransacciones($event, 'codigo')"
+        ></p-autoComplete>
+      </div>
+    </div>
+
+    <div class="field col-12 md:col-3">
+      <label htmlfor="NombreTransaccion" class="frm-titulo"
+        >Nombre de transacción</label
+      >
+
+      <div class="col-12 p-0">
+        <p-autoComplete
+          field=""
+          formControlName="NombreTransaccion"
+          placeholder="Escriba el código de la transacción"
+          [suggestions]="aTransaccionesFiltradas"
+          [minLength]="1"
+          [dropdown]="false"
+          (completeMethod)="fnFiltrarTransacciones($event, 'nombre')"
+        ></p-autoComplete>
+      </div>
+    </div>
+
+    <div class="field col-12 md:col-3">
+      <label htmlfor="Categoria" class="frm-titulo"
+        >Código de categoría de transacción</label
+      >
+
+      <div class="col-12 p-0">
+        <p-dropdown
+          filterBy="descripcion"
+          placeholder="Seleccione..."
+          formControlName="Categoria"
+          optionValue="sigla"
+          optionLabel="sOpcionConcatenada"
+          class="mt-1"
+          [options]="aCodigosCategorias"
+          [filter]="true"
+          [showClear]="false"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+
+    <div class="field col-12 md:col-3">
+      <label htmlfor="EstadoFuncionalidad" class="frm-titulo"
+        >Estado de la transacción</label
+      >
+      <div class="col-12 p-0">
+        <p-dropdown
+          placeholder="Seleccione..."
+          formControlName="EstadoFuncionalidad"
+          optionValue="id"
+          optionLabel="valor"
+          class="mt-1"
+          [options]="aEstados"
+          [filter]="false"
+          [showClear]="false"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 p-0">
+    <app-lbl-subtitulo
+      subtitulo="Atributos"
+      [bEsSubtituloPrincipal]="false"
+    ></app-lbl-subtitulo>
+  </div>
+
+  <div class="formgrid grid col-12 p-0">
+    <div class="field col-12 md:col-4">
+      <label htmlfor="RequiereLogAuditoria" class="frm-titulo"
+        >Atributo de generar log de auditoría</label
+      >
+
+      <div class="col-12 p-0">
+        <div class="formgroup-inline">
+          <div class="col-12 md:col-3">
+            <div class="field-radiobutton mt-2">
+              <p-radioButton
+                inputId="RequiereLogAuditoria1"
+                name="RequiereLogAuditoria"
+                [value]="true"
+                class="p-element"
+                formControlName="RequiereLogAuditoria"
+              ></p-radioButton>
+              <label for="RequiereLogAuditoria1">Si</label>
+            </div>
+          </div>
+
+          <div class="col-12 md:col-3">
+            <div class="field-radiobutton mt-2">
+              <p-radioButton
+                inputId="RequiereLogAuditoria2"
+                name="RequiereLogAuditoria"
+                [value]="false"
+                class="p-element"
+                formControlName="RequiereLogAuditoria"
+              ></p-radioButton>
+              <label for="RequiereLogAuditoria2">No</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field col-12 md:col-4">
+      <label htmlfor="NivelSeguridadAlto" class="frm-titulo"
+        >Atributo de alto requerimiento de seguridad</label
+      >
+
+      <div class="col-12 p-0">
+        <div class="formgroup-inline">
+          <div class="col-12 md:col-3">
+            <div class="field-radiobutton mt-2">
+              <p-radioButton
+                inputId="NivelSeguridadAlto1"
+                name="NivelSeguridadAlto"
+                [value]="true"
+                class="p-element"
+                formControlName="NivelSeguridadAlto"
+              ></p-radioButton>
+              <label for="NivelSeguridadAlto1">Si</label>
+            </div>
+          </div>
+
+          <div class="col-12 md:col-3">
+            <div class="field-radiobutton mt-2">
+              <p-radioButton
+                inputId="NivelSeguridadAlto2"
+                name="NivelSeguridadAlto"
+                [value]="false"
+                class="p-element"
+                formControlName="NivelSeguridadAlto"
+              ></p-radioButton>
+              <label for="NivelSeguridadAlto2">No</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field col-12 md:col-4">
+      <label htmlfor="RequiereDatosAdministrativos" class="frm-titulo"
+        >Atributo de datos administrativos</label
+      >
+
+      <div class="col-12 p-0">
+        <div class="formgroup-inline">
+          <div class="col-12 md:col-3">
+            <div class="field-radiobutton mt-2">
+              <p-radioButton
+                inputId="RequiereDatosAdministrativos1"
+                name="RequiereDatosAdministrativos"
+                [value]="true"
+                class="p-element"
+                formControlName="RequiereDatosAdministrativos"
+              ></p-radioButton>
+              <label for="RequiereDatosAdministrativos1">Si</label>
+            </div>
+          </div>
+
+          <div class="col-12 md:col-3">
+            <div class="field-radiobutton mt-2">
+              <p-radioButton
+                inputId="RequiereDatosAdministrativos2"
+                name="RequiereDatosAdministrativos"
+                [value]="false"
+                class="p-element"
+                formControlName="RequiereDatosAdministrativos"
+              ></p-radioButton>
+              <label for="RequiereDatosAdministrativos2">No</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flex col-12 gap-2 paginaMHCP-footer">
+    <div class="col-3 flex justify-content-start">
+      <button
+        pButton
+        pRipple
+        label="{{ 'limpiar filtros' | uppercase }}"
+        icon="pi pi-eraser"
+        class="p-button-outlined colorVerdeMHCP"
+        (click)="fnLimpiarFormulario()"
+      ></button>
+    </div>
+
+    <div class="col-9 flex justify-content-end gap-2">
+      <button
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-times"
+        label="Cancelar"
+        class="colorRojoMHCP"
+        (click)="fnCancelarProceso()"
+      ></button>
+      <button
+        pButton
+        pRipple
+        type="button"
+        icon="pi pi-save"
+        label="Ver reporte"
+        class="p-button-success colorVerdeMHCP"
+        [disabled]="frmGenerarReporte.invalid"
+        (click)="fnGenerarReporte()"
+      ></button>
+    </div>
+  </div>
+</form>

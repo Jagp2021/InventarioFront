@@ -1,0 +1,208 @@
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Filtro Genérico: Terceros"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <h6><i class="pi pi-exclamation-triangle"></i> En contrucción...</h6>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Filtro Genérico: Cuentas"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <h6><i class="pi pi-exclamation-triangle"></i> En contrucción...</h6>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Filtro Genérico: Posiciones"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <app-filtro-catalogo
+    [sId]="'fc1'"
+    [sTituloHeader]="'Ámbito aplicación PGN'"
+    [oInformacionFiltro]="[]"
+    [oCamposFormulario]="oCamposFormularioPosiciones"
+    [bEsMultiple]="false"
+    [bDevolverSoloID]="false"
+    [bAbrirFiltro]="bAbrirFiltroPosiciones"
+    [bGuardarLocalStorage]="true"
+    [aNiveles]="[]"
+    (bCerrarFiltro)="fnObtenerCierreFiltroPosiciones($event)"
+    (aPosicionesCatalogosEmitadas)="fnObtenerDataFiltroPosiciones($event)"
+  ></app-filtro-catalogo>
+
+  <form>
+    <div class="field col-12 md:col-2">
+      <label htmlfor="name1" class="frm-titulo">Posiciones Catálogo</label>
+
+      <span class="p-input-icon-right cursor-pointer">
+        <i
+          class="pi pi-search"
+          (click)="fnAbrirFiltroPosiciones()"
+          style="z-index: 9999"
+        ></i>
+
+        <p-dropdown
+          [options]="aPosiciones"
+          optionLabel="nombre"
+          optionValue="id"
+          [dropdownIcon]="'none'"
+          [readonly]="true"
+          placeholder="Buscar posición"
+          [showClear]="true"
+        ></p-dropdown>
+      </span>
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Filtro Genérico: Transacciones"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <app-filtro-transacciones
+    [sId]="'ft1'"
+    [sTituloHeader]="'Buscar Transacción'"
+    [oInformacionFiltro]="aTransacciones"
+    [oCamposFormulario]="oCamposFormularioTransacciones"
+    [bEsMultiple]="false"
+    [bDevolverSoloID]="false"
+    [bAbrirFiltro]="bAbrirFiltroTransacciones"
+    [bGuardarLocalStorage]="true"
+    [nIndex]="0"
+    (bCerrarFiltro)="fnObtenerCierreFiltroTransacciones($event)"
+    (aTransacionesEmitadas)="fnObtenerDataFiltroTransacciones($event)"
+  ></app-filtro-transacciones>
+
+  <form>
+    <div class="field col-12 md:col-2">
+      <label htmlfor="name1" class="frm-titulo">Transacciones</label>
+
+      <span class="p-input-icon-right cursor-pointer">
+        <i
+          class="pi pi-search"
+          (click)="fnAbrirFiltroTransacciones()"
+          style="z-index: 9999"
+        ></i>
+
+        <p-dropdown
+          [options]="aTransacciones"
+          optionLabel="nombre"
+          optionValue="id"
+          [dropdownIcon]="'none'"
+          [readonly]="true"
+          placeholder="Buscar transacción"
+          [showClear]="true"
+        ></p-dropdown>
+      </span>
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Filtro Genérico: Usuarios"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <app-filtro-usuarios
+    [sId]="'fu1'"
+    [sTituloHeader]="'Buscar Usuario'"
+    [oInformacionFiltro]="aUsuarios"
+    [oCamposFormulario]="oCamposFormularioUsuarios"
+    [bEsMultiple]="false"
+    [bDevolverSoloID]="false"
+    [bAbrirFiltro]="bAbrirFiltroUsuario"
+    [bGuardarLocalStorage]="true"
+    [nIndex]="0"
+    (bCerrarFiltro)="fnObtenerCierreFiltroUsuario($event)"
+    (aUsuariosEmitados)="fnObtenerDataFiltroUsuario($event)"
+  ></app-filtro-usuarios>
+
+  <form>
+    <div class="field col-12 md:col-2">
+      <label htmlfor="name1" class="frm-titulo">Usuarios</label>
+
+      <span class="p-input-icon-right cursor-pointer">
+        <i
+          class="pi pi-search"
+          (click)="fnAbrirFiltroUsuario()"
+          style="z-index: 9999"
+        ></i>
+
+        <p-dropdown
+          [options]="aUsuarios"
+          optionLabel="nombre"
+          optionValue="id"
+          [dropdownIcon]="'none'"
+          [readonly]="true"
+          placeholder="Buscar usuario"
+          [showClear]="true"
+        ></p-dropdown>
+      </span>
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>
+
+<div class="col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Filtro Genérico: Perfiles"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <app-filtro-perfiles
+    [sId]="'fp1'"
+    [sTituloHeader]="'Buscar Perfil'"
+    [oInformacionFiltro]="[]"
+    [oCamposFormulario]="oCamposFormularioPerfiles"
+    [bEsMultiple]="false"
+    [bDevolverSoloID]="false"
+    [bAbrirFiltro]="bAbrirFiltroPerfil"
+    [bGuardarLocalStorage]="true"
+    (bCerrarFiltro)="fnObtenerCierreFiltroPerfil($event)"
+    (aPerfilesEmitados)="fnObtenerDataFiltroPerfil($event)"
+  ></app-filtro-perfiles>
+
+  <form>
+    <div class="field col-12 md:col-2">
+      <label htmlfor="name1" class="frm-titulo">Perfil</label>
+
+      <span class="p-input-icon-right cursor-pointer">
+        <i
+          class="pi pi-search"
+          (click)="fnAbrirFiltroPerfil()"
+          style="z-index: 9999"
+        ></i>
+
+        <p-dropdown
+          [options]="aPerfiles"
+          optionLabel="nombre"
+          optionValue="id"
+          [dropdownIcon]="'none'"
+          [readonly]="true"
+          placeholder="Buscar perfil"
+          [showClear]="true"
+        ></p-dropdown>
+      </span>
+    </div>
+  </form>
+
+  <p-divider></p-divider>
+</div>

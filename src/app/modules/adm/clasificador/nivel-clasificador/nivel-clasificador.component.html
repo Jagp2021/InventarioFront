@@ -1,0 +1,123 @@
+<!-- <p-card styleClass="shadow-2" class="p-fluid">
+    <div class="row">
+        <div> -->
+<form class="field col-12 p-0" [formGroup]="formNivelClasificador">
+  <div class="formgrid grid">
+    <div class="field col-12 md:col-4">
+      <label htmlfor="name1" class="frm-titulo"
+        >Nombre <span class="required">*</span></label
+      >
+      <div class="col-12 p-0">
+        <input
+          #val
+          pInputText
+          id="name1"
+          type="text"
+          placeholder="Ingrese nombre"
+          class="p-inputtext p-component p-element"
+          formControlName="nombre"
+        />
+        <small
+          class="form-text text-red-600"
+          *ngIf="campoNoValidoNivel('nombre')"
+        >
+          {{ listaErroresMensajesNivel("nombre") }}
+        </small>
+      </div>
+    </div>
+    <div class="field col-12 md:col-4">
+      <label htmlfor="name1" class="frm-titulo"
+        >Tipo de Dato <span class="required">*</span></label
+      >
+      <div class="col-12 p-0">
+        <p-dropdown
+          [options]="listaTipoDato"
+          [(ngModel)]="selectedTipoDato"
+          optionLabel="descripcion"
+          [showClear]="true"
+          placeholder="Selecionar tipo de dato"
+          formControlName="tipoDato"
+        >
+          <ng-template let-tipodato pTemplate="item">
+            <div class="tipodato-item">
+              <div>{{ tipodato.descripcion }}</div>
+            </div>
+          </ng-template>
+        </p-dropdown>
+        <small
+          class="form-text text-red-600"
+          *ngIf="campoNoValidoNivel('tipoDato')"
+        >
+          {{ listaErroresMensajesNivel("tipoDato") }}
+        </small>
+      </div>
+    </div>
+    <div class="field col-12 md:col-4">
+      <label htmlfor="name1" class="frm-titulo"
+        >Cantidad de caracteres <span class="required">*</span></label
+      >
+      <div class="col-12 p-0">
+        <input
+          pInputText
+          id="name1"
+          type="text"
+          placeholder="Escriba una cantidad"
+          class="p-inputtext p-component p-element"
+          formControlName="longitud"
+        />
+        <small
+          class="form-text text-red-600"
+          *ngIf="campoNoValidoNivel('longitud')"
+        >
+          {{ listaErroresMensajesNivel("longitud") }}
+        </small>
+      </div>
+    </div>
+    <div class="field col-12 md:col-4">
+      <label htmlfor="name1" class="frm-titulo"
+        >Orden Numérico <span class="required">*</span></label
+      >
+      <div class="col-12 p-0">
+        <input
+          #val
+          pInputText
+          id="name1"
+          type="text"
+          placeholder="Ingrese Orden"
+          class="p-inputtext p-component p-element"
+          formControlName="orden"
+        />
+        <small
+          class="form-text text-red-600"
+          *ngIf="campoNoValidoNivel('orden')"
+        >
+          {{ listaErroresMensajesNivel("orden") }}
+        </small>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- </div>
+    </div> -->
+<div class="col-12 flex justify-content-end mt-3 gap-2 p-0">
+  <button
+    pButton
+    pRipple
+    label="Cancelar"
+    class="colorRojoMHCP"
+    icon="pi pi-times"
+    [style]="{ width: '8.5rem' }"
+    (click)="cancelar()"
+  ></button>
+  <button
+    pButton
+    pRipple
+    label="ACEPTAR"
+    class="p-button-success colorVerdeMHCP"
+    icon="pi pi-check"
+    [style]="{ width: '8.5rem' }"
+    [disabled]="formNivelClasificador.invalid"
+    (click)="aceptar()"
+  ></button>
+</div>
+<!-- </p-card> -->

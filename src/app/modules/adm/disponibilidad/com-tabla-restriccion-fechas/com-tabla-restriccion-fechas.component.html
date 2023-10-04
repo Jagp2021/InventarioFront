@@ -1,0 +1,131 @@
+<!-- Código Base -->
+<div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+  <form class="col-12 p-0" [formGroup]="formFecha" autocomplete="off">
+    <div class="formgrid grid">
+      <div class="flex flex-column w-full lg:w-6 fecha">
+        <label class="font-bold mb-2 w-full lg:w-12"
+          >Fechas de registro restricción</label
+        >
+        <div class="flex">
+          <div class="flex flex-column w-full lg:w-6 mr-5">
+            <label class="font-bold mb-1">Fecha Inicial</label>
+            <p-calendar
+              [showIcon]="true"
+              placeholder="AAAA-MM-DD"
+              dateFormat="yy-mm-dd"
+              formControlName="fechaInicial"
+              dataType="string"
+            ></p-calendar>
+            <small
+              class="form-text text-red-600"
+              *ngIf="campoNoValido('fechaInicial')"
+            >
+              {{ listaErroresMensajes("fechaInicial") }}
+            </small>
+          </div>
+          <div class="flex flex-column w-full lg:w-6">
+            <label class="font-bold mb-1">Fecha Final</label>
+            <p-calendar
+              [showIcon]="true"
+              placeholder="AAAA-MM-DD"
+              dateFormat="yy-mm-dd"
+              formControlName="fechaFinal"
+              dataType="string"
+            ></p-calendar>
+            <small
+              class="form-text text-red-600"
+              *ngIf="campoNoValido('fechaFinal')"
+            >
+              {{ listaErroresMensajes("fechaFinal") }}
+            </small>
+          </div>
+        </div>
+      </div>
+
+      <div class="field col-3 md:col-3" [ngStyle]="{ 'margin-top': '40px' }">
+        <button
+          pButton
+          pRipple
+          icon="pi pi-plus"
+          label="Agregar"
+          class="p-button-success colorVerdeMHCP"
+          type="submit"
+          [disabled]="formFecha.invalid"
+          (click)="agregarFechaRestriccion()"
+        ></button>
+      </div>
+    </div>
+  </form>
+</div>
+
+<app-lbl-subtitulo
+  subtitulo="Fechas existentes"
+  [bEsSubtituloPrincipal]="false"
+></app-lbl-subtitulo>
+
+<div class="field col-12 p-0">
+  <p-table
+    #dt
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    selectionMode="single"
+    [loading]="false"
+    [value]="oListaFecha"
+    [(selection)]="fechaSelecionada"
+    [scrollable]="false"
+    [tableStyle]="{ 'min-width': '50rem' }"
+    [rowHover]="true"
+    [paginator]="oListaFecha.length > 10"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <!-- <th style="width: 4rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th> -->
+        <th pSortableColumn="codigo">
+          Fecha inicial <p-sortIcon field="codigo"></p-sortIcon>
+        </th>
+        <th pSortableColumn="nombre">
+          Fecha final <p-sortIcon field="nombre"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="body" let-oListaFecha let-ri="rowIndex">
+      <tr
+        (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-fecha')"
+        (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-fecha')"
+        [pSelectableRow]="oListaFecha"
+      >
+        <!-- <td>
+          <p-tableCheckbox [value]="oListaFechas"></p-tableCheckbox>
+        </td> -->
+        <td>{{ oListaFecha.fechaInicial | fechaText }}</td>
+        <td>{{ oListaFecha.fechaFinal | fechaText }}</td>
+
+        <div id="button-{{ ri }}-tb-fecha" class="no-mostrar">
+          <button
+            pButton
+            pRipple
+            pTooltip="Eliminar"
+            tooltipPosition="top"
+            type="button"
+            icon="pi pi-trash"
+            class="botonTableMHCP colorRojoMHCP"
+            (click)="eliminarRestriccionFecha(ri)"
+          ></button>
+        </div>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="2" class="text-center">
+          No se han encontrado registrados.
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

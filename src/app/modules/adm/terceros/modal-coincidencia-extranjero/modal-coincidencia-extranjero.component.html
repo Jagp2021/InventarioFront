@@ -1,0 +1,75 @@
+<div class="field col-12">
+  <p-table
+    #dt
+    styleClass="p-datatable-gridlines p-datatable-striped"
+    currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+    selectionMode="single"
+    [tableStyle]="{ 'min-width': '24rem' }"
+    [loading]="bLoadingTabla"
+    [value]="oListaTerceros"
+    [scrollable]="false"
+    [rowHover]="true"
+    [paginator]="oListaTerceros.length > 10 ? true : false"
+    [rows]="10"
+    [rowsPerPageOptions]="[10, 25, 50]"
+    [showCurrentPageReport]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="horaInicial">
+          Naturaleza <p-sortIcon field="horaInicial"></p-sortIcon>
+        </th>
+        <th pSortableColumn="horaFinal">
+          Tipo de Doc. <p-sortIcon field="horaFinal"></p-sortIcon>
+        </th>
+        <th pSortableColumn="horaFinal">
+          Nro. de DOc <p-sortIcon field="horaFinal"></p-sortIcon>
+        </th>
+        <th pSortableColumn="horaFinal">
+          Razon social <p-sortIcon field="horaFinal"></p-sortIcon>
+        </th>
+      </tr>
+    </ng-template>
+
+    <ng-template
+      pTemplate="body"
+      let-oListaTerceros
+      let-editing="editing"
+      let-ri="rowIndex"
+    >
+      <tr [pEditableRow]="oListaTerceros">
+        <td>{{ oListaTerceros.tipoNaturaleza }}</td>
+        <td>{{ oListaTerceros.tipoDocumento }}</td>
+        <td>{{ oListaTerceros.numeroDocumento }}</td>
+        <td>{{ oListaTerceros.razonSocial }}</td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="5">No se han encontrado registrados.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+<div
+  class="col-12 flex justify-content-end mt-5 gap-2 p-0"
+  style="margin-bottom: -15px"
+>
+  <button
+    pButton
+    pRipple
+    icon="pi pi-times"
+    (click)="fnCerrarModal(true)"
+    label="Cancelar"
+    class="colorRojoMHCP"
+  ></button>
+  <button
+    pButton
+    pRipple
+    icon="pi pi-check"
+    label="Aceptar"
+    class="p-button-success colorVerdeMHCP"
+    type="submit"
+    (click)="estadoAccionModal()"
+  ></button>
+</div>

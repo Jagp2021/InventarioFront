@@ -1,0 +1,148 @@
+<app-filtro-catalogo
+  [sId]="'fc1'"
+  [sTituloHeader]="'Buscar posiciones función de catálogo'"
+  [oInformacionFiltro]="aCatalogos"
+  [oCamposFormulario]="oCamposFormulario"
+  [bEsMultiple]="true"
+  [bDevolverSoloID]="false"
+  [bAbrirFiltro]="bAbrirFiltro"
+  [bGuardarLocalStorage]="true"
+  [aNiveles]="[]"
+  (bCerrarFiltro)="fnObtenerCierreFiltro($event)"
+  (aPosicionesCatalogosEmitadas)="fnObtenerDataFiltro($event)"
+></app-filtro-catalogo>
+
+<form class="col-12 p-0" autocomplete="off" [formGroup]="frmGenerarReporte">
+  <div class="formgrid grid">
+    <div class="field col-12 md:col-6">
+      <label htmlfor="listaSeleccion" class="frm-titulo"
+        >Lista de selección</label
+      >
+
+      <div class="col-12 p-0">
+        <p-dropdown
+          filterBy="descripcion"
+          placeholder="Seleccione..."
+          formControlName="Dominio"
+          optionValue="dominio1"
+          optionLabel="descripcion"
+          [options]="aListasSeleccion"
+          [filter]="true"
+          [showClear]="false"
+          (onChange)="fnValidarDatos($event)"
+        >
+        </p-dropdown>
+      </div>
+    </div>
+
+    <div class="field col-12 md:col-6">
+      <label htmlfor="catalogos" class="frm-titulo">Entidades</label>
+      <div class="col-12 p-0">
+        <span class="p-input-icon-right">
+          <i class="pi pi-search" (click)="fnAbrirFiltroTransaccion()"></i>
+          <input
+            pInputText
+            type="text"
+            id="catalogos"
+            type="text"
+            placeholder="Seleccione la transacción"
+            class="p-inputtext"
+            formControlName="Pcis"
+          />
+        </span>
+      </div>
+    </div>
+
+    <div class="field col-12 md:col-12 mt-3" *ngIf="aCatalogos.length > 0">
+      <p-table
+        #dt
+        styleClass="p-datatable-gridlines p-datatable-striped p-2"
+        currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+        selectionMode="single"
+        [loading]="false"
+        [value]="aCatalogos"
+        [scrollable]="false"
+        [rowHover]="true"
+        [paginator]="aCatalogos.length > 10 ? true : false"
+        [rows]="10"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [showCurrentPageReport]="true"
+        *ngIf="aCatalogos.length > 0"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="entidad">
+              Entidad <p-sortIcon field="entidad"></p-sortIcon>
+            </th>
+            <th pSortableColumn="descripcion">
+              Descripción <p-sortIcon field="descripcion"></p-sortIcon>
+            </th>
+            <th>Acciones</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-posicionCatalogo let-ri="rowIndex">
+          <tr [pSelectableRow]="posicionCatalogo">
+            <td>{{ posicionCatalogo.data.codigo }}</td>
+            <td>{{ posicionCatalogo.data.nombre }}</td>
+            <td>
+              <div #actions>
+                <button
+                  pButton
+                  pRipple
+                  pTooltip="Eliminar"
+                  tooltipPosition="top"
+                  type="button"
+                  icon="pi pi-trash"
+                  class="botonTableMHCP colorRojoMHCP"
+                  (click)="fnEliminarPosicion(posicionCatalogo, ri)"
+                ></button>
+              </div>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+          <tr>
+            <td colspan="3" class="text-center">
+              No se han encontrado registrados.
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+    <div class="col-12 flex paginaMHCP-footer">
+      <div class="col-3 flex justify-content-start">
+        <button
+          pButton
+          pRipple
+          label="{{ 'limpiar filtros' | uppercase }}"
+          icon="pi pi-eraser"
+          class="p-button-outlined colorVerdeMHCP"
+          (click)="fnLimpiarFormulario()"
+        ></button>
+      </div>
+
+      <div class="col-9 flex justify-content-end gap-2">
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-times"
+          label="Cancelar"
+          class="colorRojoMHCP"
+          (click)="fnCancelarProceso()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-save"
+          label="Ver reporte"
+          class="p-button-success colorVerdeMHCP"
+          (click)="fnGenerarReporte()"
+        ></button>
+      </div>
+    </div>
+  </div>
+</form>

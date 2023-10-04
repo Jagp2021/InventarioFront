@@ -1,0 +1,574 @@
+<!-- Toast -->
+<app-lbl-toast-acciones
+  sTitulo="Exitoso"
+  sMensajePrimario="Se creo correctamente la persona {{
+    sTextoTipoPersona
+  }} en el sistema con el Tipo de identificación y número de identificación {{
+    sTextoTipoDocumento + ' ' + sTextoNumeroDocumento
+  }}."
+  sMensajeSecundario="¿Desea adicionar cuenta"
+  (oClick)="fnCargarEvento()"
+></app-lbl-toast-acciones>
+<p-toast></p-toast>
+
+<!-- Dialogo de Confirmación -->
+<p-confirmDialog
+  [style]="{ width: '40vw' }"
+  [baseZIndex]="10000"
+  [header]="'Cancelar operación'"
+></p-confirmDialog>
+
+<div class="mt-4">
+  <app-lbl-subtitulo
+    subtitulo="Datos de contacto"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+</div>
+
+<div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+  <form class="col-12 p-0" [formGroup]="frmUbicacion">
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-6">
+        <label htmlfor="name1" class="frm-titulo">E-mail </label>
+        <input
+          pInputText
+          id="name1"
+          type="text"
+          placeholder="Ingrese número"
+          class="p-inputtext p-component p-element"
+          formControlName="emailPrincipal"
+        />
+      </div>
+      <div class="field col-12 md:col-3">
+        <label htmlfor="name1" class="frm-titulo">Contacto </label>
+        <input
+          pInputText
+          id="name1"
+          type="text"
+          placeholder="Ingrese número"
+          class="p-inputtext p-component p-element"
+          formControlName="nombreContacto"
+        />
+        <small
+          class="form-text text-red-600"
+          *ngIf="campoNoValido('nombreContacto')"
+        >
+          {{ listaErroresMensajes("nombreContacto") }}
+        </small>
+      </div>
+      <div class="field col-12 md:col-3">
+        <label htmlfor="name1" class="frm-titulo">Designación </label>
+        <input
+          pInputText
+          id="name1"
+          type="text"
+          placeholder="Ingrese número"
+          class="p-inputtext p-component p-element"
+          formControlName="designacionContacto"
+        />
+        <small
+          class="form-text text-red-600"
+          *ngIf="campoNoValido('designacionContacto')"
+        >
+          {{ listaErroresMensajes("designacionContacto") }}
+        </small>
+      </div>
+    </div>
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-6">
+        <label htmlfor="name1" class="frm-titulo"
+          >E-mail secundario 1 y 2</label
+        >
+        <div class="col-12 p-0 multidataMHCP">
+          <div class="p-inputgroup">
+            <input
+              type="text"
+              pInputText
+              placeholder="Ingrese correo electrónico"
+              noWhiteSpaces
+              (keyup.enter)="agregarCorreo()"
+              maxlength="100"
+              formControlName="email"
+            />
+            <button
+              style="margin: 0rem !important"
+              type="button"
+              (click)="agregarCorreo()"
+              pButton
+              icon="pi pi-plus"
+              class="p-button-personales"
+            ></button>
+          </div>
+          <div
+            class="flex flex-column"
+            *ngIf="frmUbicacion.get('email')?.hasError('emailInvalido')"
+          >
+            <small class="p-error block">* Formato invalido.</small>
+          </div>
+          <p-table [value]="oCorreos!" *ngIf="oCorreos!.length > 0">
+            <ng-template pTemplate="body" let-correo let-index>
+              <tr>
+                <td>
+                  {{ correo.valorContacto }}
+                </td>
+                <td style="padding: 0px !important">
+                  <div class="flex flex-row justify-content-end">
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      icon="pi pi-times"
+                      class="p-button-danger p-button-personales"
+                      (click)="borrarcorreo(index)"
+                    ></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="col-12 md:col-12 lg:col-12 espacio-pb30MHCP">
+  <app-lbl-subtitulo
+    subtitulo="Direcciones"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <div class="col-12 flex justify-content-end gap-2 p-0 mb-4">
+    <button
+      pButton
+      pRipple
+      label="Agregar dirección"
+      icon="pi pi-plus"
+      class="p-button-outlined colorAzulMHCP"
+      (click)="agregarDireccion()"
+    ></button>
+  </div>
+  <div class="col-12 md:col-12 lg:col-12 p-0">
+    <p-table
+      #dt
+      [tableStyle]="{ 'min-width': '80rem' }"
+      styleClass="p-datatable-gridlines p-datatable-striped"
+      currentPageReportTemplate="Mostrando {first} filas de {totalRecords}"
+      selectionMode="single"
+      [loading]="bMostrarLoading"
+      [value]="oDirecciones!"
+      [scrollable]="false"
+      [rowHover]="true"
+      [paginator]="oDirecciones!.length > 10 ? true : false"
+      [rows]="10"
+      [rowsPerPageOptions]="[10, 25, 50]"
+      [showCurrentPageReport]="true"
+    >
+      <ng-template pTemplate="header">
+        <tr>
+          <th pSortableColumn="tipoDireccion">
+            Tipo de direccion
+            <p-sortIcon field="tipoDireccion"></p-sortIcon>
+          </th>
+          <th pSortableColumn="direccion">
+            Direccion <p-sortIcon field="direccion"></p-sortIcon>
+          </th>
+          <th pSortableColumn="descripcion_Pais">
+            Pais <p-sortIcon field="descripcion_Pais"></p-sortIcon>
+          </th>
+          <th pSortableColumn="descripcion_Region">
+            Región <p-sortIcon field="descripcion_Region"></p-sortIcon>
+          </th>
+          <th pSortableColumn="descripcion_Ciudad">
+            Ciudad <p-sortIcon field="descripcion_Ciudad"></p-sortIcon>
+          </th>
+          <th pSortableColumn="nombre">
+            Teléfono <p-sortIcon field="nombre"></p-sortIcon>
+          </th>
+          <th pSortableColumn="codigoPostal">
+            Código postal <p-sortIcon field="codigoPostal"></p-sortIcon>
+          </th>
+          <th pSortableColumn="activo">
+            Estado <p-sortIcon field="activo"></p-sortIcon>
+          </th>
+        </tr>
+      </ng-template>
+
+      <ng-template pTemplate="body" let-oDirecciones let-ri="rowIndex">
+        <tr
+          (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-tlsel')"
+          (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-tlsel')"
+          [pSelectableRow]="oDirecciones"
+        >
+          <td>{{ oDirecciones.descripcionTipoDireccion }}</td>
+          <td>{{ oDirecciones.direccion }}</td>
+          <td>{{ oDirecciones.descripcion_Pais }}</td>
+          <td>{{ oDirecciones.descripcion_Region }}</td>
+          <td>{{ oDirecciones.descripcion_Ciudad }}</td>
+          <td>{{ unirContactos(oDirecciones.mediosContactosPersonas) }}</td>
+          <td>{{ oDirecciones.codigoPostal }}</td>
+          <td>{{ oDirecciones.activo | convertirBoolean : "ai" }}</td>
+          <div id="button-{{ ri }}-tb-tlsel" class="no-mostrar">
+            <button
+              pButton
+              pRipple
+              pTooltip="Editar"
+              tooltipPosition="top"
+              type="button"
+              icon="pi pi-pencil"
+              class="botonTableMHCP p-button-success colorVerdeMHCP"
+              (click)="editarDirecciones(oDirecciones, ri)"
+            ></button>
+            <button
+              *ngIf="oDirecciones.tipoDireccion != 'FISC'"
+              pButton
+              pRipple
+              pTooltip="Cambiar estado"
+              tooltipPosition="top"
+              type="button"
+              icon="pi pi-power-off"
+              class="botonTableMHCP colorAmarilloMHCP"
+              (click)="cambiarEstadoDireccion(oDirecciones)"
+            ></button>
+          </div>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <td class="text-center" colspan="5">
+            No se han encontrado registrados.
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+
+<div
+  class="w-full flex flex-column md:flex-column lg:flex-row gap-5 justify-content-between align-content-center"
+>
+  <div class="flex flex-column">
+    <button
+      pButton
+      pRipple
+      label="ANTERIOR"
+      class="p-button-outlined colorVerdeMHCP"
+      icon="pi pi-step-backward"
+      iconPos="left"
+      (click)="anterior()"
+    ></button>
+  </div>
+  <div class="flex flex-column">
+    <button
+      *ngIf="bRequiereDatosAdministrativos"
+      pButton
+      pRipple
+      label="Siguiente"
+      class="p-button-outlined colorVerdeMHCP"
+      [icon]="'pi pi-step-forward'"
+      iconPos="right"
+      [disabled]="!frmUbicacion.valid && oDirecciones!.length < 0"
+      (click)="siguiente(false)"
+    ></button>
+  </div>
+</div>
+<div
+  class="w-full flex flex-column md:flex-column lg:flex-row gap-5 justify-content-between align-content-center paginaMHCP-footer"
+>
+  <div class="flex flex-row gap-2">
+    <button
+      *ngIf="sAccion === 'editar'"
+      pButton
+      pRipple
+      class="p-button-outlined colorVerdeMHCP"
+      label="ADICIONAR CUENTAS BANCARIAS"
+      [icon]="'pi pi-plus'"
+      iconPos="left"
+      (click)="adicionarCuentasBancarias()"
+    ></button>
+  </div>
+  <div class="flex flex-row gap-2">
+    <button
+      pButton
+      pRipple
+      icon="pi pi-times"
+      label="CANCELAR"
+      class="colorRojoMHCP"
+      (click)="cancelar()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      icon="pi pi-save"
+      label="Guardar"
+      class="p-button-success colorVerdeMHCP"
+      type="submit"
+      (click)="siguiente(true)"
+      [disabled]="
+        oDirecciones.length == 0 ||
+        (oCorreos!.length == 0 && oCorreoPrincipal!.length == 0)
+      "
+    ></button>
+  </div>
+</div>
+
+<p-dialog
+  header="{{ sTextoAgregarDireccion }} dirección"
+  [(visible)]="bDisplayModal"
+  [modal]="true"
+  [style]="{ width: '55vw' }"
+  [baseZIndex]="10000"
+  [draggable]="false"
+  [resizable]="false"
+>
+  <app-lbl-subtitulo
+    subtitulo="Información de la dirección"
+    [bEsSubtituloPrincipal]="false"
+  ></app-lbl-subtitulo>
+
+  <form class="col-12 p-0" [formGroup]="frmDireccion">
+    <div class="formgrid grid">
+      <div class="field col-12 md:col-4">
+        <label htmlfor="name1" class="frm-titulo"
+          >Tipo de dirección <span class="required">*</span></label
+        >
+        <div class="formgroup-inline">
+          <div
+            *ngFor="let tipoDireccion of oListaTipoDireccion"
+            class="field-radiobutton mt-1"
+          >
+            <p-radioButton
+              name="tipoDireccion"
+              [value]="tipoDireccion.sigla"
+              class="p-element"
+              [inputId]="tipoDireccion.sigla"
+              formControlName="tipoDireccion"
+            ></p-radioButton>
+            <label [for]="tipoDireccion.sigla">{{
+              tipoDireccion.descripcion
+            }}</label>
+            <small
+              class="form-text text-red-600"
+              *ngIf="campoNoValido('tipoDireccion')"
+            >
+              {{ listaErroresMensajes("tipoDireccion") }}
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="field col-12 md:col-8">
+        <label htmlfor="name1" class="frm-titulo"
+          >Dirección <span class="required">*</span>
+        </label>
+        <input
+          pInputText
+          id="name1"
+          type="text"
+          placeholder="Ingrese dirección"
+          class="p-inputtext p-component p-element"
+          formControlName="direccion"
+        />
+        <small
+          class="form-text text-red-600"
+          *ngIf="campoNoValido('direccion')"
+        >
+          {{ listaErroresMensajes("direccion") }}
+        </small>
+      </div>
+    </div>
+    <div class="formgrid grid p-fluid">
+      <div class="field col-12 md:col-4">
+        <label class="frm-titulo">País <span class="required">*</span></label>
+        <p-dropdown
+          [options]="oListaPais"
+          (onChange)="obtenerRegionPorId($event.value)"
+          optionLabel="nombre"
+          optionValue="id"
+          [filter]="true"
+          filterBy="descripcion"
+          [showClear]="false"
+          placeholder="Seleccione"
+          formControlName="id_Pais"
+          appendTo="body"
+        >
+          <small
+            class="form-text text-red-600"
+            *ngIf="campoNoValido('id_Pais')"
+          >
+            {{ listaErroresMensajes("id_Pais") }}
+          </small>
+        </p-dropdown>
+      </div>
+      <div class="field col-12 md:col-4">
+        <label class="frm-titulo">Región <span class="required">*</span></label>
+        <p-dropdown
+          [options]="oListaRegion"
+          optionLabel="nombre"
+          optionValue="id"
+          [filter]="true"
+          filterBy="descripcion"
+          [showClear]="false"
+          placeholder="Seleccione"
+          formControlName="id_Region"
+          (onChange)="obtenerCiudadPorId($event.value)"
+          appendTo="body"
+        >
+          <small
+            class="form-text text-red-600"
+            *ngIf="campoNoValido('id_Region')"
+          >
+            {{ listaErroresMensajes("id_Region") }}
+          </small>
+        </p-dropdown>
+      </div>
+      <div class="field col-12 md:col-4">
+        <label class="frm-titulo">Ciudad <span class="required">*</span></label>
+        <p-dropdown
+          [options]="oListaCiudad"
+          optionLabel="nombre"
+          optionValue="id"
+          [filter]="true"
+          filterBy="descripcion"
+          [showClear]="false"
+          placeholder="Seleccione"
+          formControlName="idCiudad"
+          appendTo="body"
+        >
+          <small
+            class="form-text text-red-600"
+            *ngIf="campoNoValido('idCiudad')"
+          >
+            {{ listaErroresMensajes("idCiudad") }}
+          </small>
+        </p-dropdown>
+      </div>
+    </div>
+    <div class="formgrid grid p-fluid">
+      <div class="field col-12 md:col-4">
+        <label class="frm-titulo">Teléfono</label>
+        <div class="col-12">
+          <div class="p-inputgroup">
+            <input
+              id="telefono"
+              formControlName="telefono"
+              type="text"
+              pInputText
+              placeholder="Ingrese teléfono"
+              onlyNumbers
+              maxlength="100"
+            />
+            <button
+              type="button"
+              (click)="agregarTelefono()"
+              pButton
+              icon="pi pi-plus"
+              class="p-button-personales"
+            ></button>
+          </div>
+          <div
+            class="flex flex-column"
+            *ngIf="frmDireccion.get('telefono')?.hasError('minlength')"
+          >
+            <small class="p-error block"
+              >*Se requiere al menos 7 dígitos.</small
+            >
+          </div>
+          <div
+            class="flex flex-column"
+            *ngIf="frmDireccion.get('telefono')?.hasError('maxlength')"
+          >
+            <small class="p-error block">*Se permiten máximo 15 dígitos.</small>
+          </div>
+          <p-table [value]="oTelefonos">
+            <ng-template pTemplate="header"> </ng-template>
+            <ng-template pTemplate="body" let-telefono>
+              <tr>
+                <td style="padding: 14px 14px 14px 0px !important">
+                  {{ telefono.valorContacto }}
+                </td>
+                <td>
+                  <div class="flex flex-row justify-content-end">
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      icon="pi pi-times"
+                      class="p-button-danger p-button-personales"
+                      (click)="borrartelefono(telefono)"
+                    ></button>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="field col-12 md:col-4">
+        <label htmlfor="name1" class="frm-titulo">Código postal </label>
+        <input
+          pInputText
+          id="name1"
+          type="text"
+          placeholder="Ingrese código"
+          class="p-inputtext p-component p-element"
+          formControlName="codigoPostal"
+          [maxlength]="nLongitudMaximaCodigo"
+          [minlength]="nLongitudMinimaCodigo"
+        />
+        <small
+          class="form-text text-red-600"
+          *ngIf="campoNoValido('codigoPostal')"
+        >
+          {{ listaErroresMensajes("codigoPostal") }}
+        </small>
+      </div>
+      <div class="field col-12 md:col-4" *ngIf="bDireccionFisisa">
+        <label htmlfor="nombreLista" class="frm-titulo">Estado</label>
+
+        <div class="formgroup-inline">
+          <div class="field-radiobutton mt-1">
+            <p-radioButton
+              name="activo"
+              [value]="true"
+              class="p-element"
+              inputId="ingredient1"
+              formControlName="activo"
+            ></p-radioButton>
+
+            <label for="city1">Activo</label>
+          </div>
+          <div class="field-radiobutton mt-1">
+            <p-radioButton
+              name="activo"
+              [value]="false"
+              class="p-element"
+              inputId="ingredient1"
+              formControlName="activo"
+            ></p-radioButton>
+            <label for="city1">Inactivo</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="col-12 flex justify-content-end gap-2 paginaMHCP-footer">
+    <button
+      pButton
+      pRipple
+      icon="pi pi-times"
+      (click)="fnCerrarModal(true)"
+      label="Cancelar"
+      class="colorRojoMHCP"
+    ></button>
+    <button
+      pButton
+      pRipple
+      icon="pi pi-save"
+      label="Guardar"
+      class="p-button-success colorVerdeMHCP"
+      type="submit"
+      [disabled]="!frmDireccion.valid"
+      (click)="guardarDirecciones()"
+    ></button>
+  </div>
+</p-dialog>

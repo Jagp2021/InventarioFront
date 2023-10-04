@@ -1,0 +1,26 @@
+@import "assets/layout/styles/layout/layout.scss";
+@import "assets/layout/styles/layout-MHCP/layout-MHCP.scss";
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+
+/* Works on Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(190, 190, 190) rgb(190, 190, 190);
+}
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 7px;
+}
+*::-webkit-scrollbar-track {
+  background: rgb(190, 190, 190);
+}
+*::-webkit-scrollbar-thumb {
+  background-color: rgb(128, 128, 128);
+  border-radius: 50px;
+}
+
+.p-button-personales {
+  height: 1.65rem !important;
+}

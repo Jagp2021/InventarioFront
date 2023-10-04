@@ -1,0 +1,22 @@
+form {
+  input,
+  p-dropdown {
+    width: 100%;
+  }
+
+  p-dropdown {
+    display: grid;
+  }
+}
+
+:host ::ng-deep .boton-rojo {
+  button.p-button {
+    background-color: #c22d2d;
+    border-color: #c22d2d;
+
+    &:hover {
+      background-color: #e22828;
+      border-color: #e22828;
+    }
+  }
+}
