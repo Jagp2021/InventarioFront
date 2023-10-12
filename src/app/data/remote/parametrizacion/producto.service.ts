@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { URLCONTROLADOR } from 'src/app/core/constant/url-api';
 import { IRespuestaApi } from 'src/app/core/interface/respuesta-api.interface';
 import { ApiRequestService } from 'src/app/core/services/api-request.service';
-import { ITransacciones } from 'src/app/domain/interface/adm/transacciones/transacciones.interface';
 import { IProducto } from 'src/app/domain/interface/parametrizacion/producto.interface';
 import { environment } from 'src/environments/environment';
 

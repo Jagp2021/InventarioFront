@@ -6,4 +6,5 @@ export interface IProducto{
     estado?:boolean;
     cantidadDisponible?: number;
     tipoProducto?: string;
+    descripcionTipoProducto?: string;
 } 

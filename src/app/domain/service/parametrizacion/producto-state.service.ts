@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State } from 'src/app/core/store/State';
 import { firstValueFrom } from 'rxjs';
-import { DependenciaAfectacionService } from 'src/app/data/remote/adm/dependencia-afectacion/dependencia-afectacion.service';
 import { IRespuestaApi } from 'src/app/core/interface/respuesta-api.interface';
 import { ProductoService } from 'src/app/data/remote/parametrizacion/producto.service';
 import { IProducto } from '../../interface/parametrizacion/producto.interface';

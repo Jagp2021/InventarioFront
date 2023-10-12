@@ -1,1 +1,275 @@
-<p>garantia works!</p>
+<div class="grid">
+    <div class="col-12 md:col-12 lg:col-12">
+      <div class="w-full surface-card border-round espacio-cardMHCP">
+        <div class="paginaMHCP">
+          <div class="flex col-12 md:col-12 lg:col-12 paginaMHCP-header">
+            <div class="col-8 md:col-8 lg:col-8 p-0 paginaMHCP-header-titulo">
+              <app-lbl-titulo
+                titulo="Garantias"
+                descripcion="La funcionalidad para creación de catálogos debe permitir asignar una descripción y una estructura jerárquica de niveles de catálogo."
+              ></app-lbl-titulo>
+            </div>
+            <div class="col-4 md:col-4 lg:col-4 p-0 paginaMHCP-accionPrincipal">
+              <button
+                pButton
+                pRipple
+                label="Crear"
+                icon="pi pi-plus"
+                class="p-button-success"
+              ></button>
+            </div>
+          </div>
+          <div class="col-12 md:col-12 p-0">
+            <form class="col-12 p-0" autocomplete="off" [formGroup]="frmGarantia">
+              <div class="formgrid grid">
+
+                <div class="field col-12 md:col-3">
+                  <label htmlfor="Número de Factura" class="frm-titulo">Identificador de Factura</label>
+                  <input
+                  pInputText
+                  id="name1"
+                  type="text"
+                  placeholder="Ingrese identificador"
+                  class="p-inputtext p-component p-element"
+                  formControlName="id_factura"
+                  />
+                </div>
+                <div class="field col-12 md:col-3">
+                  <label htmlfor="Número de Factura" class="frm-titulo">Identificador de Factura</label>
+                  <input
+                  pInputText
+                  id="name1"
+                  type="text"
+                  placeholder="Ingrese identificador de Factura"
+                  class="p-inputtext p-component p-element"
+                  formControlName="id_factura"
+                  />
+                </div>
+                <div class="field col-12 md:col-3">
+                  <label htmlfor="Número de Factura" class="frm-titulo">Identificador de Factura</label>
+                  <input
+                  pInputText
+                  id="name1"
+                  type="text"
+                  placeholder="Ingrese identificador de Factura"
+                  class="p-inputtext p-component p-element"
+                  formControlName="id_factura"
+                  />
+                </div>
+                <div class="field col-12 md:col-3">
+                  <label htmlfor="Número de Factura" class="frm-titulo">Identificador de Factura</label>
+                  <input
+                  pInputText
+                  id="name1"
+                  type="text"
+                  placeholder="Ingrese identificador de Factura"
+                  class="p-inputtext p-component p-element"
+                  formControlName="id_factura"
+                  />
+                </div>
+                <div class="field col-12 md:col-6">
+                  <div class="mb-2">
+                    <label class="frm-titulo">Fecha de registro de la garantia</label>
+                  </div>
+                  <div class="grid">
+                    <div class="field col-12 md:col-6 mt-2">
+                      <label
+                        htmlfor="fecha_registro_solicitud_inicial"
+                        class="frm-titulo"
+                        >Fecha inicial</label
+                      >
+                      <div class="col-12 p-0">
+                        <p-calendar
+                          [showIcon]="true"
+                          placeholder="AAAA-MM-DD"
+                          dateFormat="yy/mm/dd"
+                          dataType="string"
+                          [readonlyInput]="true"
+                          formControlName="idFactura"
+                        ></p-calendar>
+                      </div>
+                    </div>
+                    <div class="field col-12 md:col-6 mt-2">
+                      <label htmlfor="fecha_registro_solicitud_final" class="frm-titulo"
+                        >Fecha final</label
+                      >
+                      <div class="col-12 p-0">
+                        <p-calendar
+                          [showIcon]="true"
+                          placeholder="AAAA-MM-DD"
+                          dateFormat="yy/mm/dd"
+                          dataType="string"
+                          formControlName="idFactura"
+                        ></p-calendar>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                  <div class="mb-2">
+                    <label class="frm-titulo">Fecha de registro de la factura</label>
+                  </div>
+                  <div class="grid">
+                    <div class="field col-12 md:col-6 mt-2">
+                      <label
+                        htmlfor="fecha_registro_solicitud_inicial"
+                        class="frm-titulo"
+                        >Fecha inicial</label
+                      >
+                      <div class="col-12 p-0">
+                        <p-calendar
+                          [showIcon]="true"
+                          placeholder="AAAA-MM-DD"
+                          dateFormat="yy/mm/dd"
+                          dataType="string"
+                          [readonlyInput]="true"
+                          formControlName="id_factura"
+                        ></p-calendar>
+                      </div>
+                    </div>
+                    <div class="field col-12 md:col-6 mt-2">
+                      <label htmlfor="fecha_registro_solicitud_final" class="frm-titulo"
+                        >Fecha final</label
+                      >
+                      <div class="col-12 p-0">
+                        <p-calendar
+                          [showIcon]="true"
+                          placeholder="AAAA-MM-DD"
+                          dateFormat="yy/mm/dd"
+                          dataType="string"
+                          formControlName="id_factura"
+                        ></p-calendar>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field col-12 md:col-12"></div>
+                <div class="col-12 md:col-12 justify-content-right mb-2">
+                  <div
+      class="flex flex-column md:flex-column lg:flex-row justify-content-end gap-2"
+    >
+    <button
+      pButton
+      pRipple
+      type="button"
+      icon="pi pi-eraser"
+      label="Limpiar"
+      class="p-button-success colorAmarilloMHCP"
+    ></button>
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Buscar"
+      class="p-button colorAzulMHCP"
+      icon="pi pi-search"
+    ></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="paginaMHCP-contenedor">
+            <div class="col-12 md:col-12 lg:col-12 p-0">
+                <!-- Toast -->
+<p-toast></p-toast>
+
+<!-- Código Base -->
+<p-table
+  #dt
+  styleClass="p-datatable-gridlines p-datatable-striped"
+  selectionMode="single"
+  [loading]="loadingTabla"
+  [value]="lista"
+  [scrollable]="false"
+  [rowHover]="true"
+  [paginator]="lista.length > 10"
+  [rows]="10"
+  [rowsPerPageOptions]="[10, 25, 50]"
+  currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+  [showCurrentPageReport]="true"
+>
+
+  <ng-template pTemplate="header">
+    <tr>
+      <th pSortableColumn="id">
+        Id <p-sortIcon field="id"></p-sortIcon>
+      </th>
+      <th pSortableColumn="idFactura">
+        Identificador Factura
+        <p-sortIcon field="idFactura"></p-sortIcon>
+      </th>
+      <th pSortableColumn="identificacionCliente">
+        Identificación Cliente <p-sortIcon field="identificacionCliente"></p-sortIcon>
+      </th>
+      <th pSortableColumn="nombreCliente">
+        Nombre Cliente <p-sortIcon field="nombreCliente"></p-sortIcon>
+      </th>
+      <th pSortableColumn="fecha">
+        Fecha <p-sortIcon field="fecha"></p-sortIcon>
+      </th>
+      <th pSortableColumn="descripcionEstado">
+        Estado <p-sortIcon field="descripcionEstado"></p-sortIcon>
+      </th>
+    </tr>
+  </ng-template>
+
+  <ng-template pTemplate="body" let-lista let-ri="rowIndex">
+    <tr
+      (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-clsif')"
+      (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-clsif')"
+      [pSelectableRow]="lista"
+    >
+      <td>{{ lista.id }}</td>
+      <td>{{ lista.idFactura }}</td>
+      <td>{{ lista.identificacionCliente }}</td>
+      <td>{{ lista.nombreCliente }}</td>
+      <td>{{ lista.fecha }}</td>
+      <td>{{ lista.descripcionEstado }}</td>
+
+      <div id="button-{{ ri }}-tb-clsif" class="no-mostrar">
+        <button
+          pButton
+          pRipple
+          pTooltip="Ver"
+          tooltipPosition="top"
+          icon="pi pi-eye"
+          class="botonTableMHCP p-button-info colorAzulMHCP"
+          
+        >
+        </button>
+        <button
+          pButton
+          pRipple
+          pTooltip="Gestionar"
+          tooltipPosition="top"
+          icon="pi pi-pencil"
+          class="botonTableMHCP p-button-success colorVerdeMHCP"
+          
+        ></button>
+        <button
+          pButton
+          pRipple
+          pTooltip="Copiar Clasificador"
+          tooltipPosition="top"
+          icon="pi pi-file-edit"
+          class="botonTableMHCP p-button-info colorRojoMHCP"
+          
+        ></button>
+      </div>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage">
+    <tr>
+      <td colspan="5">No se han encontrado registros.</td>
+    </tr>
+  </ng-template>
+</p-table>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
