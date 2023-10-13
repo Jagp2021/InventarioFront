@@ -9,7 +9,6 @@ import { ProductoComponent } from './components/producto/producto.component';
 
 
 const routes: Routes = [
-    // { path: '**',pathMatch: 'full',component: Page404Component},
     {path: 'usuario', component: UsuarioComponent},
     {path: 'proveedor', component: ProveedorComponent},
     {path: 'cliente', component: ClienteComponent},

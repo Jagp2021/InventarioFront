@@ -4,23 +4,7 @@
     <app-menu [hidden]="!showMenu"></app-menu>
     <div class="layout-main">
       <div class="flex flex-column md:px-8 px-2 h-auto">
-        <p-breadcrumb [model]="lItemsBreadcrumb"></p-breadcrumb>
-        <!-- <ng-container *ngIf="bMostrar404; else loadContenido">
-          <router-outlet></router-outlet>
-        </ng-container>
-        <ng-template #loadContenido>
-          <p-breadcrumb [model]="lItemsBreadcrumb"></p-breadcrumb>
-
-          <div class="grid">
-            <div class="col-12 lg:col-12">
-              <div
-                class="w-full surface-card border-round shadow-2 espacio-cardMHCP"
-              >
-                <router-outlet (activate)="fnCargar404($event)"></router-outlet>
-              </div>
-            </div>
-          </div>
-        </ng-template> -->
+        <p></p>
         <router-outlet (activate)="fnCargar404($event)"></router-outlet>
       </div>
     </div>

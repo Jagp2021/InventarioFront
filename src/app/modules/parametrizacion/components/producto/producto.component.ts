@@ -69,7 +69,7 @@ export class ProductoComponent implements OnInit {
         if (resp !== undefined) {
           this._messageService.add({
             severity: resp.estado ? 'success' : 'error',
-            summary: resp.estado ? 'Crear Producto' : 'Crear Producto',
+            summary: 'Crear Producto',
             detail: resp.estado
               ? `Registro exitoso del producto ${resp.data.nombre}`
               : 'Ocurrió un error ingresando el producto. Intentelo nuevamente',
@@ -94,7 +94,7 @@ export class ProductoComponent implements OnInit {
         if (resp !== undefined) {
           this._messageService.add({
             severity: resp.estado ? 'success' : 'error',
-            summary: resp.estado ? 'Editar Producto' : 'Editar Producto',
+            summary: 'Editar Producto',
             detail: resp.estado
               ? `Edición exitosa del producto ${resp.data.nombre}`
               : 'Ocurrió un error editando el producto. Intentelo nuevamente',

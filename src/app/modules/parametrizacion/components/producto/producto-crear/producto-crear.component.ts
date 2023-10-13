@@ -3,9 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IRespuestaApi } from 'src/app/core/interface/respuesta-api.interface';
 import { SOLO_NUMEROS, SIN_ESPACIOS_CARACTERES_ESPECIALES, NON_WHITE_SPACE_REG_EXP } from 'src/app/core/utils/Patterns';
-import { IProducto } from 'src/app/domain/interface/parametrizacion/producto.interface';
 import { PruductoStateService } from 'src/app/domain/service/parametrizacion/producto-state.service';
-import { ValorNombreNivelExiste, ValorLongitudNivel } from 'src/app/modules/adm/clasificador/nivel-clasificador/nivel-clasificador.component';
 
 @Component({
   selector: 'app-producto-crear',
@@ -13,8 +11,6 @@ import { ValorNombreNivelExiste, ValorLongitudNivel } from 'src/app/modules/adm/
   styleUrls: ['./producto-crear.component.scss']
 })
 export class ProductoCrearComponent implements OnInit {
-  valorMaximoTope = 0;
-  cantidadNiveles = 1;
   selectedTipoDato: any = null;
   listaTipoDato: any[] = [
     {sigla: '11111', descripcion: 'Tipo 1'},
@@ -23,7 +19,7 @@ export class ProductoCrearComponent implements OnInit {
   index = 0;
 
   constructor(
-    public config: DynamicDialogConfig,
+      public config: DynamicDialogConfig,
       public ref: DynamicDialogRef,
       private service: PruductoStateService
   ) { }
@@ -66,7 +62,7 @@ export class ProductoCrearComponent implements OnInit {
 
   /**
    * Descripción: Consulta los campos del formulario de clasificador
-   * Autor: Asesoftware - Javier Gonzalez
+   * Autor:  Javier Gonzalez
    * Fecha: 12/03/2023
    */
   get formControls(): FormGroup['controls'] {
@@ -75,7 +71,7 @@ export class ProductoCrearComponent implements OnInit {
 
   /**
    * Descripción: Lista de errores sobre un control del formulrio de niveles de clasificador
-   * Autor: Asesoftware - Javier Gonzalez
+   * Autor:  Javier Gonzalez
    * Fecha: 12/03/2023
    * @param nombreCampo 
    * @param posicion 
@@ -84,8 +80,6 @@ export class ProductoCrearComponent implements OnInit {
   listaErroresMensajesNivel(nombreCampo: string): string { 
     const errors = this.formProducto.get(nombreCampo)?.errors;
     if (errors?.['required']) return 'Este campo es obligatorio.';
-    if (errors?.['minlength']) return 'Debe agregar más caracteres.';
-    if (errors?.['maxlength']) return 'No puede superar los 100 caracteres.';
     if (errors?.['min'] && nombreCampo === 'longitud') return `La cantidad de caracteres debe ser un número natural mayor que 0 y menor que `;
     if (errors?.['max'] && nombreCampo === 'longitud') return `La cantidad de caracteres debe ser un número natural mayor que 0 y menor que`;
     if (errors?.['min'] && nombreCampo === 'orden') return `La cantidad de caracteres debe ser un número natural mayor que 0 y menor o igual que `;
@@ -93,8 +87,6 @@ export class ProductoCrearComponent implements OnInit {
     if (errors?.['pattern'] && nombreCampo === 'nombre') return 'No se permiten espacios ni caracteres especiales.';
     if (errors?.['pattern'] && nombreCampo === 'longitud') return 'Solo se permiten valores numéricos.';
     if (errors?.['pattern'] && nombreCampo === 'orden') return 'Solo se permiten valores numéricos.';
-    if(errors?.['nivelNombreExiste']) return 'El nombre de nivel que intenta registrar ya fue agregado';
-    if(errors?.['longitudNivel']) return 'El número de caracteres registrado para el nivel supera el tope máximo establecido';
     
     return '';
   }
@@ -113,12 +105,12 @@ export class ProductoCrearComponent implements OnInit {
     this.ref.close(response);
   }
 
-  async editar(model: any): Promise<void>{
-    let response = await this.service.fnActualizarProducto(model);
-     this.ref.close(response);
-  }
+    async editar(model: any): Promise<void>{
+      let response = await this.service.fnActualizarProducto(model);
+      this.ref.close(response);
+    }
 
-   async guardar(model: any) : Promise<void>{
+    async guardar(model: any) : Promise<void>{
      let response = await this.service.fnGuardarProducto(model);
      this.ref.close(response);
     }
@@ -138,7 +130,7 @@ export class ProductoCrearComponent implements OnInit {
 
   /**
    * Descripción: Validación de campo de niveles de clasificador
-   * Autor: Asesoftware - Javier Gonzalez
+   * Autor:  Javier Gonzalez
    * Fecha: 12/03/2023
    * @param campo 
    * @param posicion 

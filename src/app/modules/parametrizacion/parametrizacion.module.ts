@@ -10,6 +10,9 @@ import { ProductoComponent } from './components/producto/producto.component';
 import { ProveedorComponent } from './components/proveedor/proveedor.component';
 import { ClienteComponent } from './components/cliente/cliente.component';
 import { ProductoCrearComponent } from './components/producto/producto-crear/producto-crear.component';
+import { ProveedorCrearComponent } from './components/proveedor/proveedor-crear/proveedor-crear.component';
+import { UsuarioCrearComponent } from './components/usuario/usuario-crear/usuario-crear.component';
+import { ClienteCrearComponent } from './components/cliente/cliente-crear/cliente-crear.component';
 
 
 @NgModule({
@@ -19,6 +22,9 @@ import { ProductoCrearComponent } from './components/producto/producto-crear/pro
         ProveedorComponent,
         ClienteComponent,
         ProductoCrearComponent,
+        ClienteCrearComponent,
+        ProveedorCrearComponent,
+        UsuarioCrearComponent,
       ],
     imports: [
         CommonModule,
