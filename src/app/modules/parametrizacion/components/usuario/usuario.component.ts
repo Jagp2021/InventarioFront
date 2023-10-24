@@ -96,7 +96,7 @@ export class UsuarioComponent implements OnInit {
             summary: 'Editar Usuario',
             detail: resp.estado
               ? `Edición exitosa del usuario ${resp.data.nombre}`
-              : 'Ocurrió un error editando el producto. Intentelo nuevamente',
+              : 'Ocurrió un error editando el usuario. Intentelo nuevamente',
           });
           this.fnConsultarUsuarios();
         }

@@ -1,6 +1,7 @@
 export interface IUsuario {
     id?: number;
     username?: string;
+    password?: string;
     nombre?: string;
     tipoDocumento?: string;
     numeroDocumento?: string;

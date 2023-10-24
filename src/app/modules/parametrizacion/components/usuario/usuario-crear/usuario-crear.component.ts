@@ -34,6 +34,7 @@ export class UsuarioCrearComponent implements OnInit {
     username: new FormControl('',[Validators.required, Validators.pattern(SIN_CARACTERES_ESPECIALES),Validators.maxLength(20)]),
     telefono: new FormControl('',[Validators.required, Validators.pattern(SOLO_NUMEROS),Validators.maxLength(50)]),
     email: new FormControl('',[Validators.required, Validators.email,Validators.maxLength(200)]),
+    password: new FormControl('',[Validators.required,Validators.maxLength(50)]),
   });
 
   ngOnInit(): void {

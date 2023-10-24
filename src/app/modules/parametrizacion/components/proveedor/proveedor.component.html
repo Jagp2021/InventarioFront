@@ -16,6 +16,7 @@
                 label="Crear"
                 icon="pi pi-plus"
                 class="p-button-success"
+                (click)="crear()"
               ></button>
             </div>
           </div>
@@ -40,10 +41,10 @@
   currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
   [showCurrentPageReport]="true"
   [globalFilterFields]="[
-    'descripcion',
-    'DescripcionFuncionCatalogo',
-    'topeCaracteres',
-    'activo'
+    'id',
+    'nombre',
+    'descripcionTipoDocumento',
+    'numeroDocumento'
   ]"
 >
   <ng-template
@@ -66,18 +67,18 @@
 
   <ng-template pTemplate="header">
     <tr>
-      <th pSortableColumn="descripcion">
-        Descripción <p-sortIcon field="descripcion"></p-sortIcon>
+      <th pSortableColumn="id">
+        Identificador <p-sortIcon field="id"></p-sortIcon>
       </th>
-      <th pSortableColumn="DescripcionFuncionCatalogo">
-        Función Catálogo
-        <p-sortIcon field="DescripcionFuncionCatalogo"></p-sortIcon>
+      <th pSortableColumn="nombre">
+        Nombre
+        <p-sortIcon field="nombre"></p-sortIcon>
       </th>
-      <th pSortableColumn="topeCaracteres">
-        TopeCaracteres <p-sortIcon field="topeCaracteres"></p-sortIcon>
+      <th pSortableColumn="descripcionTipoDocumento">
+        Tipo Documento <p-sortIcon field="descripcionTipoDocumento"></p-sortIcon>
       </th>
-      <th pSortableColumn="activo">
-        Estado <p-sortIcon field="activo"></p-sortIcon>
+      <th pSortableColumn="numeroDocumento">
+        Número Documento <p-sortIcon field="numeroDocumento"></p-sortIcon>
       </th>
     </tr>
   </ng-template>
@@ -88,10 +89,10 @@
       (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-clsif')"
       [pSelectableRow]="lista"
     >
-      <td>{{ lista.descripcion }}</td>
-      <td>{{ lista.DescripcionFuncionCatalogo }}</td>
-      <td>{{ lista.topeCaracteres }}</td>
-      <td>{{ lista.activo | estadoPipe }}</td>
+      <td>{{ lista.id }}</td>
+      <td>{{ lista.nombre }}</td>
+      <td>{{ lista.descripcionTipoDocumento }}</td>
+      <td>{{ lista.numeroDocumento }}</td>
 
       <div id="button-{{ ri }}-tb-clsif" class="no-mostrar">
         <button
@@ -101,7 +102,7 @@
           tooltipPosition="top"
           icon="pi pi-pencil"
           class="botonTableMHCP p-button-success colorVerdeMHCP"
-          
+          (click)="editarFila(lista)"
         ></button>
         <button
           pButton
