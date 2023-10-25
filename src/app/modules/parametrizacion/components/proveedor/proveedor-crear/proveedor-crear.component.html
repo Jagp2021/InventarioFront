@@ -1,1 +1,139 @@
-<p>proveedor-crear works!</p>
+<form class="field col-12 p-0" [formGroup]="formUsuario">
+    <div class="formgrid grid">
+        <div class="field col-12 md:col-4">
+            <label htmlfor="name1" class="frm-titulo"
+              >Nombre <span class="required">*</span></label
+            >
+            <div class="col-12 p-0">
+              <input
+                #val
+                pInputText
+                id="name1"
+                type="text"
+                placeholder="Ingrese Nombre"
+                class="p-inputtext p-component p-element"
+                formControlName="nombre"
+              />
+              <small
+                class="form-text text-red-600"
+                *ngIf="campoNoValido('nombre')"
+              >
+                {{ listaErroresMensajesNivel("nombre") }}
+              </small>
+            </div>
+          </div>
+      <div class="field col-12 md:col-4">
+        <label htmlfor="name1" class="frm-titulo"
+          >Tipo de Documento <span class="required">*</span></label
+        >
+        <div class="col-12 p-0">
+          <p-dropdown
+            [options]="listaTipoDocumento"
+            [(ngModel)]="selectedTipoDocumento"
+            optionLabel="descripcion"
+            
+            [showClear]="true"
+            placeholder="Selecionar tipo de documento"
+            formControlName="tipoDocumento"
+          >
+            <ng-template let-tipoDocumento pTemplate="item">
+              <div class="tipoDocumento-item">
+                <div>{{ tipoDocumento.descripcion }}</div>
+              </div>
+            </ng-template>
+          </p-dropdown>
+          <small
+            class="form-text text-red-600"
+            *ngIf="campoNoValido('tipoDocumento')"
+          >
+            {{ listaErroresMensajesNivel("tipoDocumento") }}
+          </small>
+        </div>
+      </div>
+      <div class="field col-12 md:col-4">
+        <label htmlfor="numeroDocumento" class="frm-titulo"
+          >Número Documento <span class="required">*</span></label
+        >
+        <div class="col-12 p-0">
+          <input
+            pInputText
+            id="numeroDocumento"
+            type="text"
+            placeholder="Escriba una cantidad"
+            class="p-inputtext p-component p-element"
+            formControlName="numeroDocumento"
+          />
+          <small
+            class="form-text text-red-600"
+            *ngIf="campoNoValido('numeroDocumento')"
+          >
+            {{ listaErroresMensajesNivel("numeroDocumento") }}
+          </small>
+        </div>
+      </div>
+      <div class="field col-12 md:col-4">
+        <label htmlfor="telefono" class="frm-titulo"
+          >Teléfono <span class="required">*</span></label
+        >
+        <div class="col-12 p-0">
+          <input
+            #val
+            pInputText
+            id="telefono"
+            type="text"
+            placeholder="Ingrese Teléfono"
+            class="p-inputtext p-component p-element"
+            formControlName="telefono"
+          />
+          <small
+            class="form-text text-red-600"
+            *ngIf="campoNoValido('telefono')"
+          >
+            {{ listaErroresMensajesNivel("telefono") }}
+          </small>
+        </div>
+      </div>
+      <div class="field col-12 md:col-4">
+        <label htmlfor="email" class="frm-titulo"
+          >Email <span class="required">*</span></label
+        >
+        <div class="col-12 p-0">
+          <input
+            pInputText
+            id="email"
+            type="text"
+            placeholder="Escribir Email"
+            class="p-inputtext p-component p-element"
+            formControlName="email"
+          />
+          <small
+            class="form-text text-red-600"
+            *ngIf="campoNoValido('email')"
+          >
+            {{ listaErroresMensajesNivel("email") }}
+          </small>
+        </div>
+      </div>
+    </div>
+  </form>
+  <div class="col-12 flex justify-content-end mt-3 gap-2 p-0">
+    <button
+      pButton
+      pRipple
+      label="Cancelar"
+      class="colorRojoMHCP"
+      icon="pi pi-times"
+      [style]="{ width: '8.5rem' }"
+      (click)="cancelar()"
+    ></button>
+    <button
+      pButton
+      pRipple
+      label="ACEPTAR"
+      class="p-button-success colorVerdeMHCP"
+      icon="pi pi-check"
+      [style]="{ width: '8.5rem' }"
+      [disabled]="formUsuario.invalid"
+      (click)="aceptar()"
+    ></button>
+  </div>

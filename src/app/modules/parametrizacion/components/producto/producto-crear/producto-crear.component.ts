@@ -3,6 +3,8 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { IRespuestaApi } from 'src/app/core/interface/respuesta-api.interface';
 import { SOLO_NUMEROS, SIN_ESPACIOS_CARACTERES_ESPECIALES, NON_WHITE_SPACE_REG_EXP } from 'src/app/core/utils/Patterns';
+import { IDominio } from 'src/app/domain/interface/parametrizacion/dominio.interface';
+import { DominioStateService } from 'src/app/domain/service/parametrizacion/dominio-state.service';
 import { PruductoStateService } from 'src/app/domain/service/parametrizacion/producto-state.service';
 
 @Component({
@@ -11,17 +13,15 @@ import { PruductoStateService } from 'src/app/domain/service/parametrizacion/pro
   styleUrls: ['./producto-crear.component.scss']
 })
 export class ProductoCrearComponent implements OnInit {
+  listaTipoDato: IDominio[] = [];
   selectedTipoDato: any = null;
-  listaTipoDato: any[] = [
-    {sigla: '11111', descripcion: 'Tipo 1'},
-    {sigla: 'ASD', descripcion: 'Tipo 2'}
-  ];
   index = 0;
 
   constructor(
       public config: DynamicDialogConfig,
       public ref: DynamicDialogRef,
-      private service: PruductoStateService
+      private service: PruductoStateService,
+      private dominioService: DominioStateService
   ) { }
 
   formProducto = new FormGroup({
@@ -48,6 +48,7 @@ export class ProductoCrearComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(this.config.data.producto);
+    this.fnConsultarTipoDato();
     if(this.config.data.producto !== undefined){
       this.index = this.config.data.index;
       setTimeout(()=> {
@@ -58,6 +59,12 @@ export class ProductoCrearComponent implements OnInit {
 
   cancelar(): void {
     this.ref.close();
+  }
+
+  fnConsultarTipoDato(){
+    this.dominioService.fnConsultarDominios({dominio1: 'TIPOPRODUCTO'}).then((res => {
+      this.listaTipoDato = res.data;
+    }));
   }
 
   /**

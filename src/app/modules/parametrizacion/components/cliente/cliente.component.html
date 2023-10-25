@@ -6,7 +6,7 @@
             <div class="col-8 md:col-8 lg:col-8 p-0 paginaMHCP-header-titulo">
               <app-lbl-titulo
                 titulo="Cliente"
-                descripcion="La funcionalidad para creación de catálogos debe permitir asignar una descripción y una estructura jerárquica de niveles de catálogo."
+                descripcion="Permite la administración de clientes"
               ></app-lbl-titulo>
             </div>
             <div class="col-4 md:col-4 lg:col-4 p-0 paginaMHCP-accionPrincipal">
@@ -69,10 +69,10 @@
   <ng-template pTemplate="header">
     <tr>
       <th pSortableColumn="descripcion">
-        Descripción <p-sortIcon field="descripcion"></p-sortIcon>
+        Id <p-sortIcon field="descripcion"></p-sortIcon>
       </th>
       <th pSortableColumn="DescripcionFuncionCatalogo">
-        Función Catálogo
+        Nombre
         <p-sortIcon field="DescripcionFuncionCatalogo"></p-sortIcon>
       </th>
       <th pSortableColumn="descripcionTipoDocumento">

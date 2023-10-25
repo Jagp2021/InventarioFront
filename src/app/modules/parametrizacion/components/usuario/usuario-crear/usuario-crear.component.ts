@@ -52,7 +52,7 @@ export class UsuarioCrearComponent implements OnInit {
   }
 
   fnConsultarTipoDocumento(){
-    this.dominioService.fnConsultarDominios({dominio1: ''}).then((res => {
+    this.dominioService.fnConsultarDominios({dominio1: 'TIPODOCUMENTO'}).then((res => {
       this.listaTipoDocumento = res.data;
     }));
   }
@@ -81,7 +81,6 @@ export class UsuarioCrearComponent implements OnInit {
    * @returns 
    */
   listaErroresMensajesNivel(nombreCampo: string): string { 
-    console.log(this.formUsuario.get(nombreCampo)?.errors);
     const errors = this.formUsuario.get(nombreCampo)?.errors;
     if (errors?.['required']) return 'Este campo es obligatorio.';
     if (errors?.['maxlength']) return 'Excede el máximo valor de caracteres (' + errors?.['maxlength'].requiredLength + ').';
@@ -96,9 +95,6 @@ export class UsuarioCrearComponent implements OnInit {
     let model= this.formUsuario.getRawValue();
     model.idPerfil = this.selectedPerfil.id;
     model.tipoDocumento = this.selectedTipoDocumento.sigla;
-    console.log(model.id);
-    console.log(model);
-    console.log(Number(model.id) === 0);
     if(Number(model.id) <= 0){
       this.guardar(model);
     } else {
@@ -130,6 +126,8 @@ export class UsuarioCrearComponent implements OnInit {
       this.formControls['tipoDocumento'].setValue(tipoDocumento);
       this.formControls['username'].setValue(this.config.data.usuario.username);
       this.formControls['email'].setValue(this.config.data.usuario.email);
+      this.formControls['password'].setValue(this.config.data.usuario.password);
+      console.log(this.config.data.usuario);
     }
   
     /**
