@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { tick } from '@angular/core/testing';
+import { VentaStateService } from 'src/app/domain/service/procesos/venta-state.service';
 
 @Component({
   selector: 'app-venta',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VentaComponent implements OnInit {
 
-  constructor() { }
+  constructor(private ventaService: VentaStateService) { }
 
   ngOnInit(): void {
+    this.fnConsultarVentas();
   }
 
+  fnConsultarVentas(){
+    this.ventaService.fnListarVentas({}).then((res => {
+      console.log(res);
+    }));
+  }
+
+  crear(){
+
+  }
 }

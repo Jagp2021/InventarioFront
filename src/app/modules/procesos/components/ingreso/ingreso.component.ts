@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { IngresoStateService } from 'src/app/domain/service/procesos/ingreso-state.service';
 
 @Component({
   selector: 'app-ingreso',
@@ -7,9 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IngresoComponent implements OnInit {
 
-  constructor() { }
+  constructor(private ingresoService: IngresoStateService) { }
 
   ngOnInit(): void {
+    this.fnConsultaringresos();
   }
 
+  fnConsultaringresos(){
+    var result = this.ingresoService.fnListarIngresos({}).then((res => {
+      console.log(res);
+    }));
+  }
+
+  crear(){
+
+  }
 }

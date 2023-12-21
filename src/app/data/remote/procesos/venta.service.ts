@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class VentaService {
   private _urlBase: string = environment.apiBack;
-  private _controlador: string = URLCONTROLADOR.garantia;
+  private _controlador: string = URLCONTROLADOR.venta;
   constructor(private _apiRequestService: ApiRequestService) { }
 
   public listarVentas<T>(model?: IVenta): Observable<IRespuestaApi> {

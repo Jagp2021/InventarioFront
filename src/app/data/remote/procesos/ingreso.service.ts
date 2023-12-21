@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class IngresoService {
   private _urlBase: string = environment.apiBack;
-  private _controlador: string = URLCONTROLADOR.garantia;
+  private _controlador: string = URLCONTROLADOR.ingreso;
   constructor(private _apiRequestService: ApiRequestService) { }
 
   public listarIngresos<T>(model?: IIngreso): Observable<IRespuestaApi> {

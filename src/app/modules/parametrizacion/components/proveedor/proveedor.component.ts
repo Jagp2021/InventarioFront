@@ -51,7 +51,6 @@ export class ProveedorComponent implements OnInit {
   fnConsultarProveedores() {
     this._proveedorService.fnConsultarProveedores({}).then((res => {
       this.lista = res.data;
-      console.log(res.data);
     }));
   }
 
