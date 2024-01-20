@@ -31,7 +31,9 @@ export class ApiRequestService {
   get<T>(url: string, obj?: any): Observable<any> {
     let queryParameters = '';
     if(obj !== null && obj !== undefined ) { 
-      queryParameters = '?' + Object.keys(obj).map(key => key + '=' + obj[key]).join('&');
+      let parameters = Object.keys(obj).filter(key => obj[key] !== null && obj[key] !== '' && obj[key] !== undefined && obj[key] !== 'null');
+      console.log(obj[parameters[0]]);
+      queryParameters = '?' + parameters.map(key => key + '=' + obj[key]).join('&');
     }
     return this.http.get<T>(url + queryParameters, 
       { headers: new HttpHeaders({ 'Content-Type': 'application/json;charset=UTF-8' }) }

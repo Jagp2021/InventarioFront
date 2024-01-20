@@ -348,4 +348,5 @@ export class UtilsService {
 
     return sTexto.length > nLimit ? `${sTexto.substring(0, nLimit)}` : sTexto;
   }
+
 }

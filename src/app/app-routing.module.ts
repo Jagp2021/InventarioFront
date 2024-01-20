@@ -59,28 +59,6 @@ const routes: Routes = [
     ],
   },
   {
-    path: '',
-    component: AdminLayoutComponent,
-    children: [
-      {
-        path: 'perfil',
-        loadChildren: () =>
-          import('./modules/perfil/perfil.module').then((m) => m.PerfilModule),
-      },
-    ],
-  },
-  {
-    path: '',
-    component: AdminLayoutComponent,
-    children: [
-      {
-        path: 'adm',
-        loadChildren: () =>
-          import('./modules/adm/adm.module').then((m) => m.AdmModule),
-      },
-    ],
-  },
-  {
     path: '**',
     pathMatch: 'full',
     component: Page404Component,

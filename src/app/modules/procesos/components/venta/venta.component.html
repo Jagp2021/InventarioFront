@@ -19,10 +19,221 @@
                 (click)="crear()"
               ></button>
             </div>
+          </div>
+          <div class="col-12 md:col-12 p-0">
+            <form class="col-12 p-0" autocomplete="off" [formGroup]="frmVentas">
+              <div class="formgrid grid">
+                <div class="field col-12 md:col-3">
+                  <label htmlfor="Identificador de Factura" class="frm-titulo">Identificador de Factura</label>
+                  <input
+                  pInputText
+                  id="name1"
+                  type="text"
+                  placeholder="Ingrese identificador de Factura"
+                  class="p-inputtext p-component p-element"
+                  formControlName="id"
+                  />
+                </div>
+                <div class="field col-12 md:col-3">
+                  <label htmlfor="Número de Factura" class="frm-titulo">Número de Factura</label>
+                  <input
+                  pInputText
+                  id="name1"
+                  type="text"
+                  placeholder="Ingrese identificador de Factura"
+                  class="p-inputtext p-component p-element"
+                  formControlName="numeroFactura"
+                  />
+                </div>
+                <div class="field col-12 md:col-3">
+                  <label htmlfor="name1" class="frm-titulo"
+                    >Tipo de Pago </label>
+                  <div class="col-12 p-0">
+                    <p-dropdown
+                      [options]="listaTipoPago"
+                      [(ngModel)]="selectedTipoPago"
+                      optionLabel="descripcion"
+                      
+                      [showClear]="true"
+                      placeholder="Selecionar tipo de pago"
+                      formControlName="tipoPago"
+                    >
+                      <ng-template let-tipoPago pTemplate="item">
+                        <div class="tipoPago-item">
+                          <div>{{ tipoPago.descripcion }}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="field col-12 md:col-3">
+                  <label htmlfor="name1" class="frm-titulo"
+                    >Usuario Registro</label>
+                  <div class="col-12 p-0">
+                    <p-dropdown
+                      [options]="listaUsuario"
+                      [(ngModel)]="selectedUsuario"
+                      optionLabel="nombre"
+                      
+                      [showClear]="true"
+                      placeholder="Seleccione usuario"
+                      formControlName="usuarioRegistro"
+                    >
+                      <ng-template let-usuarioRegistro pTemplate="item">
+                        <div class="usuarioRegistro-item">
+                          <div>{{ usuarioRegistro.nombre }}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="field col-12 md:col-6">
+                  <div class="mb-2">
+                    <label class="frm-titulo">Fecha de registro de la factura</label>
+                  </div>
+                  <div class="grid">
+                    <div class="field col-12 md:col-6 mt-2">
+                      <label
+                        htmlfor="fechaInicio"
+                        class="frm-titulo"
+                        >Fecha inicial</label
+                      >
+                      <div class="col-12 p-0">
+                        <p-calendar
+                          [showIcon]="true"
+                          placeholder="AAAA-MM-DD"
+                          dateFormat="yy/mm/dd"
+                          dataType="string"
+                          [readonlyInput]="true"
+                          formControlName="fechaInicio"
+                        ></p-calendar>
+                      </div>
+                    </div>
+                    <div class="field col-12 md:col-6 mt-2">
+                      <label htmlfor="fechaFin" class="frm-titulo"
+                        >Fecha final</label
+                      >
+                      <div class="col-12 p-0">
+                        <p-calendar
+                          [showIcon]="true"
+                          placeholder="AAAA-MM-DD"
+                          dateFormat="yy/mm/dd"
+                          dataType="string"
+                          formControlName="fechaFin"
+                        ></p-calendar>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="field col-12 md:col-12"></div>
+                <div class="col-12 md:col-12 justify-content-right mb-2">
+                  <div class="flex flex-column md:flex-column lg:flex-row justify-content-end gap-2">
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      icon="pi pi-eraser"
+                      label="Limpiar"
+                      class="p-button-success colorAmarilloMHCP">
+                    </button>
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      label="Buscar"
+                      class="p-button colorAzulMHCP"
+                      icon="pi pi-search"
+                      (click)="fnConsultarVentas()">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
           </div>  
           <div class="paginaMHCP-contenedor">
             <div class="col-12 md:col-12 lg:col-12 p-0">
-                
+              <p-table
+                #dt
+                styleClass="p-datatable-gridlines p-datatable-striped"
+                selectionMode="single"
+                [loading]="loadingTabla"
+                [value]="lista"
+                [scrollable]="false"
+                [rowHover]="true"
+                [paginator]="lista.length > 10"
+                [rows]="10"
+                [rowsPerPageOptions]="[10, 25, 50]"
+                currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+                [showCurrentPageReport]="true"
+              >
+
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th pSortableColumn="id" id="id">
+                      Identificador Factura <p-sortIcon field="id"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="numeroFactura" id = "numeroFactura">
+                      Número Factura
+                      <p-sortIcon field="numeroFactura"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="identificacionUsuario" id="identificacionUsuario">
+                      Identificación Cliente <p-sortIcon field="identificacionUsuario"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="nombreCliente" id="nombreCliente">
+                      Nombre Cliente <p-sortIcon field="nombreCliente"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="fecha" id="identificacionUsuario">
+                      Fecha <p-sortIcon field="fecha"></p-sortIcon>
+                    </th>
+                    <th pSortableColumn="nombreUsuario" id="nombreUsuario">
+                      Usuario Registro <p-sortIcon field="nombreUsuario"></p-sortIcon>
+                    </th>
+                  </tr>
+                </ng-template>
+
+                <ng-template pTemplate="body" let-lista let-ri="rowIndex">
+                  <tr
+                    (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-clsif')"
+                    (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-clsif')"
+                    [pSelectableRow]="lista"
+                  >
+                    <td>{{ lista.id }}</td>
+                    <td>{{ lista.numeroFactura }}</td>
+                    <td>{{ lista.identificacionUsuario }}</td>
+                    <td>{{ lista.nombreCliente }}</td>
+                    <td>{{ lista.fecha  | date: 'yyyy/MM/dd' }}</td>
+                    <td>{{ lista.nombreUsuario }}</td>
+
+                    <div id="button-{{ ri }}-tb-clsif" class="no-mostrar">
+                      <button
+                        pButton
+                        pRipple
+                        pTooltip="Ver Venta"
+                        tooltipPosition="top"
+                        icon="pi pi-eye"
+                        class="botonTableMHCP p-button-info colorAzulMHCP"
+                        
+                      >
+                      </button>
+                      <button
+                        pButton
+                        pRipple
+                        pTooltip="Generar Factura"
+                        tooltipPosition="top"
+                        icon="pi pi-print"
+                        class="botonTableMHCP p-button-success colorVerdeMHCP"
+                        
+                      ></button>
+                    </div>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="5">No se han encontrado registros.</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+
             </div>
           </div>
         </div>
