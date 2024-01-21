@@ -16,6 +16,7 @@
                 label="Crear"
                 icon="pi pi-plus"
                 class="p-button-success"
+                (click)="fnCrear()"
               ></button>
             </div>
           </div>
@@ -23,48 +24,68 @@
             <form class="col-12 p-0" autocomplete="off" [formGroup]="frmGarantia">
               <div class="formgrid grid">
                 <div class="field col-12 md:col-3">
-                  <label htmlfor="Número de Factura" class="frm-titulo">Identificador de Factura</label>
+                  <label htmlfor="Identificador de Garantia" class="frm-titulo">Identificador de Garantia</label>
                   <input
                   pInputText
                   id="name1"
                   type="text"
                   placeholder="Ingrese identificador"
                   class="p-inputtext p-component p-element"
-                  formControlName="id_factura"
+                  formControlName="id"
                   />
                 </div>
                 <div class="field col-12 md:col-3">
-                  <label htmlfor="Número de Factura" class="frm-titulo">Identificador de Factura</label>
+                  <label htmlfor="Identificador de Factura" class="frm-titulo">Identificador de Factura</label>
                   <input
                   pInputText
                   id="name1"
                   type="text"
                   placeholder="Ingrese identificador de Factura"
                   class="p-inputtext p-component p-element"
-                  formControlName="id_factura"
+                  formControlName="idFactura"
                   />
                 </div>
                 <div class="field col-12 md:col-3">
-                  <label htmlfor="Número de Factura" class="frm-titulo">Identificador de Factura</label>
-                  <input
-                  pInputText
-                  id="name1"
-                  type="text"
-                  placeholder="Ingrese identificador de Factura"
-                  class="p-inputtext p-component p-element"
-                  formControlName="id_factura"
-                  />
+                  <label htmlfor="name1" class="frm-titulo"
+                    >Cliente</label>
+                  <div class="col-12 p-0">
+                    <p-dropdown
+                      [options]="listaCliente"
+                      [(ngModel)]="selectedCliente"
+                      optionLabel="nombre"
+                      
+                      [showClear]="true"
+                      placeholder="Seleccione Cliente"
+                      formControlName="idCliente"
+                    >
+                      <ng-template let-cliente pTemplate="item">
+                        <div class="cliente-item">
+                          <div>{{ cliente.nombre }}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
                 </div>
                 <div class="field col-12 md:col-3">
-                  <label htmlfor="Número de Factura" class="frm-titulo">Identificador de Factura</label>
-                  <input
-                  pInputText
-                  id="name1"
-                  type="text"
-                  placeholder="Ingrese identificador de Factura"
-                  class="p-inputtext p-component p-element"
-                  formControlName="id_factura"
-                  />
+                  <label htmlfor="name1" class="frm-titulo"
+                    >Estado Garantia</label>
+                  <div class="col-12 p-0">
+                    <p-dropdown
+                      [options]="listaEstado"
+                      [(ngModel)]="selectedEstado"
+                      optionLabel="descripcion"
+                      
+                      [showClear]="true"
+                      placeholder="Seleccione Cliente"
+                      formControlName="estadoGarantia"
+                    >
+                      <ng-template let-estado pTemplate="item">
+                        <div class="estado-item">
+                          <div>{{ estado.descripcion }}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
                 </div>
                 <div class="field col-12 md:col-6">
                   <div class="mb-2">
@@ -84,7 +105,7 @@
                           dateFormat="yy/mm/dd"
                           dataType="string"
                           [readonlyInput]="true"
-                          formControlName="idFactura"
+                          formControlName="fechaInicio"
                         ></p-calendar>
                       </div>
                     </div>
@@ -98,7 +119,7 @@
                           placeholder="AAAA-MM-DD"
                           dateFormat="yy/mm/dd"
                           dataType="string"
-                          formControlName="idFactura"
+                          formControlName="fechaFin"
                         ></p-calendar>
                       </div>
                     </div>
@@ -122,7 +143,7 @@
                           dateFormat="yy/mm/dd"
                           dataType="string"
                           [readonlyInput]="true"
-                          formControlName="id_factura"
+                          formControlName="fechaInicioFactura"
                         ></p-calendar>
                       </div>
                     </div>
@@ -136,7 +157,7 @@
                           placeholder="AAAA-MM-DD"
                           dateFormat="yy/mm/dd"
                           dataType="string"
-                          formControlName="id_factura"
+                          formControlName="fechaFinFactura"
                         ></p-calendar>
                       </div>
                     </div>
@@ -151,7 +172,8 @@
                       type="button"
                       icon="pi pi-eraser"
                       label="Limpiar"
-                      class="p-button-success colorAmarilloMHCP">
+                      class="p-button-success colorAmarilloMHCP"
+                      (click)="fnLimpiarFiltros()">
                     </button>
                     <button
                       pButton
@@ -159,7 +181,8 @@
                       type="button"
                       label="Buscar"
                       class="p-button colorAzulMHCP"
-                      icon="pi pi-search">
+                      icon="pi pi-search"
+                      (click)="fnConsultarGarantias()">
                     </button>
                   </div>
                 </div>
@@ -217,7 +240,7 @@
                     <td>{{ lista.idFactura }}</td>
                     <td>{{ lista.identificacionCliente }}</td>
                     <td>{{ lista.nombreCliente }}</td>
-                    <td>{{ lista.fecha }}</td>
+                    <td>{{ lista.fecha | date: "yyyy-MM-dd" }}</td>
                     <td>{{ lista.descripcionEstado }}</td>
 
                     <div id="button-{{ ri }}-tb-clsif" class="no-mostrar">
@@ -228,7 +251,7 @@
                         tooltipPosition="top"
                         icon="pi pi-eye"
                         class="botonTableMHCP p-button-info colorAzulMHCP"
-                        
+                        (click)="fnVerGarantia(lista)"
                       >
                       </button>
                       <button
@@ -238,16 +261,7 @@
                         tooltipPosition="top"
                         icon="pi pi-pencil"
                         class="botonTableMHCP p-button-success colorVerdeMHCP"
-                        
-                      ></button>
-                      <button
-                        pButton
-                        pRipple
-                        pTooltip="Copiar Clasificador"
-                        tooltipPosition="top"
-                        icon="pi pi-file-edit"
-                        class="botonTableMHCP p-button-info colorRojoMHCP"
-                        
+                        (click)="fnGestionarGarantia(lista)"
                       ></button>
                     </div>
                   </tr>

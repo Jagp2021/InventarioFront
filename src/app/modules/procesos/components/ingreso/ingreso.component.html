@@ -16,7 +16,7 @@
                 label="Crear"
                 icon="pi pi-plus"
                 class="p-button-success"
-                (click)="crear()"
+                (click)="fnCrear()"
               ></button>
             </div>
           </div>
@@ -41,7 +41,7 @@
                     <p-dropdown
                       [options]="listaProveedor"
                       [(ngModel)]="selectedProveedor"
-                      optionLabel="descripcion"
+                      optionLabel="nombre"
                       
                       [showClear]="true"
                       placeholder="Selecione proveedor"
@@ -49,7 +49,7 @@
                     >
                       <ng-template let-proveedor pTemplate="item">
                         <div class="proveedor-item">
-                          <div>{{ proveedor.des }}</div>
+                          <div>{{ proveedor.nombre }}</div>
                         </div>
                       </ng-template>
                     </p-dropdown>
@@ -91,7 +91,7 @@
                         <p-calendar
                           [showIcon]="true"
                           placeholder="AAAA-MM-DD"
-                          dateFormat="yy/mm/dd"
+                          dateFormat="yy-mm-dd"
                           dataType="string"
                           [readonlyInput]="true"
                           formControlName="fechaInicio"
@@ -106,7 +106,7 @@
                         <p-calendar
                           [showIcon]="true"
                           placeholder="AAAA-MM-DD"
-                          dateFormat="yy/mm/dd"
+                          dateFormat="yy-mm-dd"
                           dataType="string"
                           formControlName="fechaFin"
                         ></p-calendar>
@@ -123,7 +123,8 @@
                       type="button"
                       icon="pi pi-eraser"
                       label="Limpiar"
-                      class="p-button-success colorAmarilloMHCP">
+                      class="p-button-success colorAmarilloMHCP"
+                      (click)="fnLimpiarFiltros()">
                     </button>
                     <button
                       pButton
@@ -131,7 +132,8 @@
                       type="button"
                       label="Buscar"
                       class="p-button colorAzulMHCP"
-                      icon="pi pi-search">
+                      icon="pi pi-search"
+                      (click)="fnConsultarIngresos()">
                     </button>
                   </div>
                 </div>
@@ -191,18 +193,9 @@
                         tooltipPosition="top"
                         icon="pi pi-eye"
                         class="botonTableMHCP p-button-info colorAzulMHCP"
-                        
+                        (click)="fnVerIngreso(lista)"
                       >
                       </button>
-                      <button
-                        pButton
-                        pRipple
-                        pTooltip="Generar Factura"
-                        tooltipPosition="top"
-                        icon="pi pi-print"
-                        class="botonTableMHCP p-button-success colorVerdeMHCP"
-                        
-                      ></button>
                     </div>
                   </tr>
                 </ng-template>

@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Table } from 'primeng/table';
 import { UtilsService } from 'src/app/core/services/utils.service';
+import { PruductoStateService } from 'src/app/domain/service/parametrizacion/producto-state.service';
+import { ProveedorStateService } from 'src/app/domain/service/parametrizacion/proveedor-state.service';
 import { IngresoStateService } from 'src/app/domain/service/procesos/ingreso-state.service';
 
 @Component({
@@ -12,9 +15,9 @@ import { IngresoStateService } from 'src/app/domain/service/procesos/ingreso-sta
 export class IngresoComponent implements OnInit {
   lista: any[] = [];
   listaProveedor: any[] = [];
-  selectedProveedor: any = {};
+  selectedProveedor: any = null;
   listaProducto: any[] = [];
-  selectedProducto: any = {};
+  selectedProducto: any = null;
   loadingTabla = false;
   selectedItem: any = {};
   @ViewChild('dt') dt: Table | undefined;
@@ -30,26 +33,30 @@ export class IngresoComponent implements OnInit {
   constructor(
     private _formBuilder: FormBuilder,
     private _utilsService: UtilsService,
-    private ingresoService: IngresoStateService) { }
+    private ingresoService: IngresoStateService,
+    private proveedorService: ProveedorStateService,
+    private productoService: PruductoStateService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this._utilsService.fnCambiarIdiomaCalendario();
-    this.fnConsultaringresos();
+    this.fnConsultarProveedor();
+    this.fnConsultarProducto();
   }
 
-  fnConsultaringresos(){
-    this.ingresoService.fnListarIngresos({}).then((response => {
+  fnConsultarIngresos(){
+    this.loadingTabla = true;
+    let model = this.frmIngreso.getRawValue();
+    model.idProducto = this.selectedProducto !== undefined && this.selectedProducto !== null ? this.selectedProducto.id : null;
+    model.idProveedor = this.selectedProveedor !== undefined && this.selectedProveedor !== null ? this.selectedProveedor.id : null;
+    this.ingresoService.fnListarIngresos(model).then((response => {
       if (response.estado) {
         this.lista = response.data;
-        console.log(this.lista);
       }
       this.loadingTabla = false;
     }));
   }
 
-  pplyFilterGlobal($event: any, stringVal: string) {
-    this.dt!.filterGlobal(($event.target as HTMLInputElement).value, stringVal);
-  }
 
   fnMostrarOcultarBotones(
     oEvento: any,
@@ -65,7 +72,33 @@ export class IngresoComponent implements OnInit {
     );
   }
 
-  crear(){
+  fnConsultarProveedor(){
+    this.proveedorService.fnConsultarProveedores({}).then(response => {
+      if (response.estado) {
+        this.listaProveedor = response.data;
+      }
+    });
+  }
 
+  fnConsultarProducto(){
+    this.productoService.fnListarProductos({}).then(response => {
+      if (response.estado) {
+        this.listaProducto = response.data;
+      }
+    });
+  }
+
+  fnLimpiarFiltros(){
+    this.frmIngreso.reset();
+    this.selectedProducto = null;
+    this.selectedProveedor = null;
+  }
+
+  fnCrear(){
+    this.router.navigate(['/procesos/ingreso/crearIngreso', 0]);
+  }
+
+  fnVerIngreso(ingreso: any){
+    this.router.navigate(['/procesos/ingreso/crearIngreso', ingreso.id]);
   }
 }

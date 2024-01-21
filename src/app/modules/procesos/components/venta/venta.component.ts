@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Table } from 'primeng/table';
 import { UtilsService } from 'src/app/core/services/utils.service';
 import { DominioStateService } from 'src/app/domain/service/parametrizacion/dominio-state.service';
@@ -16,7 +17,7 @@ export class VentaComponent implements OnInit {
   listaTipoPago: any[] = [];
   selectedTipoPago: any = null;
   listaUsuario: any[] = [];
-  selectedUsuario: any = {};
+  selectedUsuario: any = null;
   loadingTabla = false;
   selectedItem: any = {};
   @ViewChild('dt') dt: Table | undefined;
@@ -37,7 +38,8 @@ export class VentaComponent implements OnInit {
     private _utilsService: UtilsService,
     private ventaService: VentaStateService,
     private usuarioService: UsuarioStateService,
-    private dominioService: DominioStateService) { }
+    private dominioService: DominioStateService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this._utilsService.fnCambiarIdiomaCalendario();
@@ -99,7 +101,17 @@ export class VentaComponent implements OnInit {
     );
   }
 
-  crear(){
+  fnLimpiarFiltros(){
+    this.frmVentas.reset();
+    this.selectedUsuario = null;
+    this.selectedTipoPago = null;
+  }
 
+  crear(){
+    this.router.navigate(['/procesos/venta/crearVenta', 0]);
+  }
+
+  fnVerVenta(venta: any){
+    this.router.navigate(['/procesos/venta/crearVenta', venta.id]);
   }
 }
