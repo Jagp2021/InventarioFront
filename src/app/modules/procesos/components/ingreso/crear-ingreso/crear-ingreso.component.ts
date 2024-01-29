@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogService } from 'primeng/dynamicdialog';
 import { UtilsService } from 'src/app/core/services/utils.service';
-import { IngresoService } from 'src/app/data/remote/procesos/ingreso.service';
 import { IIngreso } from 'src/app/domain/interface/procesos/ingreso.interface';
 import { ProveedorStateService } from 'src/app/domain/service/parametrizacion/proveedor-state.service';
 import { IngresoStateService } from 'src/app/domain/service/procesos/ingreso-state.service';
@@ -88,7 +87,7 @@ export class CrearIngresoComponent implements OnInit {
   fnAgregarProducto() {
     const ref = this.dialogService.open(ModalIngresoComponent, {
       header: 'Nuevo Producto',
-      width: '80%',
+      width: '40%',
       data: {
         index: -1,
         lista : this.lista
@@ -108,7 +107,7 @@ export class CrearIngresoComponent implements OnInit {
   editarFila(model: any) {
     const ref = this.dialogService.open(ModalIngresoComponent, {
       header: 'Editar Producto ' + model.nombre,
-      width: '80%',
+      width: '50%',
       data: {
         lista : this.lista,
         model : model

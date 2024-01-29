@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   }
   public loginUser(): void {
     this.isLoading = true;
-    this._localStorageService.setKey('sesion','1');
+    this._localStorageService.setKey('sesion','4');
     this._router.navigate(['/']);
   }
 }
