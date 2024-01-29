@@ -73,7 +73,6 @@ export class GarantiaComponent implements OnInit {
     let model = this.frmGarantia.getRawValue();
     model.idCliente = this.selectedCliente !== undefined && this.selectedCliente !== null ? this.selectedCliente?.id : null;
     model.estadoGarantia = this.selectedEstado !== undefined && this.selectedEstado !== null ? this.selectedEstado?.sigla : null;
-    console.log(this.selectedEstado);
     const response = await this._garantiaService.fnListarGarantias(model);
     if (response.estado) {
       this.lista = response.data;

@@ -1,1 +1,188 @@
-<p>crear-ingreso works!</p>
+<div class="grid">
+    <div class="col-12 md:col-12 lg:col-12">
+      <div class="w-full surface-card border-round espacio-cardMHCP">
+        <div class="paginaMHCP">
+          <div class="flex col-12 md:col-12 lg:col-12 paginaMHCP-header">
+            <div class="col-8 md:col-8 lg:col-8 p-0 paginaMHCP-header-titulo">
+              <app-lbl-titulo
+                [titulo]="titulo"
+                descripcion="Registro de ingreso de productos"
+              ></app-lbl-titulo>
+            </div>
+          </div>
+          <div class="col-12 md:col-12 p-0">
+            <form class="col-12 p-0" autocomplete="off" [formGroup]="frmIngreso">
+                <div class="formgrid grid">
+                    <div class="field col-6 md:col-6">
+                        <label htmlfor="name1" class="frm-titulo"
+                          >Proveedor </label>
+                        <div class="col-12 p-0">
+                          <p-dropdown [disabled]="id !== 0"
+                            [options]="listaProveedor"
+                            [(ngModel)]="selectedProveedor"
+                            optionLabel="nombre"
+                            
+                            [showClear]="true"
+                            placeholder="Selecione proveedor"
+                            formControlName="idProveedor"
+                          >
+                            <ng-template let-proveedor pTemplate="item">
+                              <div class="proveedor-item">
+                                <div>{{ proveedor.nombre }}</div>
+                              </div>
+                            </ng-template>
+                          </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="field col-2 md:col-2 mt-0">
+                        <label
+                          htmlfor="fecha"
+                          class="frm-titulo"
+                          >Fecha Ingreso</label
+                        >
+                        <div class="col-12 p-0">
+                          <p-calendar [disabled]="id !== 0"
+                            [showIcon]="true"
+                            placeholder="AAAA-MM-DD"
+                            dateFormat="yy-mm-dd"
+                            dataType="string"
+                            [readonlyInput]="true"
+                            formControlName="fecha"
+                          ></p-calendar>
+                        </div>
+                      </div>
+                </div>
+            </form>
+          </div>
+          <div class="grid">
+            <div class="col-9 md:col-9 lg:col-9 p-3">
+                <app-lbl-subtitulo
+                  subtitulo="Productos Asociados"
+                  ></app-lbl-subtitulo>
+            </div>
+            <div class="col-3 md:col-3 lg:col-3 p-2 paginaMHCP-accionPrincipal" *ngIf="id === 0">
+                <button
+                  pButton
+                  pRipple
+                  label="Agregar Producto"
+                  icon="pi pi-plus"
+                  class="p-button colorAzulMHCP"
+                  (click)="fnAgregarProducto()"
+                ></button>
+            </div>      
+            <div class="col-12 md:col-12 lg:col-12 p-0">
+                <p-table
+                  #dt
+                  styleClass="p-datatable-gridlines p-datatable-striped"
+                  selectionMode="single"
+                  [loading]="loadingTabla"
+                  [value]="lista"
+                  [scrollable]="false"
+                  [rowHover]="true"
+                  [paginator]="lista.length > 10"
+                  [rows]="10"
+                  [rowsPerPageOptions]="[10, 25, 50]"
+                  currentPageReportTemplate="Mostrando {first} de {totalRecords} registros"
+                  [showCurrentPageReport]="true"
+                >
+  
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th pSortableColumn="nombreProducto" id="">
+                        Producto <p-sortIcon field="nombreProducto"></p-sortIcon>
+                      </th>
+                      <th pSortableColumn="cantidad" id="">
+                        Cantidad
+                        <p-sortIcon field="cantidad"></p-sortIcon>
+                      </th>
+                      <th pSortableColumn="valor" id="">
+                        Valor Unitario <p-sortIcon field="valor"></p-sortIcon>
+                      </th>
+                      <th pSortableColumn="valorTotal" id ="">
+                        Valor Total <p-sortIcon field="valorTotal"></p-sortIcon>
+                      </th>
+                    </tr>
+                  </ng-template>
+  
+                  <ng-template pTemplate="body" let-lista let-ri="rowIndex">
+                    <tr
+                      (mouseenter)="fnMostrarOcultarBotones($event, ri, true, 'tb-clsif')"
+                      (mouseleave)="fnMostrarOcultarBotones($event, ri, false, 'tb-clsif')"
+                      [pSelectableRow]="lista"
+                    >
+                      <td>{{ lista.nombreProducto }}</td>
+                      <td>{{ lista.cantidad }}</td>
+                      <td>{{ lista.valor | currency  }}</td>
+                      <td>{{ lista.valor * lista.cantidad | currency  }}</td>
+  
+                      <div id="button-{{ ri }}-tb-clsif" class="no-mostrar"  *ngIf="id === 0">
+                        <button                     
+                          pButton
+                          pRipple
+                          pTooltip="Editar"
+                          tooltipPosition="top"
+                          icon="pi pi-pencil"
+                          class="botonTableMHCP p-button-success colorVerdeMHCP"
+                        ></button>
+                      </div>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="emptymessage">
+                    <tr>
+                      <td colspan="5">No se han encontrado registros.</td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+  
+            </div>
+            <div class="col-9 md:col-9 lg:col-9 p-1"></div>
+            <div class="col-3 md:col-3 lg:col-3 p-1">
+                <p-card >
+                    <div class="grid">
+                        <div class="col-6 md:col-6 lg:col-6 p-0">
+                            <p class="text-lg font-medium" style="color: var(--primary-color);">Total Ingreso </p>
+                        </div>
+                        <div class="col-6 md:col-6 lg:col-6 p-0">
+                            <p class="text-lg font-medium">
+                                {{ totalIngreso | currency }}
+                            </p>
+                        </div>
+                    </div>                    
+                </p-card>
+            </div>
+          </div>
+          <div class="col-12 md:col-12 p-0">
+                <br>
+              <div class="formgrid grid">
+                <div class="col-12 md:col-12 justify-content-right mb-2">
+                  <div class="flex flex-column md:flex-column lg:flex-row justify-content-end gap-2">
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      icon="pi pi-times"
+                      label="Cancelar"
+                      class="p-button-success colorRojoMHCP"
+                      (click)="fnCancelar()">
+                    </button>
+                    <button
+                    *ngIf="id === 0"
+                      [disabled]="frmIngreso.invalid || lista.length === 0"
+                      pButton
+                      pRipple
+                      type="button"
+                      label="Guardar"
+                      class="p-button-success colorVerdeMHCP"
+                      icon="pi pi-save"
+                      (click)="fnGuardar()">
+                    </button>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  <p-toast></p-toast>
+  

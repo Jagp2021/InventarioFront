@@ -11,6 +11,7 @@ import { GarantiaComponent } from './components/garantia/garantia.component';
 import { CrearGarantiaComponent } from './components/garantia/crear-garantia/crear-garantia.component';
 import { CrearIngresoComponent } from './components/ingreso/crear-ingreso/crear-ingreso.component';
 import { CrearVentaComponent } from './components/venta/crear-venta/crear-venta.component';
+import { ModalIngresoComponent } from './components/ingreso/modal-ingreso/modal-ingreso.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { CrearVentaComponent } from './components/venta/crear-venta/crear-venta.
     GarantiaComponent,
     CrearGarantiaComponent,
     CrearIngresoComponent,
-    CrearVentaComponent
+    CrearVentaComponent,
+    ModalIngresoComponent
   ],
   imports: [
     CommonModule,

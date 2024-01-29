@@ -1,0 +1,84 @@
+<div class="grid">
+    <div class="col-12 md:col-12 lg:col-12">
+        <div class="paginaMHCP">
+          <div class="col-12 md:col-12 p-0">
+            <form class="col-12 p-0" autocomplete="off" [formGroup]="frmProducto">
+                <div class="formgrid grid">
+                    <div class="field col-6 md:col-6">
+                        <label htmlfor="name1" class="frm-titulo"
+                          >Producto </label>
+                        <div class="col-12 p-0">
+                          <p-dropdown
+                            [options]="listaProducto"
+                            [(ngModel)]="selectedProducto"
+                            optionLabel="nombre"
+                            
+                            [showClear]="true"
+                            placeholder="Selecione producto"
+                            formControlName="idProducto"
+                          >
+                            <ng-template let-proveedor pTemplate="item">
+                              <div class="proveedor-item">
+                                <div>{{ proveedor.nombre }}</div>
+                              </div>
+                            </ng-template>
+                          </p-dropdown>
+                        </div>
+                    </div>
+                    <div class="field col-12 md:col-3">
+                        <label htmlfor="Identificador de Factura" class="frm-titulo">Cantidad</label>
+                        <input
+                        pInputText
+                        id="name1"
+                        type="text"
+                        placeholder="Ingrese identificador de Factura"
+                        class="p-inputtext p-component p-element"
+                        formControlName="cantidad"
+                        />
+                      </div>
+                      <div class="field col-12 md:col-3">
+                        <label htmlfor="Identificador de Factura" class="frm-titulo">Valor</label>
+                        <input
+                        pInputText
+                        id="name1"
+                        type="text"
+                        placeholder="Ingrese identificador de Factura"
+                        class="p-inputtext p-component p-element"
+                        formControlName="valor"
+                        />
+                      </div>
+                </div>
+            </form>
+          </div>
+          <div class="col-12 md:col-12 p-0">
+                <br>
+              <div class="formgrid grid">
+                <div class="col-12 md:col-12 justify-content-right mb-2">
+                  <div class="flex flex-column md:flex-column lg:flex-row justify-content-end gap-2">
+                    <button
+                      pButton
+                      pRipple
+                      type="button"
+                      icon="pi pi-times"
+                      label="Cancelar"
+                      class="p-button-success colorRojoMHCP"
+                      (click)="fnCancelar()">
+                    </button>
+                    <button
+                      [disabled]="frmProducto.invalid"
+                      pButton
+                      pRipple
+                      type="button"
+                      label="Aceptar"
+                      class="p-button-success colorVerdeMHCP"
+                      icon="pi pi-check"
+                      (click)="fnAceptar()">
+                    </button>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+</div>
+  <p-toast></p-toast>
