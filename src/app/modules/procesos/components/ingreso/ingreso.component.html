@@ -42,7 +42,7 @@
                       [options]="listaProveedor"
                       [(ngModel)]="selectedProveedor"
                       optionLabel="nombre"
-                      
+                      [filter]="true"
                       [showClear]="true"
                       placeholder="Selecione proveedor"
                       formControlName="idProveedor"
@@ -63,7 +63,7 @@
                       [options]="listaProducto"
                       [(ngModel)]="selectedProducto"
                       optionLabel="descripcion"
-                      
+                      [filter]="true"
                       [showClear]="true"
                       placeholder="Seleccione Producto"
                       formControlName="idProducto"

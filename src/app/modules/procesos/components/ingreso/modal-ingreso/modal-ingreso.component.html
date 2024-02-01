@@ -8,12 +8,13 @@
                         <label htmlfor="name1" class="frm-titulo"
                           >Producto </label>
                         <div class="col-12 p-0">
-                          <p-dropdown
-                            [options]="listaProducto"
-                            [(ngModel)]="selectedProducto"
-                            optionLabel="nombre"
-                            
-                            [showClear]="true"
+                          <p-dropdown 
+                          appendTo="body"
+                          [options]="listaProducto"
+                          [(ngModel)]="selectedProducto"
+                          optionLabel="descripcion"
+                          [filter]="true"
+                          [showClear]="true"
                             placeholder="Selecione producto"
                             formControlName="idProducto"
                           >
@@ -22,7 +23,10 @@
                                 <div>{{ proveedor.nombre }}</div>
                               </div>
                             </ng-template>
-                          </p-dropdown>
+                          </p-dropdown >
+                          <small class="p-error" *ngIf="campoNoValido('idProducto')">
+                            {{ listaErroresMensajes("idProducto") }}
+                          </small>
                         </div>
                     </div>
                     <div class="field col-12 md:col-3">
@@ -31,10 +35,13 @@
                         pInputText
                         id="name1"
                         type="text"
-                        placeholder="Ingrese identificador de Factura"
+                        placeholder="Ingrese cantidad"
                         class="p-inputtext p-component p-element"
                         formControlName="cantidad"
                         />
+                        <small class="p-error" *ngIf="campoNoValido('cantidad')">
+                          {{ listaErroresMensajes("cantidad") }}
+                        </small>
                       </div>
                       <div class="field col-12 md:col-3">
                         <label htmlfor="Identificador de Factura" class="frm-titulo">Valor</label>
@@ -42,10 +49,13 @@
                         pInputText
                         id="name1"
                         type="text"
-                        placeholder="Ingrese identificador de Factura"
+                        placeholder="Ingrese valor"
                         class="p-inputtext p-component p-element"
                         formControlName="valor"
                         />
+                        <small class="p-error" *ngIf="campoNoValido('valor')">
+                          {{ listaErroresMensajes("valor") }}
+                        </small>
                       </div>
                 </div>
             </form>

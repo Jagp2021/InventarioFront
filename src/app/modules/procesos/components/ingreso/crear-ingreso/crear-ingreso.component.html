@@ -21,7 +21,7 @@
                             [options]="listaProveedor"
                             [(ngModel)]="selectedProveedor"
                             optionLabel="nombre"
-                            
+                            [filter]="true"
                             [showClear]="true"
                             placeholder="Selecione proveedor"
                             formControlName="idProveedor"
@@ -32,6 +32,9 @@
                               </div>
                             </ng-template>
                           </p-dropdown>
+                          <small class="p-error" *ngIf="campoNoValido('idProveedor')">
+                            {{ listaErroresMensajes("idProveedor") }}
+                          </small>
                         </div>
                     </div>
                     <div class="field col-2 md:col-2 mt-0">
@@ -50,6 +53,9 @@
                             formControlName="fecha"
                           ></p-calendar>
                         </div>
+                        <small class="p-error" *ngIf="campoNoValido('fecha')">
+                          {{ listaErroresMensajes("fecha") }}
+                        </small>
                       </div>
                 </div>
             </form>
@@ -123,6 +129,17 @@
                           tooltipPosition="top"
                           icon="pi pi-pencil"
                           class="botonTableMHCP p-button-success colorVerdeMHCP"
+                          (click)="editarFila(lista)"
+                        ></button>
+
+                        <button                     
+                          pButton
+                          pRipple
+                          pTooltip="Eliminar"
+                          tooltipPosition="top"
+                          icon="pi pi-trash"
+                          class="botonTableMHCP p-button-success colorRojoMHCP"
+                          (click)="eliminarFila(lista)"
                         ></button>
                       </div>
                     </tr>
