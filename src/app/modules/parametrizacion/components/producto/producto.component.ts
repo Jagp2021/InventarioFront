@@ -65,7 +65,6 @@ export class ProductoComponent implements OnInit {
 
     ref.onClose.subscribe({
       next: (resp) => {
-        console.log(resp);
         if (resp !== undefined) {
           this._messageService.add({
             severity: resp.estado ? 'success' : 'error',

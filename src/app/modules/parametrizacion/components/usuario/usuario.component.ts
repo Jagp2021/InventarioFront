@@ -51,7 +51,6 @@ export class UsuarioComponent implements OnInit {
   fnConsultarUsuarios() {
     this.usuarioService.fnConsultarUsuarios({}).then((res => {
       this.lista = res.data;
-      console.log(res.data);
     }));
   }
 

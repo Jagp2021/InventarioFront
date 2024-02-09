@@ -53,7 +53,7 @@ export class CrearIngresoComponent implements OnInit {
   }
 
   fnConsultarIngreso(): void {
-    var filter: IIngreso = {id: this.id};
+    const filter: IIngreso = {id: this.id};
     this.ingresoService.fnListarIngresos(filter).then((data) => {
       this.lista = data.data[0].detalleIngreso;
       this.fnCalcularTotal();
@@ -114,7 +114,7 @@ export class CrearIngresoComponent implements OnInit {
   }
 
   editarFila(model: any) {
-    var index = this.lista.indexOf(model);
+    const index = this.lista.indexOf(model);
     const ref = this.dialogService.open(ModalIngresoComponent, {
       header: 'Editar Producto ' + model.nombre,
       width: '60%',

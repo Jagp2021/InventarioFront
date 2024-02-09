@@ -47,7 +47,6 @@ export class ProductoCrearComponent implements OnInit {
   });
 
   ngOnInit(): void {
-    console.log(this.config.data.producto);
     this.fnConsultarTipoDato();
     if(this.config.data.producto !== undefined){
       this.index = this.config.data.index;
@@ -102,7 +101,6 @@ export class ProductoCrearComponent implements OnInit {
     const response: IRespuestaApi = {  estado: true, codigo: 200, mensaje: '', data: null};
     let model= this.formProducto.getRawValue();
     model.tipoProducto = this.selectedTipoDato.sigla;
-    console.log(this.selectedTipoDato.sigla);
     if(this.formControls['id'].value ==='0'){
       this.guardar(model);
     } else {

@@ -67,7 +67,6 @@ export class UtilsService {
 
   fnMostrarConfirm(sAccion: string | number) {
     let oAccion = {};
-    console.log(sAccion);
 
     switch (sAccion) {
       case 1:
@@ -84,7 +83,6 @@ export class UtilsService {
         break;
     }
 
-    console.log(oAccion);
 
     this._confirmationService.confirm({
       ...oAccion,

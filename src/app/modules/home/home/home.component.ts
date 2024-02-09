@@ -15,7 +15,6 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
    const sesion = this._localStorage.getKey("sesion");
-   console.log(sesion);
    if(sesion === null){
     this._router.navigate(['/login']);
    }

@@ -52,7 +52,6 @@ export class ClienteComponent implements OnInit {
   fnConsultarClientes() {
     this.clienteService.fnConsultarClientes({}).then((res => {
       this.lista = res.data;
-      console.log(res.data);
     }));
   }
 

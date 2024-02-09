@@ -239,7 +239,6 @@ export class DatosAdministrativosComponent implements OnInit {
       numeroDocumentoSoporte: String(oValoresFormulario.numeroDocumentoSoporte),
     };
     if (this.frmDatosAdministrativos.valid) {
-      console.log(this.sAccion);
 
       if (this.sAccion === DATOS_ADMINISTRATIVOS.ACCION_EDITAR) {
         respuesta = await this._datosAdministrativos.editarDatosAdministrativos(

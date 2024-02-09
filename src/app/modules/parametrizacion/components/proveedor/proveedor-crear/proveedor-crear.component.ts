@@ -69,7 +69,6 @@ export class ProveedorCrearComponent implements OnInit {
    * @returns 
    */
   listaErroresMensajesNivel(nombreCampo: string): string { 
-    console.log(this.formUsuario.get(nombreCampo)?.errors);
     const errors = this.formUsuario.get(nombreCampo)?.errors;
     if (errors?.['required']) return 'Este campo es obligatorio.';
     if (errors?.['maxlength']) return 'Excede el máximo valor de caracteres (' + errors?.['maxlength'].requiredLength + ').';

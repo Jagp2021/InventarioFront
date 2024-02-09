@@ -127,7 +127,6 @@ export class UsuarioCrearComponent implements OnInit {
       this.formControls['username'].setValue(this.config.data.usuario.username);
       this.formControls['email'].setValue(this.config.data.usuario.email);
       this.formControls['password'].setValue(this.config.data.usuario.password);
-      console.log(this.config.data.usuario);
     }
   
     /**

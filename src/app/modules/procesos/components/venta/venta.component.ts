@@ -48,7 +48,6 @@ export class VentaComponent implements OnInit {
   }
 
   fnConsultarVentas(){
-    console.log(this.selectedTipoPago);
     let model = this.frmVentas.getRawValue();
     if(this.selectedUsuario !== undefined && this.selectedUsuario !== null){
       model.usuarioRegistro = this.selectedUsuario.id;

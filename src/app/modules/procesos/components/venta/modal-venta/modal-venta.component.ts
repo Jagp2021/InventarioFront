@@ -13,6 +13,7 @@ import { PruductoStateService } from 'src/app/domain/service/parametrizacion/pro
 export class ModalVentaComponent implements OnInit {
 
   listaProducto: any[] = [];
+  listaDetalleventa: IDetalleVenta[] = [];
   selectedProducto: any = null;
   constructor(private _utilsService: UtilsService,
     private _formBuilder: FormBuilder,
@@ -34,6 +35,10 @@ export class ModalVentaComponent implements OnInit {
         this.fnCargaInicial();
       },200);
     }
+
+    if(this.config.data.lista !== undefined){
+      this.listaDetalleventa = this.config.data.lista;
+    }
   }
 
   fnConsultarProductos(): void {
@@ -42,7 +47,20 @@ export class ModalVentaComponent implements OnInit {
     });
   }
 
+  fnCargaInicial(){
+    this.selectedProducto = this.listaProducto.find(x => x.id === this.config.data.model.idProducto);
+    this.frmProducto.controls['idProducto'].setValue(this.selectedProducto);
+    this.frmProducto.controls['idProducto'].disable();
+    this.frmProducto.controls['cantidad'].setValue(this.config.data.model.cantidad);
+    this.frmProducto.controls['valor'].setValue(this.config.data.model.valorUnitario);
+  }
+
   fnAceptar(): void {
+    if(this.validar() && this.config.data.model === undefined){
+      this.ref.close({
+        mensaje:'Ya se agregó el producto. Si desea puede actualizar la cantidad y el valor en el producto existente'});
+      return;
+    }
     const detalle: IDetalleVenta = {
       idFactura: 0,
       idProducto: this.selectedProducto.id,
@@ -51,15 +69,15 @@ export class ModalVentaComponent implements OnInit {
       valorTotal: this.frmProducto.value.cantidad * this.frmProducto.value.valor,
       nombreProducto: this.selectedProducto.nombre
     };
-    this.ref.close(detalle);
+    this.ref.close({objeto :detalle});
+  }
+
+  validar():boolean{
+    return this.listaDetalleventa.filter(x => x.idProducto === this.selectedProducto.id).length > 0;
   }
 
   fnCancelar(): void {
     this.ref.close();
-  }
-
-  fnCargaInicial(){
-    this._utilsService.fnCambiarIdiomaCalendario();
   }
 
 }

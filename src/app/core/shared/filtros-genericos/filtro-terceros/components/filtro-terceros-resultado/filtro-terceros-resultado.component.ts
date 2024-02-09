@@ -65,13 +65,6 @@ export class FiltroTercerosResultadoComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  // fnCalcularPorcentaje(nIndice: number) {
-  //   this.aTercerosSeleccionados[nIndice].valorPorcentaje =
-  //     this.aValoresPorcentuales[nIndice];
-  //   console.log(this.aValoresPorcentuales);
-  //   console.log(this.aTercerosSeleccionados);
-  // }
-
   /**
    * @description Busca las transacciones con la información proporcionada por el filtro
    * @return {Promise<void>} No retorna datos

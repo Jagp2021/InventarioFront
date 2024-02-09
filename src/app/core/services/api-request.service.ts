@@ -32,7 +32,6 @@ export class ApiRequestService {
     let queryParameters = '';
     if(obj !== null && obj !== undefined ) { 
       let parameters = Object.keys(obj).filter(key => obj[key] !== null && obj[key] !== '' && obj[key] !== undefined && obj[key] !== 'null');
-      console.log(obj[parameters[0]]);
       queryParameters = '?' + parameters.map(key => key + '=' + obj[key]).join('&');
     }
     return this.http.get<T>(url + queryParameters, 

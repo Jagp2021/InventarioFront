@@ -115,7 +115,8 @@
                   subtitulo="Productos Asociados"
                   ></app-lbl-subtitulo>
             </div>
-            <div class="col-3 md:col-3 lg:col-3 p-2 paginaMHCP-accionPrincipal" *ngIf="id === 0">
+            <div class="col-3 md:col-3 lg:col-3 p-2 paginaMHCP-accionPrincipal" 
+            *ngIf="id === 0 && visibleGuardar">
                 <button
                   pButton
                   pRipple
@@ -125,7 +126,7 @@
                   (click)="fnAgregarProducto()"
                 ></button>
             </div>      
-            <div class="col-12 md:col-12 lg:col-12 p-0">
+            <div class="col-12 md:col-12 lg:col-12 p-0" id="pdfTable" #pdfTable>
                 <p-table
                   #dt
                   styleClass="p-datatable-gridlines p-datatable-striped"
@@ -170,7 +171,7 @@
                       <td>{{ lista.valorUnitario | currency  }}</td>
                       <td>{{ lista.valorUnitario * lista.cantidad | currency  }}</td>
   
-                      <div id="button-{{ ri }}-tb-clsif" class="no-mostrar"  *ngIf="id === 0">
+                      <div id="button-{{ ri }}-tb-clsif" class="no-mostrar"  *ngIf="id === 0 && visibleGuardar">
                         <button                     
                           pButton
                           pRipple
@@ -178,6 +179,17 @@
                           tooltipPosition="top"
                           icon="pi pi-pencil"
                           class="botonTableMHCP p-button-success colorVerdeMHCP"
+                          (click)="editarFila(lista)"
+                        ></button>
+
+                        <button                     
+                          pButton
+                          pRipple
+                          pTooltip="Eliminar"
+                          tooltipPosition="top"
+                          icon="pi pi-trash"
+                          class="botonTableMHCP p-button-success colorRojoMHCP"
+                          (click)="eliminarFila(lista)"
                         ></button>
                       </div>
                     </tr>
@@ -212,6 +224,16 @@
                 <div class="col-12 md:col-12 justify-content-right mb-2">
                   <div class="flex flex-column md:flex-column lg:flex-row justify-content-end gap-2">
                     <button
+                    *ngIf="!visibleGuardar"
+                      pButton
+                      pRipple
+                      type="button"
+                      icon="pi pi-print"
+                      label="Factura"
+                      class="p-button colorAzulMHCP"
+                      (click)="downloadAsPDF()">
+                    </button>
+                    <button
                       pButton
                       pRipple
                       type="button"
@@ -221,7 +243,7 @@
                       (click)="fnCancelar()">
                     </button>
                     <button
-                    *ngIf="id === 0"
+                    *ngIf="id === 0 && visibleGuardar"
                       [disabled]="frmVenta.invalid || lista.length === 0"
                       pButton
                       pRipple
