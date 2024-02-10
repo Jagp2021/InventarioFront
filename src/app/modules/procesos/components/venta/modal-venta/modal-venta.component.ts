@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Message } from 'primeng/api';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { UtilsService } from 'src/app/core/services/utils.service';
 import { IDetalleVenta } from 'src/app/domain/interface/procesos/detalle-venta.interface';
@@ -11,7 +12,8 @@ import { PruductoStateService } from 'src/app/domain/service/parametrizacion/pro
   styleUrls: ['./modal-venta.component.scss']
 })
 export class ModalVentaComponent implements OnInit {
-
+  messages: Message[] = [];
+  disabledGuardar = true;
   listaProducto: any[] = [];
   listaDetalleventa: IDetalleVenta[] = [];
   selectedProducto: any = null;
@@ -22,9 +24,9 @@ export class ModalVentaComponent implements OnInit {
     private productoService: PruductoStateService) { }
   
     frmProducto: FormGroup = this._formBuilder.group({
-      idProducto: [null, [Validators.required]],
-      cantidad: [0, [Validators.required, Validators.min(1)]],
-      valor: [0, [Validators.required, Validators.min(1)]],
+      idProducto: ['', [Validators.required]],
+      cantidad: ['', [Validators.required, Validators.min(1)]],
+      valor: ['', [Validators.required, Validators.min(1)]],
     });
     
   ngOnInit(): void {
@@ -56,9 +58,13 @@ export class ModalVentaComponent implements OnInit {
   }
 
   fnAceptar(): void {
-    if(this.validar() && this.config.data.model === undefined){
-      this.ref.close({
-        mensaje:'Ya se agregó el producto. Si desea puede actualizar la cantidad y el valor en el producto existente'});
+    if(this.validarProductoExistente() && this.config.data.model === undefined){
+      this.messages = [{ severity: 'error', summary: 'Error', detail: 'Ya se agregó el producto. Si desea puede actualizar la cantidad y el valor en el producto existente' }];
+      return;
+    }
+
+    if(!this.validarDisponible()){
+      this.messages = [{ severity: 'error', summary: 'Error', detail: 'El producto no cuenta con la cantidad solicitada' }];
       return;
     }
     const detalle: IDetalleVenta = {
@@ -72,12 +78,31 @@ export class ModalVentaComponent implements OnInit {
     this.ref.close({objeto :detalle});
   }
 
-  validar():boolean{
+  validarProductoExistente():boolean{
     return this.listaDetalleventa.filter(x => x.idProducto === this.selectedProducto.id).length > 0;
+  }
+
+  validarDisponible():boolean{
+    return Number(this.selectedProducto.cantidadDisponible) >=Number(this.frmProducto.value.cantidad);
   }
 
   fnCancelar(): void {
     this.ref.close();
+  }
+
+  fnProductoSeleccionado(event: any): void {
+    console.log(event);
+    if(event.value !== null){
+      if(event.value.cantidadDisponible === 0){
+        this.frmProducto.controls['cantidad'].setValue(null);
+        this.frmProducto.controls['cantidad'].disable();
+        this.disabledGuardar = true;
+        this.messages = [{ severity: 'error', summary: 'Error', detail: 'El producto no cuenta con Stock disponible' }];
+      }else {
+        this.frmProducto.controls['cantidad'].enable();
+        this.disabledGuardar = false;
+      }
+    }
   }
 
 }

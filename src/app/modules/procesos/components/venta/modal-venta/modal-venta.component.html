@@ -9,11 +9,13 @@
                           >Producto </label>
                         <div class="col-12 p-0">
                           <p-dropdown
+                            appendTo="body"
                             [options]="listaProducto"
                             [(ngModel)]="selectedProducto"
                             optionLabel="nombre"
-                            
+                            (onChange)="fnProductoSeleccionado($event)"
                             [showClear]="true"
+                            [filter]="true"
                             placeholder="Selecione producto"
                             formControlName="idProducto"
                           >
@@ -26,7 +28,13 @@
                         </div>
                     </div>
                     <div class="field col-12 md:col-3">
-                        <label htmlfor="Identificador de Factura" class="frm-titulo">Cantidad</label>
+                        <label htmlfor="Identificador de Factura" class="frm-titulo">Cantidad
+                            <i
+                              class="pi pi-info iconoInformativoMHCP"
+                              pTooltip="{{selectedProducto?.cantidadDisponible}}"
+                              tooltipPosition="right"
+                              [fitContent]="false"
+                            ></i></label>
                         <input
                         pInputText
                         id="name1"
@@ -51,6 +59,7 @@
             </form>
           </div>
           <div class="col-12 md:col-12 p-0">
+            <p-messages [(value)]="messages" [enableService]="false" [closable]="true"></p-messages>
                 <br>
               <div class="formgrid grid">
                 <div class="col-12 md:col-12 justify-content-right mb-2">
@@ -65,7 +74,7 @@
                       (click)="fnCancelar()">
                     </button>
                     <button
-                      [disabled]="frmProducto.invalid"
+                      [disabled]="frmProducto.invalid || disabledGuardar"
                       pButton
                       pRipple
                       type="button"

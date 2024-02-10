@@ -115,7 +115,7 @@ export class CrearVentaComponent implements OnInit {
   fnAgregarProducto() {
     const ref = this.dialogService.open(ModalVentaComponent, {
       header: 'Nuevo Producto',
-      width: '40%',
+      width: '70%',
       data: {
         index: -1,
         lista : this.lista
@@ -144,7 +144,7 @@ export class CrearVentaComponent implements OnInit {
     const index = this.lista.indexOf(model);
     const ref = this.dialogService.open(ModalVentaComponent, {
       header: 'Editar Producto ' + model.nombreProducto,
-      width: '60%',
+      width: '70%',
       data: {
         lista : this.lista,
         model : model
