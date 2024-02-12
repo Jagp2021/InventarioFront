@@ -64,9 +64,18 @@ export class CrearVentaComponent implements OnInit {
         this.titulo = 'Ver Venta ' + this.id;
         this.visibleGuardar = false;
         this.fnConsultarVenta();
+      } else{
+        this.fnGenerarConsecutivo();
       }
     }
     );
+  }
+
+  fnGenerarConsecutivo(): void {
+    this.ventaService.fnGenerarConsecutivo().then((data) => {
+      console.log(data);
+      this.frmVenta.controls['numeroFactura'].setValue(data.data);
+    });
   }
 
   fnConsultarVenta(): void {

@@ -21,4 +21,8 @@ export class VentaService {
   public guardarVenta<T>(model?: IVenta): Observable<IRespuestaApi> {
     return this._apiRequestService.post<T>(`${this._urlBase}/${this._controlador}`, model);
   }
+
+  public generarConsecutivo<T>(): Observable<IRespuestaApi> {
+    return this._apiRequestService.get<T>(`${this._urlBase}/${this._controlador}/GenerarConsecutivo`);
+  }
 }

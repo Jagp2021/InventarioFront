@@ -16,4 +16,8 @@ export class VentaStateService {
   public fnGuardarVenta<T>(oModel: any): Promise<any> {
     return  firstValueFrom(this._ventaService.guardarVenta(oModel));
   }
+
+  public fnGenerarConsecutivo<T>(): Promise<any> {
+    return  firstValueFrom(this._ventaService.generarConsecutivo());
+  }
 }

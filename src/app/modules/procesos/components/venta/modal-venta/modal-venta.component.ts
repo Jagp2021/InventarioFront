@@ -55,6 +55,8 @@ export class ModalVentaComponent implements OnInit {
     this.frmProducto.controls['idProducto'].disable();
     this.frmProducto.controls['cantidad'].setValue(this.config.data.model.cantidad);
     this.frmProducto.controls['valor'].setValue(this.config.data.model.valorUnitario);
+    this.frmProducto.controls['valor'].disable();
+    this.disabledGuardar = false;
   }
 
   fnAceptar(): void {
@@ -67,12 +69,13 @@ export class ModalVentaComponent implements OnInit {
       this.messages = [{ severity: 'error', summary: 'Error', detail: 'El producto no cuenta con la cantidad solicitada' }];
       return;
     }
+
     const detalle: IDetalleVenta = {
       idFactura: 0,
       idProducto: this.selectedProducto.id,
       cantidad: this.frmProducto.value.cantidad,
-      valorUnitario: this.frmProducto.value.valor,
-      valorTotal: this.frmProducto.value.cantidad * this.frmProducto.value.valor,
+      valorUnitario: this.selectedProducto.precio,
+      valorTotal: this.frmProducto.value.cantidad * this.selectedProducto.precio,
       nombreProducto: this.selectedProducto.nombre
     };
     this.ref.close({objeto :detalle});
@@ -96,10 +99,13 @@ export class ModalVentaComponent implements OnInit {
       if(event.value.cantidadDisponible === 0){
         this.frmProducto.controls['cantidad'].setValue(null);
         this.frmProducto.controls['cantidad'].disable();
+        this.frmProducto.controls['valor'].disable();
         this.disabledGuardar = true;
         this.messages = [{ severity: 'error', summary: 'Error', detail: 'El producto no cuenta con Stock disponible' }];
       }else {
         this.frmProducto.controls['cantidad'].enable();
+        this.frmProducto.controls['valor'].disable();
+        this.frmProducto.controls['valor'].setValue(this.selectedProducto.precio);
         this.disabledGuardar = false;
       }
     }
