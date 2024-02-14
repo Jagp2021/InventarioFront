@@ -95,28 +95,6 @@
       </div>
       <div class="field col-12 md:col-4">
         <label htmlfor="name1" class="frm-titulo"
-          >Cantidad Disponible <span class="required">*</span></label
-        >
-        <div class="col-12 p-0">
-          <input
-            #val
-            pInputText
-            id="name1"
-            type="text"
-            placeholder="Ingrese Cantidad"
-            class="p-inputtext p-component p-element"
-            formControlName="cantidadDisponible"
-          />
-          <small
-            class="form-text text-red-600"
-            *ngIf="campoNoValido('orden')"
-          >
-            {{ listaErroresMensajesNivel("orden") }}
-          </small>
-        </div>
-      </div>
-      <div class="field col-12 md:col-4">
-        <label htmlfor="name1" class="frm-titulo"
           >Estado <span class="required">*</span></label
         >
         <div class="col-12 p-0">

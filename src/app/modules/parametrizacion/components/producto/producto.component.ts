@@ -7,6 +7,7 @@ import { UtilsService } from 'src/app/core/services/utils.service';
 import { Clasificador } from 'src/app/domain/interface/adm/clasificador/clasificador.interface';
 import { PruductoStateService } from 'src/app/domain/service/parametrizacion/producto-state.service';
 import { ProductoCrearComponent } from './producto-crear/producto-crear.component';
+import { IProducto } from 'src/app/domain/interface/parametrizacion/producto.interface';
 
 @Component({
   selector: 'app-producto',
@@ -50,9 +51,25 @@ export class ProductoComponent implements OnInit {
   }
 
   consultarProductos(){
-    this._productoService.fnListarProductos({}).then((res => {
+    this._productoService.fnListarProductos({}).then(res => {
       this.lista = res.data;
-    }));
+      this.lista.forEach((element: IProducto) => {
+        if(element.cantidadDisponible === 0){
+          element.estiloTag ="danger";
+          element.textoTag = "Agotado";
+        }
+
+        if((element.cantidadDisponible ?? 0) > 0 && (element.cantidadDisponible?? 0) <= 5){
+          element.estiloTag ="warning";
+          element.textoTag = "Pocas unidades";
+        }
+
+        if((element.cantidadDisponible?? 0) > 5){
+          element.estiloTag ="success";
+          element.textoTag = "Disponible";
+        }
+      });
+  });
   }
 
   crear() {
@@ -103,5 +120,6 @@ export class ProductoComponent implements OnInit {
       },
     });
   }
+
 
 }

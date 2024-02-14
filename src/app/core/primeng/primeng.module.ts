@@ -61,6 +61,7 @@ import { BadgeModule } from 'primeng/badge';
 import { ToolbarModule } from 'primeng/toolbar';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
+import { TagModule } from 'primeng/tag';
 import {
   DialogService,
   DynamicDialogConfig,
@@ -145,6 +146,7 @@ import { PaginatorModule } from 'primeng/paginator';
     OverlayPanelModule,
     FieldsetModule,
     PaginatorModule,
+    TagModule,
   ],
 
   exports: [
@@ -216,6 +218,7 @@ import { PaginatorModule } from 'primeng/paginator';
     OverlayPanelModule,
     FieldsetModule,
     PaginatorModule,
+    TagModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

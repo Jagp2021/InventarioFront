@@ -49,7 +49,7 @@
                             [options]="listaTipoPago"
                             [(ngModel)]="selectedTipoPago"
                             optionLabel="descripcion"
-                            
+                            [filter]="true"
                             [showClear]="true"
                             placeholder="Selecione forma de Pago"
                             formControlName="tipoPago"
@@ -71,7 +71,7 @@
                             [options]="listaCliente"
                             [(ngModel)]="selectedCliente"
                             optionLabel="nombre"
-                            
+                            [filter]="true"
                             [showClear]="true"
                             placeholder="Selecione Cliente"
                             formControlName="cliente"

@@ -84,6 +84,9 @@
       <th pSortableColumn="estado">
         Estado <p-sortIcon field="estado"></p-sortIcon>
       </th>
+      <th id="">
+        Indicador Stock
+      </th>
     </tr>
   </ng-template>
 
@@ -98,6 +101,7 @@
       <td>{{ lista.descripcion }}</td>
       <td>{{ lista.cantidadDisponible}}</td>
       <td>{{ lista.estado | estadoPipe}}</td>
+      <td><p-tag styleClass="col-8 mt-1" [severity]="lista.estiloTag" [value]="lista.textoTag"></p-tag></td>
 
       <div id="button-{{ ri }}-tb-clsif" class="no-mostrar">
         <button

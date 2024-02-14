@@ -44,28 +44,7 @@
           </small>
         </div>
       </div>
-      <div class="field col-12 md:col-4">
-        <label htmlfor="name1" class="frm-titulo"
-          >Username <span class="required">*</span></label
-        >
-        <div class="col-12 p-0">
-          <input
-            #val
-            pInputText
-            id="name1"
-            type="text"
-            placeholder="Ingrese username"
-            class="p-inputtext p-component p-element"
-            formControlName="username"
-          />
-          <small
-            class="form-text text-red-600"
-            *ngIf="campoNoValido('username')"
-          >
-            {{ listaErroresMensajesNivel("username") }}
-          </small>
-        </div>
-      </div>
+      
       <div class="field col-12 md:col-4">
         <label htmlfor="name1" class="frm-titulo"
           >Contraseña <span class="required">*</span></label
@@ -94,10 +73,11 @@
         >
         <div class="col-12 p-0">
           <p-dropdown
+            appendTo="body"
             [options]="listaTipoDocumento"
             [(ngModel)]="selectedTipoDocumento"
             optionLabel="descripcion"
-            
+            [filter]="true"
             [showClear]="true"
             placeholder="Selecionar tipo de documento"
             formControlName="tipoDocumento"
