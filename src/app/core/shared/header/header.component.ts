@@ -3,6 +3,7 @@ import { LayoutService } from '../../services/ui/app.layout.service';
 import { environment } from '../../../../environments/environment';
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
+import { LocalStorageService } from 'src/app/data/local/local-storage.service';
 
 @Component({
   selector: 'app-header',
@@ -15,11 +16,14 @@ export class HeaderComponent implements OnInit {
   public fecha?: Date;
   public overlayVisible: boolean = false;
   public bSeleccionarTheme: boolean = false;
-
+  nombreUsuario: string = '';
+  usuario: string = '';
+  perfil: string = '';
   constructor(
     @Inject(DOCUMENT) private _document: Document,
     public layoutService: LayoutService,
-    private _router: Router
+    private _router: Router,
+    private _localStorageService: LocalStorageService
   ) {
     this.titulo = environment.titleApp;
     this.version = environment.version;
@@ -33,7 +37,18 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.fecha = new Date();
+    this.cargarUsuario();
   }
+  cargarUsuario(){
+    let sesion = this._localStorageService.getKey('sesion');
+    if(sesion){
+      let sesionJson = JSON.parse(sesion);
+      this.usuario = sesionJson.usuario;
+      this.nombreUsuario = sesionJson.nombreUsuario;
+      this.perfil = sesionJson.rolUsuario;
+    }
+  }
+  
 
   toogleOverlay() {
     this.overlayVisible = !this.overlayVisible;

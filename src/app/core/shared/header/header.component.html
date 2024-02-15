@@ -61,17 +61,6 @@
           (click)="toogleOverlay()"
           width="22"
         />
-        <!-- <i
-          class="pi pi-user"
-          style="color: rgba(255, 255, 255, 0.8)"
-          (click)="toogleOverlay()"
-        ></i> -->
-        <!-- <p-avatar
-          icon="pi pi-user"
-          styleClass="bg-white text-lg"
-          shape="circle"
-          (click)="toogleOverlay()"
-        ></p-avatar> -->
       </button>
     </div>
   </div>
@@ -90,9 +79,9 @@
     <ng-template pTemplate="content" let-option>
       <div class="flex flex-column overlay-usuario_contenedor">
         <div class="overlay-usuario_contenedor_usuario">
-          <div class="overlay-usuario_contenedor_usuario--fuerte">yarango</div>
-          <span>Yesid Arango</span>
-          <span>Administrador</span>
+          <div class="overlay-usuario_contenedor_usuario--fuerte">{{usuario}}</div>
+          <span>{{nombreUsuario}}</span>
+          <span>{{perfil}}</span>
         </div>
         <hr />
         <div class="overlay-usuario_contenedor_acciones">

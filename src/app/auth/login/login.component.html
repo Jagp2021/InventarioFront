@@ -25,7 +25,7 @@
         </div>
       </div>
       <div>
-        <label for="identifier" class="block text-900 text-lg font-medium mb-2"
+        <label for="usuario" class="block text-900 text-lg font-medium mb-2"
           >Usuario <small class="text-red-500">*</small>
         </label>
         <form
@@ -34,8 +34,8 @@
           autocomplete="off"
         >
           <input
-            id="identifier"
-            formControlName="identifier"
+            id="usuario"
+            formControlName="usuario"
             type="text"
             placeholder="Escriba su usuario"
             pInputText
@@ -67,6 +67,7 @@
               [disabled]="!formLogin.valid"
               [loading]="isLoading"
             ></button>
+            <p *ngIf="!loginCorrecto"  class="text-red-500">Usuario o contraseña incorrecta</p>
           </div>
         </form>
       </div>

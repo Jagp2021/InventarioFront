@@ -10,6 +10,7 @@ export const URLCONTROLADOR = {
   dominio: 'dominio',
   proveedor: 'proveedor',
   cliente: 'cliente',
+  permisos: 'permisos',
   garantia: 'garantia',
   venta: 'venta',
   ingreso: 'ingreso',
