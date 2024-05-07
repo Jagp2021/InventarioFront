@@ -9,6 +9,9 @@ import { ClienteStateService } from 'src/app/domain/service/parametrizacion/clie
 import { DominioStateService } from 'src/app/domain/service/parametrizacion/dominio-state.service';
 import { VentaStateService } from 'src/app/domain/service/procesos/venta-state.service';
 import { ModalVentaComponent } from '../../venta/modal-venta/modal-venta.component';
+import { IngresoStateService } from 'src/app/domain/service/procesos/ingreso-state.service';
+import { GarantiaStateService } from 'src/app/domain/service/procesos/garantia-state.service';
+import { ModalGarantiaComponent } from '../modal-garantia/modal-garantia.component';
 
 @Component({
   selector: 'app-crear-garantia',
@@ -19,12 +22,14 @@ export class CrearGarantiaComponent implements OnInit {
   accion = '';
   titulo = ' Registrar Garantia';
   public lista: any[] = [];
-  listaCliente: any[] = [];
-  listaTipoPago: any[] = [];
-  selectedTipoPago: any = null;
-  selectedCliente: any = null;
+  listaVenta: any[] = [];
+  listaIngresos: any[] = [];
+  listaTipoGarantia: any[] = [];
+  selectedTipoGarantia: any = null;
+  selectedVenta: any = null;
+  selectedIngreso: any = null;
   id = 0;
-  totalVenta = 0;
+  totalGarantia = 0;
   loadingTabla = false;
 
   constructor(
@@ -32,33 +37,37 @@ export class CrearGarantiaComponent implements OnInit {
     private _formBuilder: FormBuilder,
     private activateRouter: ActivatedRoute,
     private ventaService: VentaStateService,
-    private clienteService: ClienteStateService,
     private router: Router,
     public dialogService: DialogService,
     private _messageService: MessageService,
-    private dominioService: DominioStateService
+    private dominioService: DominioStateService,
+    private ingresoService: IngresoStateService,
+    private garantiaService: GarantiaStateService 
   ) { 
 
   }
 
   frmVenta: FormGroup = this._formBuilder.group({
     id: [0, [Validators.required]],
-    numeroFactura: ["2024-00001", [Validators.required]],
-    cliente: [null, [Validators.required]],
+    numeroGarantia: ["0", [Validators.required]],
+    tipoGarantia: [null, [Validators.required]],
+    idIngreso: [null,[]],
+    idFactura: [null,[]],
+    estadoGarantia: ['REGI', [Validators.required]],
     fecha: [null, [Validators.required]],
     usuarioRegistro: [localStorage.getItem('sesion'), [Validators.required]],
-    tipoPago: [null, [Validators.required]]
   });
 
   ngOnInit(): void {
     this._utilsService.fnCambiarIdiomaCalendario();
-    this.fnConsultarClientes();
-    this.fnConsultarTipoPago();
+    this.fnConsultarVentas();
+    this.fnConsultarIngresos();
+    this.fnConsultarTipoGarantia();
     this.activateRouter.params.subscribe((params) => {
       this.id = Number(params['id']);
       this.accion = params['accion'];
       if(this.id !== 0){
-        this.titulo = 'Ver Venta ' + this.id;
+        this.titulo = 'Ver Garantia ' + this.id;
         this.fnConsultarVenta();
       }
     }
@@ -67,41 +76,67 @@ export class CrearGarantiaComponent implements OnInit {
 
   fnConsultarVenta(): void {
     const filter: any = {id: this.id};
-    this.ventaService.fnListarVentas(filter).then((data) => {
-      this.lista = data.data[0].detalleFactura;
+    this.garantiaService.fnListarGarantias(filter).then((data) => {
+      this.lista = data.data[0].detalleGarantia;
       this.fnCalcularTotal();
       this.fnCargarDatos(data.data[0]);
     });
   }
 
   fnCalcularTotal(): void {
-    this.totalVenta = 0;
+    this.totalGarantia = 0;
     this.lista.forEach((item) => {
-      this.totalVenta += item.cantidad * item.valorUnitario;
+      console.log(item);
+      this.totalGarantia += item.cantidad * item.valorProducto;
     });
   }
 
-  fnConsultarClientes(): void {
-    this.clienteService.fnConsultarClientes({}).then((data) => {
-      this.listaCliente = data.data;
+  fnConsultarVentas(): void {
+    const filter: any = {};
+    this.ventaService.fnListarVentas(filter).then((data) => {
+      this.listaVenta = data.data;
+      this.listaVenta.forEach(e => {
+        e.fechaFactura = new Date(e.fecha);
+        e.displayLabel = `${e.numeroFactura} - ${e.fechaFactura.toISOString().split('T')[0]} - ${e.nombreCliente}`
+    
+    });
+    this.listaVenta.sort((a, b) => b.fechaFactura.getTime() - a.fechaFactura.getTime());
     });
   }
 
-  fnConsultarTipoPago(): void {
-    this.dominioService.fnConsultarDominios({dominio1: 'TIPOPAGO'}).then((data) => {
-      this.listaTipoPago = data.data;
+  fnConsultarIngresos(): void {
+    const filter: any = {};
+    this.ingresoService.fnListarIngresos(filter).then((data) => {
+      this.listaIngresos = data.data;
+      this.listaIngresos.forEach(e => {
+        e.fechaFactura = new Date(e.fecha);
+        e.displayLabel = `${e.id} - ${e.fechaFactura.toISOString().split('T')[0]} - ${e.nombreProveedor}`
+    
+    });
+    this.listaIngresos.sort((a, b) => b.fechaFactura.getTime() - a.fechaFactura.getTime());
+    });
+  }
+
+  fnConsultarTipoGarantia(): void {
+    this.dominioService.fnConsultarDominios({dominio1: 'TIPOGARANTIA'}).then((data) => {
+      this.listaTipoGarantia = data.data;
     });
   }
 
   fnCargarDatos(data: any): void {
-    this.selectedCliente = this.listaCliente.find(x => x.id === data.cliente);
-    this.selectedTipoPago = this.listaTipoPago.find(x => x.sigla === data.tipoPago);
+    this.selectedTipoGarantia = this.listaTipoGarantia.find(x => x.sigla === data.tipoGarantia);
     this.frmVenta.controls['id'].setValue(this.id);
-    this.frmVenta.controls['numeroFactura'].setValue(data.numeroFactura);
-    this.frmVenta.controls['usuarioRegistro'].setValue(data.usuarioRegistro);
-    this.frmVenta.controls['cliente'].setValue(this.selectedCliente);
-    this.frmVenta.controls['tipoPago'].setValue(this.selectedTipoPago);
     this.frmVenta.controls['fecha'].setValue(new Date(data.fecha));
+    this.frmVenta.controls['numeroGarantia'].setValue(data.id);
+    this.frmVenta.controls['usuarioRegistro'].setValue(data.usuarioRegistro);
+    this.frmVenta.controls['tipoGarantia'].setValue(this.selectedTipoGarantia);
+    if(data.tipoGarantia === 'INGR'){
+      this.selectedIngreso = this.listaVenta.find(x => x.id === data.idIngreso);
+      this.frmVenta.controls['idIngreso'].setValue(this.selectedIngreso);
+    } else {
+      this.selectedVenta = this.listaVenta.find(x => x.id === data.idFactura);
+      this.frmVenta.controls['idVenta'].setValue(this.selectedVenta);
+    }
   }
 
   fnCancelar(): void {
@@ -109,18 +144,20 @@ export class CrearGarantiaComponent implements OnInit {
   }
 
   fnAgregarProducto() {
-    const ref = this.dialogService.open(ModalVentaComponent, {
+    const ref = this.dialogService.open(ModalGarantiaComponent, {
       header: 'Nuevo Producto',
-      width: '40%',
+      width: '70%',
       data: {
         index: -1,
-        lista : this.lista
+        lista : this.lista,
+        productos: this.frmVenta.controls['tipoGarantia'].value?.sigla === 'INGR' ? this.selectedIngreso.detalleIngreso : this.selectedVenta.detalleFactura
       },
     });
 
     ref.onClose.subscribe({
       next: (resp) => {
         if (resp !== undefined) {
+          console.log(resp);
           this.lista.push(resp);
           this.fnCalcularTotal();
         }
@@ -129,19 +166,42 @@ export class CrearGarantiaComponent implements OnInit {
   }
 
   editarFila(model: any) {
-    
+    const index = this.lista.indexOf(model);
+    const ref = this.dialogService.open(ModalGarantiaComponent, {
+      header: 'Editar Producto ' + model.nombreProducto,
+      width: '70%',
+      data: {
+        lista : this.lista,
+        model : model,
+        productos: this.frmVenta.controls['tipoGarantia'].value?.sigla === 'INGR' ? this.selectedIngreso.detalleIngreso : this.selectedVenta.detalleFactura
+      },
+    });
+
+    ref.onClose.subscribe({
+      next: (resp) => {
+        if (resp !== undefined) {         
+          this.lista[index] = resp;
+          this.fnCalcularTotal();
+        }
+      },
+    });
+  }
+
+  eliminarFila(model: any) {
+    this.lista = this.lista.filter(x => x.idProducto !== model.idProducto);
+    this.fnCalcularTotal();
   }
 
   fnGuardar(): void {
     const model: IVenta = {
       id: this.id,
       numeroFactura: this.frmVenta.controls['numeroFactura'].value,
-      cliente: this.selectedCliente.id,
+      cliente: this.selectedVenta.id,
       fecha: this.frmVenta.controls['fecha'].value,
       usuarioRegistro: this.frmVenta.controls['usuarioRegistro'].value,
-      tipoPago: this.selectedTipoPago.sigla,
+      tipoPago: this.selectedTipoGarantia.sigla,
       detalleFactura: this.lista,
-      total: this.totalVenta
+      total: this.totalGarantia
       };
 
     this.ventaService.fnGuardarVenta(model).then((resp) => {
@@ -159,6 +219,9 @@ export class CrearGarantiaComponent implements OnInit {
 
     }
 
+  onChangeTipoGarantia(value: any){
+    console.log(value);
+  }
 
   fnMostrarOcultarBotones(
     oEvento: any,

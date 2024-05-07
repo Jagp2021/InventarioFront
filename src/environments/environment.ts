@@ -10,23 +10,10 @@ export const environment = {
   showFooter: false, //Mostrar footer
   apiSecurity: location.protocol + '//jrromero23/',
 
-  apiSegProcesos:
-    'http://claveptal-dev.eastus.cloudapp.azure.com/segprocesos/api',
-  // apiTransFiltros: 'https://transfiltrosgenericos.azurewebsites.net/api',
 
-  /** APIs v4 */
-  apiAdmProcesos: 'http://claveptal-dev.eastus.cloudapp.azure.com/procesos/api',
-  apiAdmDominio: 'http://claveptal-dev.eastus.cloudapp.azure.com/dominios/api',
-  apiTransFiltros: 'http://claveptal-dev.eastus.cloudapp.azure.com/filtros/api',
 
   keyEncrypt: '8056483646328763' /** MHCP@2023-. */,
-  urlBaseSSRS:
-    'http://ssrsmh.eastus.cloudapp.azure.com/ReportServer/Pages/ReportViewer.aspx?',
-  reportingName: '/ADM/REPADM',
-  reportingCommand: 'rs:Command=Render',
-  apiTransversal: 'https://localhost:7202/api',
-  apiTransversal2: 'https://localhost:7202/api',
-  apiBack: 'http://localhost/InventarioBack/api'
+  apiBack: 'http://localhost:8084/api'
 };
 
 /*

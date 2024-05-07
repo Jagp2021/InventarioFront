@@ -94,7 +94,6 @@ export class ModalVentaComponent implements OnInit {
   }
 
   fnProductoSeleccionado(event: any): void {
-    console.log(event);
     if(event.value !== null){
       if(event.value.cantidadDisponible === 0){
         this.frmProducto.controls['cantidad'].setValue(null);

@@ -9,4 +9,5 @@ export interface IDetalleGarantia {
     nombreProducto?: string;
     nombreProveedor?: string;
     descripcionEstado?: string;
+    valorTotal?: number;
 }

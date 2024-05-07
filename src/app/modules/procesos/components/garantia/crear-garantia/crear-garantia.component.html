@@ -13,15 +13,15 @@
           <div class="col-12 md:col-12 p-0">
             <form class="col-12 p-0" autocomplete="off" [formGroup]="frmVenta">
                 <div class="formgrid grid">
-                    <div class="field col-3 md:col-3">
-                        <label htmlfor="numeroFactura" class="frm-titulo">Número de Factura</label>
+                    <div class="field col-2 md:col-2">
+                        <label htmlfor="numeroGarantia" class="frm-titulo">Número de Garantia</label>
                         <input
                         pInputText
                         readonly
                         id="name1"
                         type="text"
                         class="p-inputtext p-component p-element"
-                        formControlName="numeroFactura"
+                        formControlName="numeroGarantia"
                         />
                     </div>
                     <div class="field col-2 md:col-2 mt-0">
@@ -41,18 +41,18 @@
                           ></p-calendar>
                         </div>
                     </div>
-                    <div class="field col-2 md:col-2">
-                        <label htmlfor="name1" class="frm-titulo"
-                          >Forma de Pago </label>
+                    <div class="field col-3 md:col-3">
+                        <label htmlfor="tipoGarantia" class="frm-titulo"
+                          >Tipo Garantia </label>
                         <div class="col-12 p-0">
                           <p-dropdown [disabled]="id !== 0"
-                            [options]="listaTipoPago"
-                            [(ngModel)]="selectedTipoPago"
+                            [options]="listaTipoGarantia"
+                            [(ngModel)]="selectedTipoGarantia"
                             optionLabel="descripcion"
-                            
+                            (onChange)="onChangeTipoGarantia($event)"
                             [showClear]="true"
-                            placeholder="Selecione forma de Pago"
-                            formControlName="tipoPago"
+                            placeholder="Seleccione tipo de garantia"
+                            formControlName="tipoGarantia"
                           >
                             <ng-template let-tipopago pTemplate="item">
                               <div class="tipopago-item">
@@ -63,28 +63,49 @@
                         </div>
                     </div>
                     <div class="field col-5 md:col-5"></div>
-                    <div class="field col-5 md:col-5">
+                    <div class="field col-5 md:col-5" *ngIf="frmVenta.get('tipoGarantia')?.value?.sigla == 'VENT'">
                         <label htmlfor="name1" class="frm-titulo"
-                          >Cliente </label>
+                          >Venta </label>
                         <div class="col-12 p-0">
                           <p-dropdown [disabled]="id !== 0"
-                            [options]="listaCliente"
-                            [(ngModel)]="selectedCliente"
-                            optionLabel="nombre"
-                            
+                            [options]="listaVenta"
+                            [(ngModel)]="selectedVenta"
+                            optionLabel="displayLabel"
+                            [filter]="true"
                             [showClear]="true"
-                            placeholder="Selecione Cliente"
-                            formControlName="cliente"
+                            placeholder="Selecione Venta"
+                            formControlName="idFactura"
                           >
-                            <ng-template let-proveedor pTemplate="item">
-                              <div class="proveedor-item">
-                                <div>{{ proveedor.tipoDocumento }} {{ proveedor.numeroDocumento }} - {{ proveedor.nombre }}</div>
+                            <ng-template let-factura pTemplate="item">
+                              <div class="factura-item">
+                                <div>{{ factura.numeroFactura }} - {{ factura.fecha | date: "yyyy-MM-dd" }} - {{ factura.nombreCliente }}</div>
                               </div>
                             </ng-template>
                           </p-dropdown>
                         </div>
                     </div>
-                    <div class="field col-3 md:col-3">
+                    <div class="field col-5 md:col-5" *ngIf="frmVenta.get('tipoGarantia')?.value?.sigla == 'INGR'">
+                      <label htmlfor="idIngreso" class="frm-titulo"
+                        >Ingreso </label>
+                      <div class="col-12 p-0">
+                        <p-dropdown [disabled]="id !== 0"
+                          [options]="listaIngresos"
+                          [(ngModel)]="selectedIngreso"
+                          optionLabel="displayLabel"
+                          [filter]="true"
+                          [showClear]="true"
+                          placeholder="Selecione Ingreso"
+                          formControlName="idIngreso"
+                        >
+                          <ng-template let-ingreso pTemplate="item">
+                            <div class="ingreso-item">
+                              <div>{{ ingreso.id }} - {{ ingreso.fecha | date: "yyyy-MM-dd" }} - {{ ingreso.nombreProveedor }}</div>
+                            </div>
+                          </ng-template>
+                        </p-dropdown>
+                      </div>
+                  </div>
+                    <!-- <div class="field col-3 md:col-3">
                     <label htmlfor="numeroFactura" class="frm-titulo">Correo Electrónico</label>
                     <input
                     pInputText
@@ -105,7 +126,7 @@
                         class="p-inputtext p-component p-element"
                         [value]="selectedCliente?.telefono"
                         />
-                        </div>
+                        </div> -->
                 </div>
             </form>
           </div>
@@ -121,6 +142,7 @@
                   pRipple
                   label="Agregar Producto"
                   icon="pi pi-plus"
+                  [disabled] = "selectedVenta === null && selectedIngreso === null"
                   class="p-button colorAzulMHCP"
                   (click)="fnAgregarProducto()"
                 ></button>
@@ -150,8 +172,8 @@
                         Cantidad
                         <p-sortIcon field="cantidad"></p-sortIcon>
                       </th>
-                      <th pSortableColumn="valorUnitario" id="">
-                        Valor Unitario <p-sortIcon field="valorUnitario"></p-sortIcon>
+                      <th pSortableColumn="valorProducto" id="">
+                        Valor Unitario <p-sortIcon field="valorProducto"></p-sortIcon>
                       </th>
                       <th pSortableColumn="valorTotal" id ="">
                         Valor Total <p-sortIcon field="valorTotal"></p-sortIcon>
@@ -167,8 +189,8 @@
                     >
                       <td>{{ lista.nombreProducto }}</td>
                       <td>{{ lista.cantidad }}</td>
-                      <td>{{ lista.valorUnitario | currency  }}</td>
-                      <td>{{ lista.valorUnitario * lista.cantidad | currency  }}</td>
+                      <td>{{ lista.valorProducto | currency  }}</td>
+                      <td>{{ lista.valorProducto * lista.cantidad | currency  }}</td>
   
                       <div id="button-{{ ri }}-tb-clsif" class="no-mostrar"  *ngIf="id === 0">
                         <button                     
@@ -178,6 +200,17 @@
                           tooltipPosition="top"
                           icon="pi pi-pencil"
                           class="botonTableMHCP p-button-success colorVerdeMHCP"
+                          (click)="editarFila(lista)"
+                        ></button>
+
+                        <button                     
+                          pButton
+                          pRipple
+                          pTooltip="Eliminar"
+                          tooltipPosition="top"
+                          icon="pi pi-trash"
+                          class="botonTableMHCP p-button-success colorRojoMHCP"
+                          (click)="eliminarFila(lista)"
                         ></button>
                       </div>
                     </tr>
@@ -195,11 +228,11 @@
                 <p-card >
                     <div class="grid">
                         <div class="col-6 md:col-6 lg:col-6 p-0">
-                            <p class="text-lg font-medium" style="color: var(--primary-color);">Total Venta </p>
+                            <p class="text-lg font-medium" style="color: var(--primary-color);">Total Garantia </p>
                         </div>
                         <div class="col-6 md:col-6 lg:col-6 p-0">
                             <p class="text-lg font-medium">
-                                {{ totalVenta | currency }}
+                                {{ totalGarantia | currency }}
                             </p>
                         </div>
                     </div>                    
@@ -261,5 +294,8 @@
       </div>
     </div>
 </div>
+{{ frmVenta.value | json }}<br><br>
+{{ selectedIngreso | json }}<br><br>
+{{ selectedVenta | json }}
   <p-toast></p-toast>
   

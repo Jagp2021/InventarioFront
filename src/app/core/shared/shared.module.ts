@@ -14,21 +14,8 @@ import { BooleanTextPipe } from './pipe/boolean-text.pipe';
 import { EstadoPipe } from './pipe/estado-pipe.pipe';
 import { HoraTextPipe } from './pipe/hora-text.pipe';
 import { FechaTextPipe } from './pipe/fecha-text.pipe';
-import { FiltroTransaccionesComponent } from './filtros-genericos/filtro-transacciones/filtro-transacciones.component';
-import { FiltroTransaccionesResultadoComponent } from './filtros-genericos/filtro-transacciones/components/filtro-transacciones-resultado/filtro-transacciones-resultado.component';
-import { FiltroPerfilesComponent } from './filtros-genericos/filtro-perfiles/filtro-perfiles.component';
-import { FiltroPerfilesResultadoComponent } from './filtros-genericos/filtro-perfiles/components/filtro-perfiles-resultado/filtro-perfiles-resultado.component';
-import { FiltroUsuariosComponent } from './filtros-genericos/filtro-usuarios/filtro-usuarios.component';
-import { FiltroUsuariosResultadoComponent } from './filtros-genericos/filtro-usuarios/components/filtro-usuarios-resultado/filtro-usuarios-resultado.component';
-import { FiltroCatalogoComponent } from './filtros-genericos/filtro-catalogo/filtro-catalogo.component';
-import { FiltroCatalogoResultadoComponent } from './filtros-genericos/filtro-catalogo/components/filtro-catalogo-resultado/filtro-catalogo-resultado.component';
 import { ConvertirCifrasPipe } from './pipe/convertir-cifras.pipe';
 import { OverlayTablePipe } from './pipe/overlay-table.pipe';
-import { DatosAdministrativosComponent } from './datos-administrativos/datos-administrativos/datos-administrativos.component';
-import { FiltroTercerosComponent } from './filtros-genericos/filtro-terceros/filtro-terceros.component';
-import { FiltroTercerosResultadoComponent } from './filtros-genericos/filtro-terceros/components/filtro-terceros-resultado/filtro-terceros-resultado.component';
-import { FiltroBancosComponent } from './filtros-genericos/filtro-bancos/filtro-bancos.component';
-import { FiltroBancosResultadoComponent } from './filtros-genericos/filtro-bancos/components/filtro-bancos-resultado/filtro-bancos-resultado.component';
 import { LblToastAccionesComponent } from './lbl-toast-acciones/lbl-toast-acciones.component';
 
 @NgModule({
@@ -43,21 +30,8 @@ import { LblToastAccionesComponent } from './lbl-toast-acciones/lbl-toast-accion
     EstadoPipe,
     HoraTextPipe,
     FechaTextPipe,
-    FiltroTransaccionesComponent,
-    FiltroTransaccionesResultadoComponent,
-    FiltroPerfilesComponent,
-    FiltroPerfilesResultadoComponent,
-    FiltroUsuariosComponent,
-    FiltroUsuariosResultadoComponent,
-    FiltroCatalogoComponent,
-    FiltroCatalogoResultadoComponent,
     ConvertirCifrasPipe,
     OverlayTablePipe,
-    DatosAdministrativosComponent,
-    FiltroTercerosComponent,
-    FiltroTercerosResultadoComponent,
-    FiltroBancosComponent,
-    FiltroBancosResultadoComponent,
     LblToastAccionesComponent,
   ],
   imports: [
@@ -77,15 +51,8 @@ import { LblToastAccionesComponent } from './lbl-toast-acciones/lbl-toast-accion
     EstadoPipe,
     HoraTextPipe,
     FechaTextPipe,
-    FiltroTransaccionesComponent,
-    FiltroPerfilesComponent,
-    FiltroUsuariosComponent,
-    FiltroCatalogoComponent,
     ConvertirCifrasPipe,
     OverlayTablePipe,
-    DatosAdministrativosComponent,
-    FiltroTercerosComponent,
-    FiltroBancosComponent,
     LblToastAccionesComponent,
   ],
 })
