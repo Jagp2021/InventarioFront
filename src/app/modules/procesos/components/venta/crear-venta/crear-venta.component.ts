@@ -41,7 +41,6 @@ export class CrearVentaComponent implements OnInit {
     private _messageService: MessageService,
     private dominioService: DominioStateService
   ) { 
-
   }
 
   frmVenta: FormGroup = this._formBuilder.group({
@@ -50,7 +49,7 @@ export class CrearVentaComponent implements OnInit {
     numeroFactura: ["2024-00001", [Validators.required]],
     cliente: [null, [Validators.required]],
     fecha: [null, [Validators.required]],
-    usuarioRegistro: [localStorage.getItem('sesion'), [Validators.required]],
+    usuarioRegistro: [JSON.parse(localStorage.getItem('sesion')!.toString()), [Validators.required]],
     tipoPago: [null, [Validators.required]]
   });
 
@@ -181,7 +180,7 @@ export class CrearVentaComponent implements OnInit {
       numeroFactura: this.frmVenta.controls['numeroFactura'].value,
       cliente: this.selectedCliente.id,
       fecha: this.frmVenta.controls['fecha'].value,
-      usuarioRegistro: this.frmVenta.controls['usuarioRegistro'].value,
+      usuarioRegistro: this.frmVenta.controls['usuarioRegistro'].value.idUsuario,
       tipoPago: this.selectedTipoPago.sigla,
       detalleFactura: this.lista,
       total: this.totalVenta

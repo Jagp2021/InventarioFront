@@ -65,9 +65,9 @@ export class ModalGarantiaComponent implements OnInit {
       cantidad: this.frmProducto.getRawValue().cantidad,
       valorProducto: this.frmProducto.getRawValue().valor,
       valorTotal: this.frmProducto.getRawValue().cantidad * this.frmProducto.getRawValue().valor,
-      nombreProducto: this.selectedProducto.nombreProducto
+      nombreProducto: this.selectedProducto.nombreProducto,
+      estadoProductoGarantia: 'REGI',
     };
-    console.log(detalle);
     this.ref.close(detalle);
   }
 

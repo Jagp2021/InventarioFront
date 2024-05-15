@@ -62,7 +62,27 @@
                           </p-dropdown>
                         </div>
                     </div>
-                    <div class="field col-5 md:col-5"></div>
+                    <div class="field col-3 md:col-3">
+                      <label htmlfor="estadoGarantia" class="frm-titulo"
+                        >Estado Garantia </label>
+                      <div class="col-12 p-0">
+                        <p-dropdown [disabled]="id === 0 || accion === 'Ver'"
+                          [options]="listaEstadoGarantia"
+                          [(ngModel)]="selectedEstadoGarantia"
+                          optionLabel="descripcion"
+                          [showClear]="true"
+                          placeholder="Seleccione estado de garantia"
+                          formControlName="estadoGarantia"
+                        >
+                          <ng-template let-estado pTemplate="item">
+                            <div class="estado-item">
+                              <div>{{ estado.descripcion }}</div>
+                            </div>
+                          </ng-template>
+                        </p-dropdown>
+                      </div>
+                  </div>
+                    <div class="field col-2 md:col-2"></div>
                     <div class="field col-5 md:col-5" *ngIf="frmVenta.get('tipoGarantia')?.value?.sigla == 'VENT'">
                         <label htmlfor="name1" class="frm-titulo"
                           >Venta </label>
@@ -105,28 +125,7 @@
                         </p-dropdown>
                       </div>
                   </div>
-                    <!-- <div class="field col-3 md:col-3">
-                    <label htmlfor="numeroFactura" class="frm-titulo">Correo Electrónico</label>
-                    <input
-                    pInputText
-                    readonly
-                    id="name1"
-                    type="text"
-                    class="p-inputtext p-component p-element"
-                    [value]="selectedCliente?.email"
-                    />
-                    </div>
-                    <div class="field col-3 md:col-3">
-                        <label htmlfor="numeroFactura" class="frm-titulo">Teléfono</label>
-                        <input
-                        pInputText
-                        readonly
-                        id="name1"
-                        type="text"
-                        class="p-inputtext p-component p-element"
-                        [value]="selectedCliente?.telefono"
-                        />
-                        </div> -->
+
                 </div>
             </form>
           </div>
@@ -266,25 +265,15 @@
                     </button>
                     <button
                     *ngIf="accion === 'Gestion'"
+                    [disabled]="(frmVenta.invalid || lista.length === 0) && 
+                      (selectedEstadoGarantia?.sigla === 'REGI' || selectedEstadoGarantia === null)"
                       pButton
                       pRipple
                       type="button"
-                      label="Aprobar"
+                      label="Gestionar"
                       class="p-button-success colorVerdeMHCP"
-                      icon="pi pi-check"
-                      
-                      >
-                    </button>
-                    <button
-                    *ngIf="accion === 'Gestion'"
-                      pButton
-                      pRipple
-                      type="button"
-                      label="Rechazar"
-                      class="p-button-success colorRojoMHCP"
-                      icon="pi pi-ban"
-                      
-                      >
+                      icon="pi pi-save"
+                      (click)="fnGuardar()">
                     </button>
                   </div>
                 </div>
@@ -294,8 +283,5 @@
       </div>
     </div>
 </div>
-{{ frmVenta.value | json }}<br><br>
-{{ selectedIngreso | json }}<br><br>
-{{ selectedVenta | json }}
   <p-toast></p-toast>
-  
+ {{frmVenta.get('estadoGarantia')?.value}} 

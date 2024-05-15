@@ -12,6 +12,7 @@ import { ModalVentaComponent } from '../../venta/modal-venta/modal-venta.compone
 import { IngresoStateService } from 'src/app/domain/service/procesos/ingreso-state.service';
 import { GarantiaStateService } from 'src/app/domain/service/procesos/garantia-state.service';
 import { ModalGarantiaComponent } from '../modal-garantia/modal-garantia.component';
+import { IGarantia } from 'src/app/domain/interface/procesos/garantia.interface';
 
 @Component({
   selector: 'app-crear-garantia',
@@ -25,6 +26,8 @@ export class CrearGarantiaComponent implements OnInit {
   listaVenta: any[] = [];
   listaIngresos: any[] = [];
   listaTipoGarantia: any[] = [];
+  listaEstadoGarantia: any[] = [];
+  selectedEstadoGarantia: any = null;
   selectedTipoGarantia: any = null;
   selectedVenta: any = null;
   selectedIngreso: any = null;
@@ -63,6 +66,7 @@ export class CrearGarantiaComponent implements OnInit {
     this.fnConsultarVentas();
     this.fnConsultarIngresos();
     this.fnConsultarTipoGarantia();
+    this.fnConsultarEstadoGarantia();
     this.activateRouter.params.subscribe((params) => {
       this.id = Number(params['id']);
       this.accion = params['accion'];
@@ -86,7 +90,6 @@ export class CrearGarantiaComponent implements OnInit {
   fnCalcularTotal(): void {
     this.totalGarantia = 0;
     this.lista.forEach((item) => {
-      console.log(item);
       this.totalGarantia += item.cantidad * item.valorProducto;
     });
   }
@@ -123,12 +126,21 @@ export class CrearGarantiaComponent implements OnInit {
     });
   }
 
+  fnConsultarEstadoGarantia(): void {
+    this.dominioService.fnConsultarDominios({dominio1: 'ESTADOGARANTIA'}).then((data) => {
+      this.listaEstadoGarantia = data.data;
+      this.selectedEstadoGarantia = this.listaEstadoGarantia.find(x => x.sigla === "REGI");
+    });
+  }
+
   fnCargarDatos(data: any): void {
     this.selectedTipoGarantia = this.listaTipoGarantia.find(x => x.sigla === data.tipoGarantia);
+    this.selectedEstadoGarantia = this.listaEstadoGarantia.find(x => x.sigla === data.estadoGarantia);
     this.frmVenta.controls['id'].setValue(this.id);
     this.frmVenta.controls['fecha'].setValue(new Date(data.fecha));
     this.frmVenta.controls['numeroGarantia'].setValue(data.id);
     this.frmVenta.controls['usuarioRegistro'].setValue(data.usuarioRegistro);
+    this.frmVenta.controls['estadoGarantia'].setValue(this.selectedEstadoGarantia);
     this.frmVenta.controls['tipoGarantia'].setValue(this.selectedTipoGarantia);
     if(data.tipoGarantia === 'INGR'){
       this.selectedIngreso = this.listaVenta.find(x => x.id === data.idIngreso);
@@ -193,31 +205,62 @@ export class CrearGarantiaComponent implements OnInit {
   }
 
   fnGuardar(): void {
-    const model: IVenta = {
+    console.log(this.selectedVenta);
+    const model: IGarantia = {
       id: this.id,
-      numeroFactura: this.frmVenta.controls['numeroFactura'].value,
-      cliente: this.selectedVenta.id,
+      idFactura: this.selectedVenta !== null ? this.frmVenta.controls['idFactura'].value.id : null,
+      idIngreso: this.selectedIngreso !== null ? this.frmVenta.controls['idIngreso'].value.id : null,
+      idCliente: this.selectedVenta !== null ? this.selectedVenta?.idCliente : null,
+      idProveedor: this.selectedIngreso !== null ? this.selectedIngreso?.idProveedor : null,
       fecha: this.frmVenta.controls['fecha'].value,
-      usuarioRegistro: this.frmVenta.controls['usuarioRegistro'].value,
-      tipoPago: this.selectedTipoGarantia.sigla,
-      detalleFactura: this.lista,
-      total: this.totalGarantia
+      tipoGarantia: this.selectedTipoGarantia.sigla,
+      detalleGarantia: this.lista,
+      estadoGarantia: this.selectedEstadoGarantia.sigla,
       };
 
-    this.ventaService.fnGuardarVenta(model).then((resp) => {
+    if(this.id === 0){
+      this.guardarProducto(model);
+    }
+      else{
+        this.modificarGarantia(model);
+      }
+    
+
+    }
+
+  guardarProducto(model:IGarantia): void {
+    this.garantiaService.fnGuardarGarantia(model).then((resp) => {
       this._messageService.add({
         severity: resp.estado ? 'success' : 'error',
-        summary: 'Venta',
+        summary: 'Garantia',
         detail: resp.estado
-          ? `Venta exitoso`
+          ? `Registro de garantia exitoso`
           : 'Ocurrió un error ingresando el producto. Intentelo nuevamente',
       });
       setTimeout(()=> {
-        this.router.navigate(['/procesos/venta']);
+        if(resp.estado){
+          this.router.navigate(['/procesos/garantia']);
+        }
       },2000);
     });
+  }
 
-    }
+  modificarGarantia(model:IGarantia): void {
+    this.garantiaService.fnActualizarGarantia(model).then((resp) => {
+      this._messageService.add({
+        severity: resp.estado ? 'success' : 'error',
+        summary: 'Garantia',
+        detail: resp.estado
+          ? `Garantia gestionada correctamente`
+          : 'Ocurrió un error ingresando el producto. Intentelo nuevamente',
+      });
+      setTimeout(()=> {
+        if(resp.estado){
+          this.router.navigate(['/procesos/garantia']);
+        }
+      },2000);
+    });
+  }
 
   onChangeTipoGarantia(value: any){
     console.log(value);
