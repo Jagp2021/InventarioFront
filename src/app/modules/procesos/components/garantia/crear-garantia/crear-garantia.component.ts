@@ -63,12 +63,12 @@ export class CrearGarantiaComponent implements OnInit {
 
   ngOnInit(): void {
     this._utilsService.fnCambiarIdiomaCalendario();
-    this.fnConsultarVentas();
+    this.activateRouter.params.subscribe((params) => {
+      this.id = Number(params['id']);
+      this.fnConsultarVentas();
     this.fnConsultarIngresos();
     this.fnConsultarTipoGarantia();
     this.fnConsultarEstadoGarantia();
-    this.activateRouter.params.subscribe((params) => {
-      this.id = Number(params['id']);
       this.accion = params['accion'];
       if(this.id !== 0){
         this.titulo = 'Ver Garantia ' + this.id;
@@ -82,6 +82,7 @@ export class CrearGarantiaComponent implements OnInit {
     const filter: any = {id: this.id};
     this.garantiaService.fnListarGarantias(filter).then((data) => {
       this.lista = data.data[0].detalleGarantia;
+      console.log(this.lista);
       this.fnCalcularTotal();
       this.fnCargarDatos(data.data[0]);
     });
@@ -95,7 +96,7 @@ export class CrearGarantiaComponent implements OnInit {
   }
 
   fnConsultarVentas(): void {
-    const filter: any = {};
+    const filter: any = {garantiaAsociada: this.id != 0 ? false : true};
     this.ventaService.fnListarVentas(filter).then((data) => {
       this.listaVenta = data.data;
       this.listaVenta.forEach(e => {
@@ -108,7 +109,7 @@ export class CrearGarantiaComponent implements OnInit {
   }
 
   fnConsultarIngresos(): void {
-    const filter: any = {};
+    const filter: any = { garantiaAsociada: this.id != 0 ? false : true};
     this.ingresoService.fnListarIngresos(filter).then((data) => {
       this.listaIngresos = data.data;
       this.listaIngresos.forEach(e => {
@@ -143,11 +144,11 @@ export class CrearGarantiaComponent implements OnInit {
     this.frmVenta.controls['estadoGarantia'].setValue(this.selectedEstadoGarantia);
     this.frmVenta.controls['tipoGarantia'].setValue(this.selectedTipoGarantia);
     if(data.tipoGarantia === 'INGR'){
-      this.selectedIngreso = this.listaVenta.find(x => x.id === data.idIngreso);
+      this.selectedIngreso = this.listaIngresos.find(x => x.id === data.idIngreso);
       this.frmVenta.controls['idIngreso'].setValue(this.selectedIngreso);
     } else {
       this.selectedVenta = this.listaVenta.find(x => x.id === data.idFactura);
-      this.frmVenta.controls['idVenta'].setValue(this.selectedVenta);
+      this.frmVenta.controls['idFactura'].setValue(this.selectedVenta);
     }
   }
 

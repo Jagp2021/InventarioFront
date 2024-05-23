@@ -35,17 +35,27 @@
                   />
                 </div>
                 <div class="field col-12 md:col-3">
-                  <label htmlfor="Identificador de Factura" class="frm-titulo">Identificador de Factura</label>
-                  <input
-                  pInputText
-                  id="name1"
-                  type="text"
-                  placeholder="Ingrese identificador de Factura"
-                  class="p-inputtext p-component p-element"
-                  formControlName="idFactura"
-                  />
+                  <label htmlfor="name1" class="frm-titulo"
+                    >Tipo Garantia</label>
+                  <div class="col-12 p-0">
+                    <p-dropdown
+                      [options]="listaTipoGarantia"
+                      [(ngModel)]="selectedTipoGarantia"
+                      optionLabel="descripcion"
+                      
+                      [showClear]="true"
+                      placeholder="Seleccione tipo Garantia"
+                      formControlName="tipoGarantia"
+                    >
+                      <ng-template let-estado pTemplate="item">
+                        <div class="estado-item">
+                          <div>{{ estado.descripcion }}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
                 </div>
-                <div class="field col-12 md:col-3">
+                <div class="field col-12 md:col-3" *ngIf="frmGarantia.get('tipoGarantia')?.value?.sigla == 'VENT'">
                   <label htmlfor="name1" class="frm-titulo"
                     >Cliente</label>
                   <div class="col-12 p-0">
@@ -57,6 +67,27 @@
                       [showClear]="true"
                       placeholder="Seleccione Cliente"
                       formControlName="idCliente"
+                    >
+                      <ng-template let-cliente pTemplate="item">
+                        <div class="cliente-item">
+                          <div>{{ cliente.nombre }}</div>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                  </div>
+                </div>
+                <div class="field col-12 md:col-3" *ngIf="frmGarantia.get('tipoGarantia')?.value?.sigla == 'INGR'">
+                  <label htmlfor="name1" class="frm-titulo"
+                    >Proveedor</label>
+                  <div class="col-12 p-0">
+                    <p-dropdown
+                      [options]="listaProveedor"
+                      [(ngModel)]="selectedProveedor"
+                      optionLabel="nombre"
+                      
+                      [showClear]="true"
+                      placeholder="Seleccione Proveedor"
+                      formControlName="idProveedor"
                     >
                       <ng-template let-cliente pTemplate="item">
                         <div class="cliente-item">
@@ -125,44 +156,6 @@
                     </div>
                   </div>
                 </div>
-                <div class="field col-12 md:col-6">
-                  <div class="mb-2">
-                    <label class="frm-titulo">Fecha de registro de la factura</label>
-                  </div>
-                  <div class="grid">
-                    <div class="field col-12 md:col-6 mt-2">
-                      <label
-                        htmlfor="fecha_registro_solicitud_inicial"
-                        class="frm-titulo"
-                        >Fecha inicial</label
-                      >
-                      <div class="col-12 p-0">
-                        <p-calendar
-                          [showIcon]="true"
-                          placeholder="AAAA-MM-DD"
-                          dateFormat="yy/mm/dd"
-                          dataType="string"
-                          [readonlyInput]="true"
-                          formControlName="fechaInicioFactura"
-                        ></p-calendar>
-                      </div>
-                    </div>
-                    <div class="field col-12 md:col-6 mt-2">
-                      <label htmlfor="fecha_registro_solicitud_final" class="frm-titulo"
-                        >Fecha final</label
-                      >
-                      <div class="col-12 p-0">
-                        <p-calendar
-                          [showIcon]="true"
-                          placeholder="AAAA-MM-DD"
-                          dateFormat="yy/mm/dd"
-                          dataType="string"
-                          formControlName="fechaFinFactura"
-                        ></p-calendar>
-                      </div>
-                    </div>
-                  </div>
-                </div>
                 <div class="field col-12 md:col-12"></div>
                 <div class="col-12 md:col-12 justify-content-right mb-2">
                   <div class="flex flex-column md:flex-column lg:flex-row justify-content-end gap-2">
@@ -211,15 +204,18 @@
                     <th pSortableColumn="id">
                       Id <p-sortIcon field="id"></p-sortIcon>
                     </th>
+                    <th pSortableColumn="tipoGarantia">
+                      Tipo Garantia <p-sortIcon field="tipoGarantia"></p-sortIcon>
+                    </th>
                     <th pSortableColumn="idFactura">
-                      Identificador Factura
+                      Identificador Venta/ Ingreso
                       <p-sortIcon field="idFactura"></p-sortIcon>
                     </th>
                     <th pSortableColumn="identificacionCliente">
-                      Identificación Cliente <p-sortIcon field="identificacionCliente"></p-sortIcon>
+                      Identificación Cliente / Proveedor <p-sortIcon field="identificacionCliente"></p-sortIcon>
                     </th>
                     <th pSortableColumn="nombreCliente">
-                      Nombre Cliente <p-sortIcon field="nombreCliente"></p-sortIcon>
+                      Nombre Cliente / Proveedor <p-sortIcon field="nombreCliente"></p-sortIcon>
                     </th>
                     <th pSortableColumn="fecha">
                       Fecha <p-sortIcon field="fecha"></p-sortIcon>
@@ -237,9 +233,10 @@
                     [pSelectableRow]="lista"
                   >
                     <td>{{ lista.id }}</td>
-                    <td>{{ lista.idFactura }}</td>
-                    <td>{{ lista.identificacionCliente }}</td>
-                    <td>{{ lista.nombreCliente }}</td>
+                    <td>{{ lista.tipoGarantia == 'VENT' ? 'VENTA' : 'INGRESO' }}</td>
+                    <td>{{ lista.tipoGarantia == 'VENT' ? lista.idFactura : lista.idIngreso  }}</td>
+                    <td>{{ lista.tipoGarantia == 'VENT' ? lista.identificacionCliente : lista.identificacionProveedor }}</td>
+                    <td>{{ lista.tipoGarantia == 'VENT' ? lista.nombreCliente : lista.nombreProveedor }}</td>
                     <td>{{ lista.fecha | date: "yyyy-MM-dd" }}</td>
                     <td>{{ lista.descripcionEstado }}</td>
 
